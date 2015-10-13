@@ -11,6 +11,7 @@ public class TestOp extends LinearOpMode {
 
 	public static final String MOTOR_LEFT = "left_motor";
 	public static final String MOTOR_RIGHT = "right_motor";
+	public static final String TAG = "TestOp";
 
 	@Override
 	public void runOpMode() throws InterruptedException {
@@ -25,10 +26,10 @@ public class TestOp extends LinearOpMode {
 		waitForStart();
 
 		while (opModeIsActive()) {
-			float throttle = -gamepad1.left_stick_y;
-			float direction = gamepad1.left_stick_x;
-			float right = throttle - direction;
-			float left = throttle + direction;
+			//float throttle = -gamepad1.left_stick_y;
+			//float direction = gamepad1.left_stick_x;
+			float right = gamepad1.right_stick_y;
+			float left = gamepad1.left_stick_y;
 
 			// clip the right/left values so that the values never exceed +/- 1
 			right = Range.clip(right, -1, 1);
@@ -38,9 +39,9 @@ public class TestOp extends LinearOpMode {
 			motorRight.setPower(right);
 			motorLeft.setPower(left);
 
-			telemetry.addData("2866", "K9TeleOp");
-			telemetry.addData("2866", motorLeft.getPower());
-			telemetry.addData("2866", motorRight.getPower());
+			telemetry.addData(TAG, "Teleop");
+			telemetry.addData(TAG, motorLeft.getPower());
+			telemetry.addData(TAG, motorRight.getPower());
 
 			waitOneFullHardwareCycle();
 		}
