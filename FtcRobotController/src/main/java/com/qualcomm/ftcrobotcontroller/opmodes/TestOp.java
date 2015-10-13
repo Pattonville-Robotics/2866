@@ -9,13 +9,13 @@ import com.qualcomm.robotcore.util.Range;
  */
 public class TestOp extends LinearOpMode {
 
-	public static final String LEFT_MOTOR = "left_motor";
-	public static final String RIGHT_MOTOR = "right_motor";
+	public static final String MOTOR_LEFT = "left_motor";
+	public static final String MOTOR_RIGHT = "right_motor";
 
 	@Override
 	public void runOpMode() throws InterruptedException {
-		DcMotor motorLeft = hardwareMap.dcMotor.get(LEFT_MOTOR);
-		DcMotor motorRight = hardwareMap.dcMotor.get(RIGHT_MOTOR);
+		DcMotor motorLeft = hardwareMap.dcMotor.get(MOTOR_LEFT);
+		DcMotor motorRight = hardwareMap.dcMotor.get(MOTOR_RIGHT);
 
 		motorLeft.setDirection(DcMotor.Direction.REVERSE);
 
