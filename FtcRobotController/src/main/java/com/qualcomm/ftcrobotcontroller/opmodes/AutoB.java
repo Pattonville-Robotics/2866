@@ -1,0 +1,32 @@
+package com.qualcomm.ftcrobotcontroller.opmodes;
+
+import com.qualcomm.ftcrobotcontroller.robotclasses.Drive;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+/**
+ * Created by TheKrazyStew & DANKEY KANG on 10/15/15.
+ */
+public class AutoB extends LinearOpMode{
+	public static final String TAG = "TestAutonomous";
+
+	@Override
+	public void runOpMode() throws InterruptedException {
+
+		Drive drive = new Drive(hardwareMap);
+
+		waitForStart();
+
+		drive.moveStraight(1); //Make sure this doesn't cross over! Go 30 inches
+		this.wait(500);
+		drive.stop();
+		this.wait(1);
+		drive.moveRight(1); //Make sure this goes at a 45˚ angle!
+		this.wait(1);
+		drive.stop();
+		this.wait(1);
+		drive.moveStraight(1); //92 inches or w/e up to the rescue bit
+		this.wait(1);
+		drive.moveStraight(1); //18 inches: NIN*2
+
+	}
+}
