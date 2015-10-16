@@ -9,8 +9,8 @@ import com.qualcomm.robotcore.util.Range;
  */
 public class TestOp extends LinearOpMode {
 
-	public static final String MOTOR_LEFT = "left_motor";
-	public static final String MOTOR_RIGHT = "right_motor";
+	public static final String MOTOR_LEFT = "motor_drive_left";
+	public static final String MOTOR_RIGHT = "motor_drive_right";
 	public static final String TAG = "TestOp";
 
 	@Override
