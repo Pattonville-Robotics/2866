@@ -23,6 +23,11 @@ public class TestAutonomous extends LinearOpMode {
 		drive.moveStraight(1);
 		this.sleep(1000);
 		drive.stop();
+		drive.moveRight(1);
+		this.sleep(500);
+		drive.moveStraight(1);
+		this.sleep(1000);
+		drive.stop();
 		//telemetry.addData(TAG, "Position end: " + right.getCurrentPosition());
 		//telemetry.addData(TAG, "Position end: " + left.getCurrentPosition());
 	}

@@ -4,9 +4,10 @@ import com.qualcomm.ftcrobotcontroller.robotclasses.Drive;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 /**
- * Created by TheKrazyStew & DANKEY KANG on 10/15/15.
+ * Created by skaggsm on 10/17/15.
  */
-public class AutoB extends LinearOpMode{
+public class AutoR extends LinearOpMode {
+
 	public static final String TAG = "TestAutonomous";
 
 	@Override
@@ -20,7 +21,7 @@ public class AutoB extends LinearOpMode{
 		this.wait(500);
 		drive.stop();
 		this.wait(500);
-		drive.moveRight(1); //Make sure this goes at a 45˚ angle!
+		drive.moveLeft(1); //Make sure this goes at a 45˚ angle!
 		this.wait(500);
 		drive.stop();
 		this.wait(500);

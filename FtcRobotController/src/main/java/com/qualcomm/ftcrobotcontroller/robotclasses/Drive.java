@@ -27,19 +27,21 @@ public class Drive {
 
 	public void moveStraight(double power){
 
-		motorRight.setPower(power);
+		motorRight.setPower(-power);
 		motorLeft.setPower(power);
 
 	}
+
 	public void moveLeft(double power) {
 
 		motorRight.setPower(power);
-		motorLeft.setPower(-power);
+		motorLeft.setPower(power);
 	}
+
 	public void moveRight(double power) {
 
 		motorRight.setPower(-power);
-		motorLeft.setPower(power);
+		motorLeft.setPower(-power);
 	}
 
 	public void stop() {
@@ -47,7 +49,4 @@ public class Drive {
 		motorLeft.setPower(0);
 		motorRight.setPower(0);
 	}
-
-
-
 }
