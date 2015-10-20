@@ -34,6 +34,11 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 
+import org.pattonvillerobotics.team2866.opmodes.AutoB;
+import org.pattonvillerobotics.team2866.opmodes.AutoR;
+import org.pattonvillerobotics.team2866.opmodes.OfficialTeleOp;
+import org.pattonvillerobotics.team2866.opmodes.TestAutonomous;
+
 /**
  * Register Op Modes
  */

@@ -1,4 +1,4 @@
-package com.qualcomm.ftcrobotcontroller.robotclasses;
+package org.pattonvillerobotics.team2866.robotclasses;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
