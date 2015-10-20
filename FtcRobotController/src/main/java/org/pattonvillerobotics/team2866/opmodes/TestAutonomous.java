@@ -1,7 +1,8 @@
-package com.qualcomm.ftcrobotcontroller.opmodes;
+package org.pattonvillerobotics.team2866.opmodes;
 
-import com.qualcomm.ftcrobotcontroller.robotclasses.Drive;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.pattonvillerobotics.team2866.robotclasses.Drive;
 
 /**
  * Created by skaggsm on 10/15/15.

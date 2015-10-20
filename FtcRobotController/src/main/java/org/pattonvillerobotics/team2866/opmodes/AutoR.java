@@ -1,12 +1,14 @@
-package com.qualcomm.ftcrobotcontroller.opmodes;
+package org.pattonvillerobotics.team2866.opmodes;
 
-import com.qualcomm.ftcrobotcontroller.robotclasses.Drive;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.pattonvillerobotics.team2866.robotclasses.Drive;
+
 /**
- * Created by TheKrazyStew & DANKEY KANG on 10/15/15.
+ * Created by skaggsm on 10/17/15.
  */
-public class AutoB extends LinearOpMode{
+public class AutoR extends LinearOpMode {
+
 	public static final String TAG = "TestAutonomous";
 
 	@Override
@@ -20,7 +22,7 @@ public class AutoB extends LinearOpMode{
 		this.wait(500);
 		drive.stop();
 		this.wait(500);
-		drive.rotateRight(1); //Make sure this goes at a 45˚ angle!
+		drive.rotateLeft(1); //Make sure this goes at a 45˚ angle!
 		this.wait(500);
 		drive.stop();
 		this.wait(500);
