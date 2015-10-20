@@ -17,7 +17,9 @@ public class Drive {
 		this.hardwareMap = hardwareMap;
 		this.motorLeft = hardwareMap.dcMotor.get("motor_drive_left");
 		this.motorRight = hardwareMap.dcMotor.get("motor_drive_right");
-	};
+
+        motorRight.setDirection(DcMotor.Direction.REVERSE);
+	}
 
 	public void moveFreely(double left, double right) {
 
@@ -27,21 +29,21 @@ public class Drive {
 
 	public void moveStraight(double power){
 
-		motorRight.setPower(-power);
-		motorLeft.setPower(power);
-
-	}
-
-	public void moveLeft(double power) {
-
 		motorRight.setPower(power);
 		motorLeft.setPower(power);
+
 	}
 
-	public void moveRight(double power) {
+	public void rotateLeft(double power) {
+
+		motorRight.setPower(power);
+		motorLeft.setPower(-power);
+	}
+
+	public void rotateRight(double power) {
 
 		motorRight.setPower(-power);
-		motorLeft.setPower(-power);
+		motorLeft.setPower(power);
 	}
 
 	public void stop() {
