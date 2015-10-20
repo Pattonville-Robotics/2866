@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.pattonvillerobotics.team2866.robotclasses.Drive;
 
 /**
- * Created by TheKrazyStew & DANKEY KANG on 10/15/15.
+ * Created by TheKrazyStew & Kanye West For President on 10/15/15.
  */
 public class AutoB extends LinearOpMode{
 	public static final String TAG = "TestAutonomous";
