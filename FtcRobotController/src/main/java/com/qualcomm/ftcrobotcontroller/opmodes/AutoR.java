@@ -21,7 +21,7 @@ public class AutoR extends LinearOpMode {
 		this.wait(500);
 		drive.stop();
 		this.wait(500);
-		drive.moveLeft(1); //Make sure this goes at a 45˚ angle!
+		drive.rotateLeft(1); //Make sure this goes at a 45˚ angle!
 		this.wait(500);
 		drive.stop();
 		this.wait(500);

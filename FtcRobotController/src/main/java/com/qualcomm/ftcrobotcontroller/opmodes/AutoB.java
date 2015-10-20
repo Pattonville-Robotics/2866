@@ -20,7 +20,7 @@ public class AutoB extends LinearOpMode{
 		this.wait(500);
 		drive.stop();
 		this.wait(500);
-		drive.moveRight(1); //Make sure this goes at a 45˚ angle!
+		drive.rotateRight(1); //Make sure this goes at a 45˚ angle!
 		this.wait(500);
 		drive.stop();
 		this.wait(500);
