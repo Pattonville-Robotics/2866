@@ -4,7 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
- * Created by skaggsm on 10/15/15.
+ * Created by Nathan Skelton on 10/15/15.
  */
 public class Drive {
 
@@ -49,4 +49,10 @@ public class Drive {
 		motorLeft.setPower(0);
 		motorRight.setPower(0);
 	}
+
+    @Override
+    public String toString() {
+
+        return "Left Motor: " + motorLeft.getPower() + "\n" + "Right Power: " + motorRight.getPower();
+    }
 }
