@@ -30,8 +30,7 @@ public class Drive {
 	public void moveStraight(double power){
 
 		motorRight.setPower(power);
-		motorLeft.setPower(power);
-
+        motorLeft.setPower(power);
 	}
 
 	public void rotateLeft(double power) {
@@ -55,6 +54,6 @@ public class Drive {
     @Override
     public String toString() {
 
-        return "Left Motor: " + motorLeft.getPower() + "\n" + "Right Power: " + motorRight.getPower();
+        return "Drive Left Motor: " + motorLeft.getPower() + "\n" + "Drive Right Power: " + motorRight.getPower();
     }
 }
