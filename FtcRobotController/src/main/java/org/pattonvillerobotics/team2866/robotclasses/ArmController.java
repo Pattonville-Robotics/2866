@@ -21,10 +21,6 @@ public class ArmController {
         motorArm.setPower(power);
     }
 
-    public void moveArmBackwards(double power) {
-        motorArm.setPower(-power);
-    }
-
     public void stopChain() {
         motorArm.setPower(0);
     }
