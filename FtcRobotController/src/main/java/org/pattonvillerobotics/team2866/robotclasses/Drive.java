@@ -12,7 +12,8 @@ public class Drive {
 	private DcMotor motorLeft;
 	private DcMotor motorRight;
 
-	public Drive(HardwareMap hardwareMap) {
+
+    public Drive(HardwareMap hardwareMap) {
 
 		this.hardwareMap = hardwareMap;
 		this.motorLeft = hardwareMap.dcMotor.get("motor_drive_left");
@@ -50,6 +51,14 @@ public class Drive {
 		motorLeft.setPower(0);
 		motorRight.setPower(0);
 	}
+
+    public void zipRelease() {
+
+    }
+
+    public void zipReleaseReset() {
+
+    }
 
     @Override
     public String toString() {
