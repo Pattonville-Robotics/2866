@@ -5,7 +5,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 
 /**
- * Created by James MacMahon on 10/20/15.
+ * Created by James McMahon on 10/20/15.
  */
 public class ArmController {
 
