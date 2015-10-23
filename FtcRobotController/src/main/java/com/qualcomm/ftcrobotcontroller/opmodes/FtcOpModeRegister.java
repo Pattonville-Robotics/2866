@@ -36,6 +36,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 
 import org.pattonvillerobotics.team2866.opmodes.AutoB;
 import org.pattonvillerobotics.team2866.opmodes.AutoR;
+import org.pattonvillerobotics.team2866.opmodes.GyroTest;
 import org.pattonvillerobotics.team2866.opmodes.OfficialTeleOp;
 import org.pattonvillerobotics.team2866.opmodes.TestAutonomous;
 
@@ -69,6 +70,8 @@ public class FtcOpModeRegister implements OpModeRegister {
 		manager.register("AutoB", AutoB.class);
 
 		manager.register("AutoR", AutoR.class);
+
+        manager.register("GyroTest", GyroTest.class);
 
 	}
 }

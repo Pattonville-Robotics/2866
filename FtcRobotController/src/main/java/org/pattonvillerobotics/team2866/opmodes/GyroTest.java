@@ -18,7 +18,7 @@ public class GyroTest extends OpMode {
     private String startDate;
     private ElapsedTime runtime = new ElapsedTime();
     private GyroSensor gyro;
-    private GyroHelper gyroHelper;
+    private GyroHelper gyroHelper = new GyroHelper();
 
     @Override
     public void init() {
