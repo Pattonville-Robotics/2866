@@ -46,6 +46,6 @@ public class GyroTest extends OpMode {
     public void loop() {
         double happy_angle;
         happy_angle = gyroHelper.getAngle();
-        telemetry.addData("Angle", happy_angle);
+        telemetry.addData("Happy Angle", happy_angle);
     }
 }
