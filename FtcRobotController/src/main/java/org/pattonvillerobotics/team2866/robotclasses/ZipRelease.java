@@ -7,9 +7,5 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  */
 public class ZipRelease {
 
-    public enum Direction {
-        Up, Down
-    }
-
     private HardwareMap hardwareMap;
 }

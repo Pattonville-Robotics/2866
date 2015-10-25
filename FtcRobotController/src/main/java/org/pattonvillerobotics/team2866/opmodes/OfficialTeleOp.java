@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.pattonvillerobotics.team2866.robotclasses.ArmController;
 import org.pattonvillerobotics.team2866.robotclasses.ClimbAssist;
+import org.pattonvillerobotics.team2866.robotclasses.DirectionEnum;
 import org.pattonvillerobotics.team2866.robotclasses.Drive;
 import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
 
@@ -82,10 +83,10 @@ public class OfficialTeleOp extends OpMode {
         if (gamepad2.x) {
             if (!leftReleaseTriggered) {
                 if (leftReleaseDown) {
-                    zipRelease.moveLeft(ZipRelease.Direction.Up);
+                    zipRelease.moveLeft(DirectionEnum.Up);
                     leftReleaseDown = false;
                 } else {
-                    zipRelease.moveLeft(ZipRelease.Direction.Down);
+                    zipRelease.moveLeft(DirectionEnum.Down);
                 }
                 leftReleaseTriggered = true;
             }
@@ -97,10 +98,10 @@ public class OfficialTeleOp extends OpMode {
         if (gamepad2.b) {
             if (!rightReleaseTriggered) {
                 if (rightReleaseDown) {
-                    zipRelease.moveRight(ZipRelease.Direction.Up);
+                    zipRelease.moveRight(DirectionEnum.Up);
                     leftReleaseDown = false;
                 } else {
-                    zipRelease.moveRight(ZipRelease.Direction.Down);
+                    zipRelease.moveRight(DirectionEnum.Down);
                 }
                 rightReleaseTriggered = true;
             }
