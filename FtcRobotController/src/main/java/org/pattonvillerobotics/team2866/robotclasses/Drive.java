@@ -6,6 +6,9 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 /**
  * Created by Nathan Skelton on 10/15/15.
+ *
+ * TODO: Determine the calculations for inchesToTicks(double inches)
+ * TODO: Create method to move a measured distance in inches
  */
 public class Drive {
 

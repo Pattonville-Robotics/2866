@@ -6,6 +6,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
  * Created by James McMahon on 10/20/15.
+ *
+ * TODO: Implement second arm motor
  */
 public class ArmController {
 
