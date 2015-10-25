@@ -11,8 +11,8 @@ import com.qualcomm.robotcore.util.ElapsedTime;
 
 /**
  * TeleOp Mode
- * <p>
- *Enables control of the robot via the gamepad
+ * <p/>
+ * Enables control of the robot via the gamepad
  */
 public class GyroHelper {
 
@@ -36,8 +36,7 @@ public class GyroHelper {
        * Code to run when the op mode is first enabled goes here
        * @see com.qualcomm.robotcore.eventloop.opmode.OpMode#start()
        */
-    public double calibrate()
-    {
+    public double calibrate() {
         double currentGyroOffset = gyro.getRotation();
         gyroOffset = (gyroOffset * numGyroOffsetSamples + currentGyroOffset) / (numGyroOffsetSamples + 1);
         ++numGyroOffsetSamples;
@@ -53,38 +52,31 @@ public class GyroHelper {
         return happy_angle;
     }
 
-    private class GyroLoop implements Runnable
-    {
-        public void run()
-        {
+    private class GyroLoop implements Runnable {
+        public void run() {
             long currentTime;
             long deltaTime;
 
-            try
-            {
-                while (true)
-                {
+            try {
+                previousTime = System.currentTimeMillis();
+
+                while (true) {
+
                     currentTime = System.currentTimeMillis();
-                    if (previousTime != 0)
-                    {
-                        deltaTime = currentTime - previousTime;
 
-                        double rate = (gyro.getRotation() - gyroOffset);
+                    deltaTime = currentTime - previousTime;
 
-                        // angle (degrees) = rate (degrees/second) * time (seconds)
-                        double angle = rate * deltaTime / 1000;
+                    double rate = (gyro.getRotation() - gyroOffset);
 
-                        happy_angle = happy_angle + angle;
+                    // angle (degrees) = rate (degrees/second) * time (seconds)
+                    double angle = rate * deltaTime / 1000;
 
-                    }
-                    previousTime = currentTime;
+                    happy_angle = happy_angle + angle;
 
                     // Pause for 10 milliseconds
                     Thread.sleep(10);
                 }
-            }
-            catch (InterruptedException e)
-            {
+            } catch (InterruptedException e) {
             }
         }
     }
