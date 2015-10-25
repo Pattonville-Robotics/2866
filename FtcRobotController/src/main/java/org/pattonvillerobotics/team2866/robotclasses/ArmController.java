@@ -21,8 +21,13 @@ public class ArmController {
         motorArm.setPower(power);
     }
 
-    public void stopChain() {
+    public void stopArm() {
         motorArm.setPower(0);
     }
 
+    @Override
+    public String toString() {
+
+        return "Arm Motor: " + motorArm.getPower();
+    }
 }
