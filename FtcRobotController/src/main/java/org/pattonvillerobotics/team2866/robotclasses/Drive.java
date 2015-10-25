@@ -14,20 +14,17 @@ public class Drive {
 	private HardwareMap hardwareMap;
 	private DcMotor motorLeft;
 	private DcMotor motorRight;
-	private Servo servoClimber;
-
 
     public Drive(HardwareMap hardwareMap) {
 
 		this.hardwareMap = hardwareMap;
 		this.motorLeft = hardwareMap.dcMotor.get("motor_drive_left");
 		this.motorRight = hardwareMap.dcMotor.get("motor_drive_right");
-	    this.servoClimber = hardwareMap.servo.get("servo_climber");
 
 	    motorRight.setDirection(DcMotor.Direction.REVERSE);
 	}
 
-	public static double cmToTicks(double cm) {
+	public static double inchesToTicks(double inches) {
 		return 0;
 	}
 
@@ -60,14 +57,6 @@ public class Drive {
 		motorLeft.setPower(0);
 		motorRight.setPower(0);
 	}
-
-    public void zipRelease() {
-
-    }
-
-    public void zipReleaseReset() {
-
-    }
 
 	@Override
 	public String toString() {
