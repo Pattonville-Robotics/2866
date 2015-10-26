@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.pattonvillerobotics.team2866.robotclasses.ArmController;
 import org.pattonvillerobotics.team2866.robotclasses.ClimbAssist;
+import org.pattonvillerobotics.team2866.robotclasses.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.DirectionEnum;
 import org.pattonvillerobotics.team2866.robotclasses.Drive;
 import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
@@ -20,6 +21,7 @@ public class OfficialTeleOp extends OpMode {
     private ClimbAssist climbAssist;
     private ArmController armController;
     private ZipRelease zipRelease;
+    private ClimberDumper climberDumper;
 
 
     private boolean leftReleaseDown = false;
@@ -27,12 +29,16 @@ public class OfficialTeleOp extends OpMode {
     private boolean rightReleaseDown = false;
     private boolean rightReleaseTriggered = false;
 
+    private boolean dumperTriggered = false;
+    private boolean dumperDown = false;
+
     public void init() {
 
         drive = new Drive(hardwareMap);
         climbAssist = new ClimbAssist(hardwareMap);
         armController = new ArmController(hardwareMap);
         zipRelease = new ZipRelease(hardwareMap);
+        climberDumper = new ClimberDumper(hardwareMap);
 
         gamepad1.setJoystickDeadzone(0.05f);
         gamepad2.setJoystickDeadzone(0.05f);
@@ -83,10 +89,10 @@ public class OfficialTeleOp extends OpMode {
         if (gamepad2.x) {
             if (!leftReleaseTriggered) {
                 if (leftReleaseDown) {
-                    zipRelease.moveLeft(DirectionEnum.Up);
+                    zipRelease.moveLeft(DirectionEnum.UP);
                     leftReleaseDown = false;
                 } else {
-                    zipRelease.moveLeft(DirectionEnum.Down);
+                    zipRelease.moveLeft(DirectionEnum.DOWN);
                 }
                 leftReleaseTriggered = true;
             }
@@ -98,16 +104,34 @@ public class OfficialTeleOp extends OpMode {
         if (gamepad2.b) {
             if (!rightReleaseTriggered) {
                 if (rightReleaseDown) {
-                    zipRelease.moveRight(DirectionEnum.Up);
+                    zipRelease.moveRight(DirectionEnum.UP);
                     leftReleaseDown = false;
                 } else {
-                    zipRelease.moveRight(DirectionEnum.Down);
+                    zipRelease.moveRight(DirectionEnum.DOWN);
                 }
                 rightReleaseTriggered = true;
             }
         }
         else {
             rightReleaseTriggered = false;
+        }
+
+
+        // Climber Dumper
+
+        if (gamepad1.x) {
+            if (!dumperTriggered) {
+                if (dumperDown) {
+                    climberDumper.move(DirectionEnum.UP);
+                    dumperDown = false;
+                } else {
+                    climberDumper.move(DirectionEnum.DOWN);
+                }
+                dumperTriggered = true;
+            }
+        }
+        else {
+            dumperTriggered = false;
         }
 
 
