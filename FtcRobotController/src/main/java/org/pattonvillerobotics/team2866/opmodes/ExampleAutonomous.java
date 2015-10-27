@@ -9,6 +9,8 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
  * <p/>
  * This class is designed to teach how to use each part of the robot.
  *
+ * //TODO Create and test code that uses motor encoders
+ *
  * CURRENTLY TESTING ENCODERS
  */
 public class ExampleAutonomous extends LinearOpMode {
