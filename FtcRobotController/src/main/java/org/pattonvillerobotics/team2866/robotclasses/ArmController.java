@@ -7,29 +7,33 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 /**
  * Created by James McMahon on 10/20/15.
  *
- * TODO: Implement second arm motor
+ *
  */
 public class ArmController {
 
     private HardwareMap hardwareMap;
-    private DcMotor motorArm;
+    private DcMotor motorArmRight;
+    private DcMotor motorArmLeft;
 
     public ArmController(HardwareMap hardwareMap) {
         this.hardwareMap = hardwareMap;
-        this.motorArm = hardwareMap.dcMotor.get("motor_arm");
+        this.motorArmRight = hardwareMap.dcMotor.get("motor_arm_right");
+        this.motorArmLeft = hardwareMap.dcMotor.get("motor_arm_left");
     }
 
     public void moveArm(double power) {
-        motorArm.setPower(power);
+        motorArmRight.setPower(power);
+        motorArmLeft.setPower(power);
     }
 
     public void stopArm() {
-        motorArm.setPower(0);
+        motorArmRight.setPower(0);
+        motorArmLeft.setPower(0);
     }
 
     @Override
     public String toString() {
 
-        return "Arm Motor: " + motorArm.getPower();
+        return "Right Arm Motor:" + motorArmRight.getPower() + "Left Arm Motor:" + motorArmLeft.getPower();
     }
 }
