@@ -23,15 +23,34 @@ public class ZipRelease {
     public ZipRelease(HardwareMap hardwareMap) {
 
         this.hardwareMap = hardwareMap;
+        this.servoLeft = hardwareMap.servo.get("servo_left");
+        this.servoRight = hardwareMap.servo.get("servo_right");
     }
 
     public void moveLeft(DirectionEnum direction) {
-        servoLeft.setPosition(LEFT_UP);
-        servoLeft.setPosition(LEFT_DOWN);
+
+        switch (direction) {
+
+            case UP:
+                servoLeft.setPosition(LEFT_UP);
+                break;
+
+            case DOWN:
+                servoLeft.setPosition(LEFT_DOWN);
+                break;
+        }
     }
 
     public void moveRight(DirectionEnum direction) {
-        servoRight.setPosition(RIGHT_UP);
-        servoRight.setPosition(RIGHT_DOWN);
+        switch (direction) {
+
+            case UP:
+                servoRight.setPosition(RIGHT_UP);
+                break;
+
+            case DOWN:
+                servoRight.setPosition(RIGHT_DOWN);
+                break;
+        }
     }
 }
