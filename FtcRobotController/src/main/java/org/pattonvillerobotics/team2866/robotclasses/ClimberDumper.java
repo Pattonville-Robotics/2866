@@ -7,7 +7,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * Created by Nathan Skelton on 10/25/15.
  * <p/>
  *
- * TODO: Determine servo values for up and down
+ *
  */
 public class ClimberDumper {
 
@@ -22,6 +22,8 @@ public class ClimberDumper {
 
     }
 
-    public void move(DirectionEnum direction)
-
+    public void move(DirectionEnum direction) {
+        servo.setPosition(UP);
+        servo.setPosition(DOWN);
+    }
 }
