@@ -23,7 +23,13 @@ public class ClimberDumper {
     }
 
     public void move(DirectionEnum direction) {
-        servo.setPosition(UP);
-        servo.setPosition(DOWN);
+        switch(direction) {
+            case UP:
+                servo.setPosition(UP);
+                break;
+            case DOWN:
+                servo.setPosition(DOWN);
+                break;
+            }
+        }
     }
-}
