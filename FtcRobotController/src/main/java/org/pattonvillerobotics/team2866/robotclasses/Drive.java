@@ -61,6 +61,18 @@ public class Drive {
 		motorRight.setPower(0);
 	}
 
+    Drive.moveInches(double inches) {
+
+    }
+
+    Drive.rotateLeftDegrees(double degrees) {
+
+    }
+
+    Drive.rotateRightDegrees(double degrees) {
+
+    }
+
 	@Override
 	public String toString() {
 
