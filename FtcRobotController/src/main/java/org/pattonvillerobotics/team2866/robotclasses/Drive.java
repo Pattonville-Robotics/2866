@@ -6,13 +6,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
  * Created by Nathan Skelton on 10/15/15.
+ * Last edited by Mitchell Skaggs on 10/30/15
  * <p/>
  * TODO: Determine the calculations for inchesToTicks(double inches)
- * TODO: Create method to move a measured distance in inches
+ * TODO Create method for rotation
  */
 public class Drive {
 
-    public static final double WHEEL_RADIUS = 10;
+    public static final double WHEEL_RADIUS = -1;
 
     private HardwareMap hardwareMap;
     private DcMotor motorLeft;
@@ -66,6 +67,8 @@ public class Drive {
             throw new AssertionError("robt is kill");
         if (power > 1 || power < 0)
             throw new IllegalArgumentException("Invalid power value");
+        if (inches <= 0)
+            throw new IllegalArgumentException("Invalid distance");
 
         int targetPosition;
 
