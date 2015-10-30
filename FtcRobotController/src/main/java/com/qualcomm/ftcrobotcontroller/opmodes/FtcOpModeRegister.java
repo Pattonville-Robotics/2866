@@ -59,7 +59,7 @@ public class FtcOpModeRegister implements OpModeRegister {
      */
         for (Class<?> c : ClassIndex.getAnnotated(OpMode.class)) { // Some annotation wizardry at work here...
             if (com.qualcomm.robotcore.eventloop.opmode.OpMode.class.isInstance(c))
-                manager.register(c.getAnnotation(OpMode.class).name(), c);
+                manager.register(c.getAnnotation(OpMode.class).value(), c);
             else
                 throw new ClassCastException("Could not register OpMode! \"" + c.getSimpleName() + "\" cannot be cast to OpMode. Please only annotate classes extending OpMode with the @OpMode annotation.");
         }
