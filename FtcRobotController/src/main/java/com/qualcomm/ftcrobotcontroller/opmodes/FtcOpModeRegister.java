@@ -34,24 +34,21 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 
-import org.pattonvillerobotics.team2866.opmodes.AutoB;
-import org.pattonvillerobotics.team2866.opmodes.AutoR;
-import org.pattonvillerobotics.team2866.opmodes.GyroTest;
-import org.pattonvillerobotics.team2866.opmodes.OfficialTeleOp;
-import org.pattonvillerobotics.team2866.opmodes.TestAutonomous;
+import org.atteo.classindex.ClassIndex;
+import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 
 /**
  * Register Op Modes
  */
 public class FtcOpModeRegister implements OpModeRegister {
 
-	/**
-	 * The Op Mode Manager will call this method when it wants a list of all
-	 * available op modes. Add your op mode to the list to enable it.
-	 *
-	 * @param manager op mode manager
-	 */
-	public void register(OpModeManager manager) {
+    /**
+     * The Op Mode Manager will call this method when it wants a list of all
+     * available op modes. Add your op mode to the list to enable it.
+     *
+     * @param manager op mode manager
+     */
+    public void register(OpModeManager manager) {
 
     /*
      * register your op modes here.
@@ -60,18 +57,11 @@ public class FtcOpModeRegister implements OpModeRegister {
      *
      * If two or more op modes are registered with the same name, the app will display an error.
      */
-
-		manager.register("NullOp", NullOp.class);
-
-		manager.register("Official TeleOp", OfficialTeleOp.class);
-
-		manager.register("TestAutonomous", TestAutonomous.class);
-
-		manager.register("AutoB", AutoB.class);
-
-		manager.register("AutoR", AutoR.class);
-
-        manager.register("GyroTest", GyroTest.class);
-
-	}
+        for (Class<?> c : ClassIndex.getAnnotated(OpMode.class)) { // Some annotation wizardry at work here...
+            if (com.qualcomm.robotcore.eventloop.opmode.OpMode.class.isInstance(c))
+                manager.register(c.getAnnotation(OpMode.class).name(), c);
+            else
+                throw new ClassCastException("Could not register OpMode! \"" + c.getSimpleName() + "\" cannot be cast to OpMode. Please only annotate classes extending OpMode with the @OpMode annotation.");
+        }
+    }
 }
