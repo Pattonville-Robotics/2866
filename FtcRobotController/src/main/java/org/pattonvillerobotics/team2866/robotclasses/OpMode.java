@@ -15,5 +15,5 @@ import java.lang.annotation.Target;
 @IndexAnnotated
 public @interface OpMode {
 
-    String name() default "Name not set.";
+    String value() default "Name not set.";
 }
