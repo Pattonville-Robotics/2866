@@ -13,16 +13,16 @@ import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
 /**
  * Created by Team 2866 on 10/6/15.
  */
+@org.pattonvillerobotics.team2866.robotclasses.OpMode("TeleOp")
 public class OfficialTeleOp extends OpMode {
 
-    public static final String TAG = "TestOp";
+    public static final String TAG = "TeleOp";
 
     private Drive drive;
     private ClimbAssist climbAssist;
     private ArmController armController;
     private ZipRelease zipRelease;
     private ClimberDumper climberDumper;
-
 
     private boolean leftReleaseDown = false;
     private boolean leftReleaseTriggered = false;
@@ -57,7 +57,6 @@ public class OfficialTeleOp extends OpMode {
 
         drive.moveFreely(left, right);
 
-
         // Climb Assist
 
         if (gamepad1.y) {
@@ -72,7 +71,6 @@ public class OfficialTeleOp extends OpMode {
             climbAssist.moveChain(.25);
         }
 
-
         // Arm
 
         if (gamepad2.y) {
@@ -82,7 +80,6 @@ public class OfficialTeleOp extends OpMode {
         } else {
             armController.stopArm();
         }
-
 
         // Zip Release
 
@@ -96,8 +93,7 @@ public class OfficialTeleOp extends OpMode {
                 }
                 leftReleaseTriggered = true;
             }
-        }
-        else {
+        } else {
             leftReleaseTriggered = false;
         }
 
@@ -111,11 +107,9 @@ public class OfficialTeleOp extends OpMode {
                 }
                 rightReleaseTriggered = true;
             }
-        }
-        else {
+        } else {
             rightReleaseTriggered = false;
         }
-
 
         // Climber Dumper
 
@@ -129,11 +123,9 @@ public class OfficialTeleOp extends OpMode {
                 }
                 dumperTriggered = true;
             }
-        }
-        else {
+        } else {
             dumperTriggered = false;
         }
-
 
         // Telemetry
 
