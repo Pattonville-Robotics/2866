@@ -61,7 +61,7 @@ public class Drive {
 		motorRight.setPower(0);
 	}
 
-    Drive.moveInches(double inches) {
+    Drive.moveInchesgf(double inches) {
 
     }
 
