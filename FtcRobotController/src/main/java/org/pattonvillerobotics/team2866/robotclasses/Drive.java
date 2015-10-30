@@ -96,7 +96,7 @@ public class Drive {
         motorRight.setPower(power);
     }
 
-    public void rotateDegrees(DirectionEnum direction, double degrees) {
+    public void rotateDegrees(DirectionEnum direction, double degrees, double power) {
         switch (direction) {
             case LEFT:
                 break;
