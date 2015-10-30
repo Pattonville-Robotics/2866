@@ -27,8 +27,8 @@ public class Drive {
     public Drive(HardwareMap hardwareMap) {
 
         this.hardwareMap = hardwareMap;
-        this.motorLeft = hardwareMap.dcMotor.get("motor_drive_left");
-        this.motorRight = hardwareMap.dcMotor.get("motor_drive_right");
+        this.motorLeft = this.hardwareMap.dcMotor.get(Config.motorDriveLeft);
+        this.motorRight = this.hardwareMap.dcMotor.get(Config.motorDriveRight);
 
         motorRight.setDirection(DcMotor.Direction.REVERSE);
     }
