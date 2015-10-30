@@ -4,10 +4,12 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.pattonvillerobotics.team2866.robotclasses.DirectionEnum;
 import org.pattonvillerobotics.team2866.robotclasses.Drive;
+import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 
 /**
  * Created by Kevin Stewart & James McMahon on 10/15/15.
  */
+@OpMode("Blue Autonomous")
 public class AutoB extends LinearOpMode {
 
     public static final String TAG = "TestAutonomous";
