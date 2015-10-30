@@ -26,7 +26,7 @@ public class AutoB extends LinearOpMode{
         drive.rotateLeftDegrees(45);
         drive.moveInches(-18);
         drive.retateLeftDegrees(90);
-        drive.moveInches(0); //Measurement required
+        drive.moveInches(102); //Measurement required
         drive.stop();
 	}
 }
