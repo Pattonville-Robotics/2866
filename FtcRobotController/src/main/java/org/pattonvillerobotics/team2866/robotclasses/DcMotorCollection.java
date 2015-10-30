@@ -15,6 +15,8 @@ import java8.util.stream.StreamSupport;
 
 /**
  * Created by skaggsm on 10/29/15.
+ * <p/>
+ * TBH this is probably a terrible idea and an awful hack
  */
 public class DcMotorCollection extends DcMotor {
 
