@@ -27,7 +27,6 @@ public class ExampleAutonomous extends LinearOpMode {
 		motor1.setTargetPosition(1440);
 		motor1.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
 		motor1.setPower(1);
-
 		sleep(10000);
 	}
 }
