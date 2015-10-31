@@ -101,7 +101,7 @@ public class OfficialTeleOp extends OpMode {
             if (!rightReleaseTriggered) {
                 if (rightReleaseDown) {
                     zipRelease.moveRight(DirectionEnum.UP);
-                    leftReleaseDown = false;
+                    rightReleaseDown = false;
                 } else {
                     zipRelease.moveRight(DirectionEnum.DOWN);
                 }
