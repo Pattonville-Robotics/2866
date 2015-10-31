@@ -15,15 +15,13 @@ import java.util.Date;
 
 public class GyroTest extends OpMode {
 
-    private String startDate;
-    private ElapsedTime runtime = new ElapsedTime();
-    private GyroSensor gyro;
-    private GyroHelper gyroHelper = new GyroHelper();
+    private GyroHelper gyroHelper;
 
     @Override
     public void init() {
-        gyro = hardwareMap.gyroSensor.get("gyro");
-        gyroHelper.initialize(gyro);
+
+        gyroHelper = new GyroHelper(hardwareMap);
+
     }
 
     /*

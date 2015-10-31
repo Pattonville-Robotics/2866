@@ -6,6 +6,7 @@ package org.pattonvillerobotics.team2866.robotclasses;
 
 
 import com.qualcomm.robotcore.hardware.GyroSensor;
+import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.ElapsedTime;
 
 
@@ -16,19 +17,15 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class GyroHelper {
 
-    private String startDate;
-    private ElapsedTime runtime = new ElapsedTime();
     private GyroSensor gyro;
 
-    private long start;
     private double gyroOffset;
     private long numGyroOffsetSamples = 0;
-    private long previousTime = 0;
     private double happy_angle = 0;
     Thread gyroThread = new Thread(new GyroLoop());
 
-    public void initialize(GyroSensor gyro1) {
-        this.gyro = gyro1;
+    public GyroHelper(HardwareMap hardwareMap) {
+        this.gyro = hardwareMap.gyroSensor.get(Config.sensorGyro);
         gyroThread.start();
     }
 
@@ -58,7 +55,7 @@ public class GyroHelper {
             long deltaTime;
 
             try {
-                previousTime = System.currentTimeMillis();
+                long previousTime = System.currentTimeMillis();
 
                 while (true) {
 
