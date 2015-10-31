@@ -23,8 +23,8 @@ public class ZipRelease {
     public ZipRelease(HardwareMap hardwareMap) {
 
         this.hardwareMap = hardwareMap;
-        this.servoLeft = hardwareMap.servo.get("servo_left");
-        this.servoRight = hardwareMap.servo.get("servo_right");
+        this.servoLeft = hardwareMap.servo.get(Config.servoReleaseLeft);
+        this.servoRight = hardwareMap.servo.get(Config.servoReleaseRight);
     }
 
     public void moveLeft(DirectionEnum direction) {

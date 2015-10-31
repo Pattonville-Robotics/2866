@@ -17,8 +17,8 @@ public class ArmController {
 
     public ArmController(HardwareMap hardwareMap) {
         this.hardwareMap = hardwareMap;
-        this.motorArmRight = hardwareMap.dcMotor.get("motor_arm_right");
-        this.motorArmLeft = hardwareMap.dcMotor.get("motor_arm_left");
+        this.motorArmRight = hardwareMap.dcMotor.get(Config.motorArmRight);
+        this.motorArmLeft = hardwareMap.dcMotor.get(Config.motorArmLeft);
     }
 
     public void moveArm(double power) {
