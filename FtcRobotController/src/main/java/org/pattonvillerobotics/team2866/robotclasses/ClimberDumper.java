@@ -18,7 +18,7 @@ public class ClimberDumper {
 
     public ClimberDumper(HardwareMap hardwareMap) {
         this.hardwareMap = hardwareMap;
-        this.servo = this.hardwareMap.servo.get("servo");
+        this.servo = this.hardwareMap.servo.get(Config.servoDumper);
 
     }
 
