@@ -27,4 +27,6 @@ public final class Config {
     public static final String SENSOR_GYRO = "sensor_gyro";
 
     public static final int ARM_MOVEMENT_SPEED = 1;
+    public static final double CHAIN_MOVEMENT_SPEED = .25;
+    public static final double LIFT_MOVEMENT_SPEED = .25;
 }
