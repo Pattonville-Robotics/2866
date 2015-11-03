@@ -4,11 +4,8 @@ package org.pattonvillerobotics.team2866.robotclasses;
  * Created by stewartk02 on 10/22/15.
  */
 
-
 import com.qualcomm.robotcore.hardware.GyroSensor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.ElapsedTime;
-
 
 /**
  * TeleOp Mode
@@ -17,15 +14,14 @@ import com.qualcomm.robotcore.util.ElapsedTime;
  */
 public class GyroHelper {
 
+    Thread gyroThread = new Thread(new GyroLoop());
     private GyroSensor gyro;
-
     private double gyroOffset;
     private long numGyroOffsetSamples = 0;
     private double happy_angle = 0;
-    Thread gyroThread = new Thread(new GyroLoop());
 
     public GyroHelper(HardwareMap hardwareMap) {
-        this.gyro = hardwareMap.gyroSensor.get(Config.sensorGyro);
+        this.gyro = hardwareMap.gyroSensor.get(Config.SENSOR_GYRO);
         gyroThread.start();
     }
 
@@ -50,6 +46,7 @@ public class GyroHelper {
     }
 
     private class GyroLoop implements Runnable {
+
         public void run() {
             long currentTime;
             long deltaTime;
