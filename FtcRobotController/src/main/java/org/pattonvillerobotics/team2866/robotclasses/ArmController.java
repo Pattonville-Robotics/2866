@@ -1,7 +1,6 @@
 package org.pattonvillerobotics.team2866.robotclasses;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
@@ -20,8 +19,8 @@ public class ArmController {
         this.motorArmRight = hardwareMap.dcMotor.get(Config.MOTOR_ARM_RIGHT);
         this.motorArmLeft = hardwareMap.dcMotor.get(Config.MOTOR_ARM_LEFT);
 
-        this.motorArmRight.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
-        this.motorArmLeft.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        //this.motorArmRight.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        //this.motorArmLeft.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
         this.motorArmRight.setDirection(DcMotor.Direction.REVERSE);
     }
@@ -38,11 +37,12 @@ public class ArmController {
         motorArmLeft.setTargetPosition(target);
     }
 
+    @Deprecated
     public void stopArm() {
         //Motors will try to remain in the correct position, stopping is bad.
 
-        //motorArmRight.setPower(0);
-        //motorArmLeft.setPower(0);
+        motorArmRight.setPower(0);
+        motorArmLeft.setPower(0);
     }
 
     @Override
