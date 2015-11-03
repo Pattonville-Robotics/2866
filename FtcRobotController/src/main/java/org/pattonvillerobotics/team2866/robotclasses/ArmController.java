@@ -5,6 +5,8 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
  * Created by James McMahon on 10/20/15.
+ *
+ * TODO Add encoders to the arm motors
  */
 public class ArmController {
 
