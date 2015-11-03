@@ -8,21 +8,23 @@ package org.pattonvillerobotics.team2866.robotclasses;
 
 public final class Config {
 
-    public static final String motorDriveLeft = "motor_drive_left";
-    public static final String motorDriveRight = "motor_drive_right";
+    public static final String MOTOR_DRIVE_LEFT = "motor_drive_left";
+    public static final String MOTOR_DRIVE_RIGHT = "motor_drive_right";
 
-    public static final String motorArmLeft = "motor_arm_left";
-    public static final String motorArmRight = "motor_arm_right";
+    public static final String MOTOR_ARM_LEFT = "motor_arm_left";
+    public static final String MOTOR_ARM_RIGHT = "motor_arm_right";
 
-    public static final String motorLiftLeft = "motor_lift_left";
-    public static final String motorLiftRight = "motor_lift_right";
+    public static final String MOTOR_LIFT_LEFT = "motor_lift_left";
+    public static final String MOTOR_LIFT_RIGHT = "motor_lift_right";
 
-    public static final String motorChain = "motor_chain";
+    public static final String MOTOR_CHAIN = "motor_chain";
 
-    public static final String servoDumper = "servo_dumper";
+    public static final String SERVO_DUMPER = "servo_dumper";
 
-    public static final String servoReleaseLeft = "servo_release_left";
-    public static final String servoReleaseRight = "servo_release_right";
+    public static final String SERVO_RELEASE_LEFT = "servo_release_left";
+    public static final String SERVO_RELEASE_RIGHT = "servo_release_right";
 
-    public static final String sensorGyro = "sensor_gyro";
+    public static final String SENSOR_GYRO = "sensor_gyro";
+
+    public static final int ARM_MOVEMENT_SPEED = 1;
 }
