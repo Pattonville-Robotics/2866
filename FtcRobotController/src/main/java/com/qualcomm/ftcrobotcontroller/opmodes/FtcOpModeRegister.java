@@ -58,10 +58,15 @@ public class FtcOpModeRegister implements OpModeRegister {
      * If two or more op modes are registered with the same name, the app will display an error.
      */
         for (Class<?> c : ClassIndex.getAnnotated(OpMode.class)) { // Some annotation wizardry at work here...
-            if (com.qualcomm.robotcore.eventloop.opmode.OpMode.class.isInstance(c))
+            if (com.qualcomm.robotcore.eventloop.opmode.OpMode.class.isAssignableFrom(c))
                 manager.register(c.getAnnotation(OpMode.class).value(), c);
-            else
-                throw new ClassCastException("Could not register OpMode! \"" + c.getSimpleName() + "\" cannot be cast to OpMode. Please only annotate classes extending OpMode with the @OpMode annotation.");
+            else {
+                try {
+                    manager.register(c.getAnnotation(OpMode.class).value(), c);
+                } catch (Exception e) {
+                    throw new ClassCastException("Could not register OpMode! \"" + c.getSimpleName() + "\" cannot be cast to OpMode. Please only annotate classes extending OpMode with the @OpMode annotation.");
+                }
+            }
         }
     }
 }
