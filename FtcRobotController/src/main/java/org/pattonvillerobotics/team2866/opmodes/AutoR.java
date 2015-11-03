@@ -2,6 +2,7 @@ package org.pattonvillerobotics.team2866.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.pattonvillerobotics.team2866.robotclasses.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.DirectionEnum;
 import org.pattonvillerobotics.team2866.robotclasses.Drive;
@@ -20,6 +21,7 @@ public class AutoR extends LinearOpMode {
 
         Drive drive = new Drive(hardwareMap);
         ClimberDumper climberDumper = new ClimberDumper(hardwareMap);
+        ClimbAssist climbAssist = new ClimbAssist(hardwareMap);
 
         waitForStart();
 
@@ -33,7 +35,9 @@ public class AutoR extends LinearOpMode {
         drive.rotateDegrees(DirectionEnum.RIGHT, 45, 1);
         drive.moveInches(DirectionEnum.BACKWARDS, -18, 1);
         drive.rotateDegrees(DirectionEnum.RIGHT, 90, 1);
+        climbAssist.moveChain(1);
         drive.moveInches(DirectionEnum.FORWARDS, 102, 1); //Measurement required
+        climbAssist.moveChain(0);
 
     }
 }
