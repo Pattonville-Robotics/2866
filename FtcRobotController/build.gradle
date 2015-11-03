@@ -48,3 +48,13 @@ dependencies {
     compile 'net.sourceforge.streamsupport:streamsupport:1.3.2'
     compile 'org.atteo.classindex:classindex:3.4'
 }
+
+project.android.applicationVariants.all { variant ->
+    variant.outputs.each { output ->
+        def pkgTask = output.packageApplication
+        def String variantName = variant.getName().capitalize()
+        if (pkgTask.getName().indexOf(variantName) != -1) {
+            pkgTask.setJavaResourceDir(new File(buildDir, "intermediates/classes/$variant.dirName"))
+        }
+    }
+}
