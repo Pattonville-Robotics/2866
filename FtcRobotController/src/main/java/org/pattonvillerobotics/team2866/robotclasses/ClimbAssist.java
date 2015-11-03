@@ -16,9 +16,9 @@ public class ClimbAssist {
     public ClimbAssist(HardwareMap hardwareMap) {
 
         this.hardwareMap = hardwareMap;
-        this.motorLeft = hardwareMap.dcMotor.get(Config.motorLiftLeft);
-        this.motorRight = hardwareMap.dcMotor.get(Config.motorLiftRight);
-        this.motorChain = hardwareMap.dcMotor.get(Config.motorChain);
+        this.motorLeft = hardwareMap.dcMotor.get(Config.MOTOR_LIFT_LEFT);
+        this.motorRight = hardwareMap.dcMotor.get(Config.MOTOR_LIFT_RIGHT);
+        this.motorChain = hardwareMap.dcMotor.get(Config.MOTOR_CHAIN);
 
         motorRight.setDirection(DcMotor.Direction.REVERSE);
     }
