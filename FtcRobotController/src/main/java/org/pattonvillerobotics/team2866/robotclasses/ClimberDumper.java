@@ -6,8 +6,6 @@ import com.qualcomm.robotcore.hardware.Servo;
 /**
  * Created by Nathan Skelton on 10/25/15.
  * <p/>
- *
- *
  */
 public class ClimberDumper {
 
@@ -23,13 +21,13 @@ public class ClimberDumper {
     }
 
     public void move(DirectionEnum direction) {
-        switch(direction) {
+        switch (direction) {
             case UP:
                 servo.setPosition(UP);
                 break;
             case DOWN:
                 servo.setPosition(DOWN);
                 break;
-            }
         }
     }
+}
