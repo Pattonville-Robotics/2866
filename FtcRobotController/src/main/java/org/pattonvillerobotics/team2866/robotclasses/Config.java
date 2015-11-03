@@ -29,4 +29,6 @@ public final class Config {
     public static final int ARM_MOVEMENT_SPEED = 1;
     public static final double CHAIN_MOVEMENT_SPEED = .25;
     public static final double LIFT_MOVEMENT_SPEED = .25;
+    public static final int ENCODER_MOVEMENT_TOLERANCE = 12;
+    public static final int ENCODER_MOVEMENT_UPDATE_DELAY = 10;
 }
