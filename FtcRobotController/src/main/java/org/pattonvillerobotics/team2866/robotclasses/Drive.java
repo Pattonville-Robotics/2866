@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  */
 public class Drive {
 
-    public static final double WHEEL_RADIUS = -1; // TODO Find appropriate values
+    public static final double WHEEL_RADIUS = -1; // TODO Find appropriate values; Wheel surface is 3.5 inches
     public static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS;
     public static final double TICKS_PER_REVOLUTION = 1440;
     public static final double INCHES_PER_TICK = WHEEL_CIRCUMFERENCE / TICKS_PER_REVOLUTION;

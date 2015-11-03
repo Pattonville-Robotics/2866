@@ -2,6 +2,7 @@ package org.pattonvillerobotics.team2866.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.pattonvillerobotics.team2866.robotclasses.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.DirectionEnum;
 import org.pattonvillerobotics.team2866.robotclasses.Drive;
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
@@ -18,6 +19,7 @@ public class AutoR extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         Drive drive = new Drive(hardwareMap);
+        ClimberDumper climberDumper = new ClimberDumper(hardwareMap);
 
         waitForStart();
 
@@ -25,6 +27,13 @@ public class AutoR extends LinearOpMode {
         drive.rotateDegrees(DirectionEnum.LEFT, 45, 1); //Make sure this goes at a 45˚ angle!
         drive.moveInches(DirectionEnum.FORWARDS, 92, 1); //92 inches or w/e up to the rescue bit
         drive.moveInches(DirectionEnum.FORWARDS, 18, 1); //18 inches: NIN*2
+        climberDumper.move(DirectionEnum.UP); //Moves the servo to dump the lil guys into the basket
+        climberDumper.move(DirectionEnum.DOWN);
+        drive.moveInches(DirectionEnum.BACKWARDS, 18, 1);
+        drive.rotateDegrees(DirectionEnum.RIGHT, 45, 1);
+        drive.moveInches(DirectionEnum.BACKWARDS, -18, 1);
+        drive.rotateDegrees(DirectionEnum.RIGHT, 90, 1);
+        drive.moveInches(DirectionEnum.FORWARDS, 102, 1); //Measurement required
 
     }
 }
