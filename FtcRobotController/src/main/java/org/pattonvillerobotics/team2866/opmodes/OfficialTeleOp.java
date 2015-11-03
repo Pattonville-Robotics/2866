@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.util.Range;
 import org.pattonvillerobotics.team2866.robotclasses.ArmController;
 import org.pattonvillerobotics.team2866.robotclasses.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.ClimberDumper;
+import org.pattonvillerobotics.team2866.robotclasses.Config;
 import org.pattonvillerobotics.team2866.robotclasses.DirectionEnum;
 import org.pattonvillerobotics.team2866.robotclasses.Drive;
 import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
@@ -59,16 +60,20 @@ public class OfficialTeleOp extends OpMode {
 
         // Climb Assist
 
-        if (gamepad1.y) {
-            climbAssist.moveLift(.25);
-        } else if (gamepad1.a) {
-            climbAssist.moveLift(-.25);
+        if (gamepad1.y && !gamepad1.a) {
+            climbAssist.moveLift(Config.LIFT_MOVEMENT_SPEED);
+        } else if (gamepad1.a && !gamepad1.y) {
+            climbAssist.moveLift(-Config.LIFT_MOVEMENT_SPEED);
         } else {
             climbAssist.stopLift();
         }
 
-        if (gamepad1.b) {
-            climbAssist.moveChain(.25);
+        if (gamepad1.right_bumper && !gamepad1.left_bumper) {
+            climbAssist.moveChain(Config.CHAIN_MOVEMENT_SPEED);
+        } else if (gamepad1.left_bumper && !gamepad1.right_bumper) {
+            climbAssist.moveChain(-Config.CHAIN_MOVEMENT_SPEED);
+        } else {
+            climbAssist.stopChain();
         }
 
         // Arm
