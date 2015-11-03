@@ -35,7 +35,7 @@ public class OfficialTeleOp extends OpMode {
 
     public void init() {
 
-        drive = new Drive(hardwareMap);
+        drive = new Drive(hardwareMap, null);
         climbAssist = new ClimbAssist(hardwareMap);
         armController = new ArmController(hardwareMap);
         zipRelease = new ZipRelease(hardwareMap);

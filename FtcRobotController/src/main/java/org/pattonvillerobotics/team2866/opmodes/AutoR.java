@@ -19,7 +19,7 @@ public class AutoR extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        Drive drive = new Drive(hardwareMap);
+        Drive drive = new Drive(hardwareMap, this);
         ClimberDumper climberDumper = new ClimberDumper(hardwareMap);
         ClimbAssist climbAssist = new ClimbAssist(hardwareMap);
 

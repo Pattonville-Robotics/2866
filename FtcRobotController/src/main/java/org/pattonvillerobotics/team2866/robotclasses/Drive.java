@@ -1,12 +1,15 @@
 package org.pattonvillerobotics.team2866.robotclasses;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
  * Created by Nathan Skelton on 10/15/15.
- * Last edited by Mitchell Skaggs on 10/30/15
+ * Last edited by Mitchell Skaggs on 11/3/15
+ * <p/>
+ * TODO Change rotate() to use the gyro sensor instead of encoders
  */
 public class Drive {
 
@@ -21,12 +24,14 @@ public class Drive {
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
 
     private HardwareMap hardwareMap;
+    private LinearOpMode linearOpMode;
     private DcMotor motorLeft;
     private DcMotor motorRight;
 
-    public Drive(HardwareMap hardwareMap) {
-
+    public Drive(HardwareMap hardwareMap, LinearOpMode linearOpMode) {
         this.hardwareMap = hardwareMap;
+        this.linearOpMode = linearOpMode;
+
         this.motorLeft = this.hardwareMap.dcMotor.get(Config.MOTOR_DRIVE_LEFT);
         this.motorRight = this.hardwareMap.dcMotor.get(Config.MOTOR_DRIVE_RIGHT);
 
@@ -106,6 +111,16 @@ public class Drive {
 
         motorLeft.setPower(power);
         motorRight.setPower(power);
+
+        linearOpMode.telemetry.addData(this.getClass().getSimpleName(), "Started encoder move...");
+        while (Math.abs(motorRight.getCurrentPosition() - targetPosition) > 10 && Math.abs(motorLeft.getCurrentPosition() - targetPosition) > Config.ENCODER_MOVEMENT_TOLERANCE) {
+            try {
+                this.linearOpMode.sleep(Config.ENCODER_MOVEMENT_UPDATE_DELAY);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        linearOpMode.telemetry.addData(this.getClass().getSimpleName(), "Finished encoder move...");
     }
 
     public void rotateDegrees(DirectionEnum direction, double degrees, double power) {

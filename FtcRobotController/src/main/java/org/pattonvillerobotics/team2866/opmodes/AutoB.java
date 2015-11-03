@@ -18,7 +18,7 @@ public class AutoB extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
 
-        Drive drive = new Drive(hardwareMap);
+        Drive drive = new Drive(hardwareMap, this);
         ClimberDumper climberDumper = new ClimberDumper(hardwareMap);
 
         waitForStart();
