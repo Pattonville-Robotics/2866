@@ -1,23 +1,23 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
 <Robot>
-    <MOTOR_CONTROLLER name="Motor Controller 1" port="0" serialNumber="7">
-        <MOTOR name="NO DEVICE ATTACHED" port="1"/>
-        <MOTOR name="NO DEVICE ATTACHED" port="2"/>
-    </MOTOR_CONTROLLER>
-    <SERVO_CONTROLLER name="Servo Controller 2" port="0" serialNumber="6">
-        <SERVO name="NO DEVICE ATTACHED" port="1"/>
-        <SERVO name="NO DEVICE ATTACHED" port="2"/>
-        <SERVO name="NO DEVICE ATTACHED" port="3"/>
-        <SERVO name="NO DEVICE ATTACHED" port="4"/>
-        <SERVO name="NO DEVICE ATTACHED" port="5"/>
-        <SERVO name="NO DEVICE ATTACHED" port="6"/>
-    </SERVO_CONTROLLER>
-    <LEGACY_MODULE_CONTROLLER name="Legacy Module 3" serialNumber="5">
-        <NOTHING name="NO DEVICE ATTACHED" port="1"/>
-        <NOTHING name="NO DEVICE ATTACHED" port="2"/>
-        <NOTHING name="NO DEVICE ATTACHED" port="3"/>
-        <NOTHING name="NO DEVICE ATTACHED" port="4"/>
-        <NOTHING name="NO DEVICE ATTACHED" port="5"/>
-        <NOTHING name="NO DEVICE ATTACHED" port="6"/>
-    </LEGACY_MODULE_CONTROLLER>
+    <MotorController name="Motor Controller Chain" serialNumber="AL00VTFM">
+        <Motor name="motor_chain" port="1"/>
+    </MotorController>
+    <MotorController name="Motor Controller Drive Left" serialNumber="AL00UYTA">
+        <Motor name="motor_drive_left" port="1"/>
+        <Motor name="motor_lift_left" port="2"/>
+    </MotorController>
+    <MotorController name="Motor Controller 3" serialNumber="AL00UWHE">
+        <Motor name="motor_arm_left" port="1"/>
+        <Motor name="motor_arm_right" port="2"/>
+    </MotorController>
+    <ServoController name="Servo Controller 4" serialNumber="AI02QTME">
+        <Servo name="servo_dumper" port="1"/>
+        <Servo name="servo_release_left" port="2"/>
+        <Servo name="servo_release_right" port="3"/>
+    </ServoController>
+    <MotorController name="Motor Controller 5" serialNumber="AH00QIKP">
+        <Motor name="motor_drive_right" port="1"/>
+        <Motor name="motor_lift_right" port="2"/>
+    </MotorController>
 </Robot>
