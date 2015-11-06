@@ -12,6 +12,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  * <p/>
  * Enables control of the robot via the gamepad
  */
+@Deprecated
 public class GyroHelper {
 
     Thread gyroThread = new Thread(new GyroLoop());
@@ -65,7 +66,7 @@ public class GyroHelper {
                     // angle (degrees) = rate (degrees/second) * time (seconds)
                     double angle = rate * deltaTime / 1000;
 
-                    happy_angle = happy_angle + angle;
+                    happy_angle += angle;
 
                     // Pause for 10 milliseconds
                     Thread.sleep(10);
