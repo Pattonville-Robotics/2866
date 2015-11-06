@@ -10,10 +10,9 @@ import org.pattonvillerobotics.team2866.robotclasses.OpMode;
  * Created by skaggsm on 10/22/15.
  * <p/>
  * This class is designed to teach how to use each part of the robot.
+ * CURRENTLY --TESTING ENCODERS--
  * <p/>
- * //TODO Create and test code that uses motor encoders
- * <p/>
- * CURRENTLY TESTING ENCODERS
+ * TO BE DELETED SOON(tm)
  */
 @OpMode("Example Autonomous")
 public class ExampleAutonomous extends LinearOpMode {
