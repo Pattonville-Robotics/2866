@@ -2,9 +2,6 @@ package org.pattonvillerobotics.team2866.robotclasses;
 
 /**
  * Created by skaggsm on 10/30/15.
- * <p/>
- * TODO Get names for all hardware on the robot
- * TODO Get proper xml from the phone so we don't override anything :MITCHELL:
  */
 
 public final class Config {
