@@ -11,7 +11,7 @@ import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
 /**
  * Created by stewartk02 on 11/5/15.
  */
-@org.pattonvillerobotics.team2866.robotclasses.OpMode("TeleOp")
+@org.pattonvillerobotics.team2866.robotclasses.OpMode("TestBotTeleOp")
 public class TestBotTeleOp extends OpMode {
 
     public static final String TAG = "TestBotTeleOp";
