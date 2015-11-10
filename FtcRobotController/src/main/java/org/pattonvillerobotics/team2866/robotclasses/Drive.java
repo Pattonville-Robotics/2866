@@ -76,8 +76,8 @@ public class Drive {
     }
 
     public void moveInches(DirectionEnum direction, double inches, double power) {
-        if (Math.signum(motorLeft.getCurrentPosition()) != Math.signum(motorRight.getCurrentPosition()))
-            throw new AssertionError("robit is kill");
+        //if (Math.signum(motorLeft.getCurrentPosition()) != Math.signum(motorRight.getCurrentPosition()))
+        //    throw new AssertionError("robit is kill");
         if (power > 1 || power < 0)
             throw new IllegalArgumentException("Power must be positive!");
         if (inches <= 0)
