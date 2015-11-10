@@ -1,10 +1,11 @@
 package org.pattonvillerobotics.team2866.opmodes;
 
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+
 import org.pattonvillerobotics.team2866.robotclasses.ArmController;
 import org.pattonvillerobotics.team2866.robotclasses.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.Drive;
-import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
 
 /**
