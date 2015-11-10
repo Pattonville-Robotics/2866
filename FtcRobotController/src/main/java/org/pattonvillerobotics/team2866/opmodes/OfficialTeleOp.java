@@ -16,10 +16,10 @@ import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
 /**
  * Created by Team 2866 on 10/6/15.
  */
-@org.pattonvillerobotics.team2866.robotclasses.OpMode("TeleOp")
+@org.pattonvillerobotics.team2866.robotclasses.OpMode("OfficialTeleOp")
 public class OfficialTeleOp extends OpMode {
 
-    public static final String TAG = "TeleOp";
+    public static final String TAG = "OfficialTeleOp";
 
     private Drive drive;
     private ClimbAssist climbAssist;

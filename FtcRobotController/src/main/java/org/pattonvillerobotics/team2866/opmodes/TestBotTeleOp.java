@@ -14,7 +14,7 @@ import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
 @org.pattonvillerobotics.team2866.robotclasses.OpMode("TeleOp")
 public class TestBotTeleOp extends OpMode {
 
-    public static final String TAG = "TeleOp";
+    public static final String TAG = "TestBotTeleOp";
     private Drive drive;
     private ClimbAssist climbAssist;
     private ArmController armController;
