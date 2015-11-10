@@ -28,7 +28,8 @@ public class AutoR extends LinearOpMode {
         drive.moveInches(DirectionEnum.FORWARDS, 30, 1); //Make sure this doesn't cross over! Go 30 inches
         drive.rotateDegrees(DirectionEnum.LEFT, 45, 1); //Make sure this goes at a 45˚ angle!
         drive.moveInches(DirectionEnum.FORWARDS, 92, 1); //92 inches or w/e up to the rescue bit
-        drive.moveInches(DirectionEnum.FORWARDS, 18, 1); //18 inches: NIN*2
+        drive.rotateDegrees(DirectionEnum.LEFT, 45, 1);
+        drive.moveInches(DirectionEnum.FORWARDS, 18, 1); //18 inches
         climberDumper.move(DirectionEnum.UP); //Moves the servo to dump the lil guys into the basket
         climberDumper.move(DirectionEnum.DOWN);
         drive.moveInches(DirectionEnum.BACKWARDS, 18, 1);
