@@ -28,9 +28,6 @@ public class ClimberDumper {
             case DOWN:
                 servoDumper.setPosition(DOWN);
                 break;
-            case RESET:
-                servoDumper.setPosition(RESET);
-                break;
         }
     }
 }
