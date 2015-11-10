@@ -30,7 +30,7 @@ public class AutoR extends LinearOpMode {
         drive.moveInches(DirectionEnum.FORWARDS, 92, 1); //92 inches or w/e up to the rescue bit
         drive.rotateDegrees(DirectionEnum.LEFT, 45, 1);
         drive.moveInches(DirectionEnum.FORWARDS, 18, 1); //18 inches
-        climberDumper.move(DirectionEnum.UP); //Moves the servo to dump the lil guys into the basket
+      /*climberDumper.move(DirectionEnum.UP); //Moves the servo to dump the lil guys into the basket
         climberDumper.move(DirectionEnum.DOWN);
         drive.moveInches(DirectionEnum.BACKWARDS, 18, 1);
         drive.rotateDegrees(DirectionEnum.RIGHT, 45, 1);
@@ -38,7 +38,7 @@ public class AutoR extends LinearOpMode {
         drive.rotateDegrees(DirectionEnum.RIGHT, 90, 1);
         climbAssist.moveChain(1);
         drive.moveInches(DirectionEnum.FORWARDS, 102, 1); //Measurement required
-        climbAssist.moveChain(0);
+        climbAssist.moveChain(0); */
 
     }
 }
