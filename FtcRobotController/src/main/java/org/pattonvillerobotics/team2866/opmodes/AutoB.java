@@ -25,19 +25,19 @@ public class AutoB extends LinearOpMode {
 
         waitForStart();
 
-        drive.moveInches(DirectionEnum.FORWARDS, 30, 1); //Make sure this doesn't cross over! Go 30 inches
+        drive.moveInches(DirectionEnum.BACKWARDS, 30, 1); //Make sure this doesn't cross over! Go 30 inches
         drive.rotateDegrees(DirectionEnum.RIGHT, 45, 1); //Make sure this goes at a 45˚ angle!
-        drive.moveInches(DirectionEnum.FORWARDS, 92, 1); //92 inches or w/e up to the rescue bit
+        drive.moveInches(DirectionEnum.BACKWARDS, 92, 1); //92 inches or w/e up to the rescue bit
         drive.rotateDegrees(DirectionEnum.RIGHT, 45, 1);
-        drive.moveInches(DirectionEnum.FORWARDS, 18, 1); //18 inches: NIN*2
+        drive.moveInches(DirectionEnum.BACKWARDS, 18, 1); //18 inches: NIN*2
         climberDumper.move(DirectionEnum.UP); //Moves the servo to dump the lil guys into the basket
         climberDumper.move(DirectionEnum.DOWN);
-        drive.moveInches(DirectionEnum.BACKWARDS, 18, 1);
+        drive.moveInches(DirectionEnum.FORWARDS, 18, 1);
         drive.rotateDegrees(DirectionEnum.LEFT, 45, 1);
-        drive.moveInches(DirectionEnum.BACKWARDS, 18, 1);
+        drive.moveInches(DirectionEnum.FORWARDS, 18, 1);
         drive.rotateDegrees(DirectionEnum.LEFT, 90, 1);
         climbAssist.motorChain(1);
-        drive.moveInches(DirectionEnum.FORWARDS, 102, 1); //Measurement required
+        drive.moveInches(DirectionEnum.BACKWARDS, 102, 1); //Measurement required
         climbAssist.motorChain(0);
         drive.stop();
     }
