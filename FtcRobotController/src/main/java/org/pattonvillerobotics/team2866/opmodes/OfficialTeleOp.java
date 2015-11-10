@@ -1,6 +1,8 @@
 package org.pattonvillerobotics.team2866.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.pattonvillerobotics.team2866.robotclasses.ArmController;
@@ -45,7 +47,45 @@ public class OfficialTeleOp extends OpMode {
         gamepad2.setJoystickDeadzone(0.05f);
     }
 
+    private void logServoData(Object msg) {
+        telemetry.addData("SERVODATA", msg);
+    }
+
+    private void logMotorData(Object msg) {
+        telemetry.addData("MOTORDATA", msg);
+    }
+
+    private void logServos() {
+        logServo(climberDumper.servoDumper, "Dumper Servo");
+        logServo(zipRelease.servoReleaseLeft, "Left Release Servo");
+        logServo(zipRelease.servoReleaseRight, "Right Release Servo");
+    }
+
+    private void logServo(Servo servo, String name) {
+        logServoData(String.format("%-20s Pos (% 04f)", name + ":", servo.getPosition()));
+    }
+
+    private void logMotor(DcMotor motor, String name) {
+        logMotorData(String.format("%-20s Pwr (% 04f) | Pos (% 07d) | Tgt (% 07d)", name + ":", motor.getPower(), motor.getCurrentPosition(), motor.getTargetPosition()));
+    }
+
+    private void logMotors() {
+        logMotor(drive.motorLeft, "Left Motor");
+        logMotor(drive.motorRight, "Right Motor");
+        logMotor(climbAssist.motorChain, "Chain Motor");
+        logMotor(climbAssist.motorLiftLeft, "Left Lift Motor");
+        logMotor(climbAssist.motorLiftRight, "Right Lift Motor");
+        logMotor(armController.motorArmLeft, "Left Arm Motor");
+        logMotor(armController.motorArmRight, "Right Arm Motor");
+    }
+
+    private void log() {
+        logServos();
+        logMotors();
+    }
+
     public void loop() {
+        log();
 
         // Treads
 
