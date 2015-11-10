@@ -5,14 +5,14 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
  * Created by James McMahon on 10/20/15.
- *
+ * <p/>
  * TODO Add encoders to the arm motors
  */
 public class ArmController {
 
+    public DcMotor motorArmRight;
+    public DcMotor motorArmLeft;
     private HardwareMap hardwareMap;
-    private DcMotor motorArmRight;
-    private DcMotor motorArmLeft;
     private int target = 0;
 
     public ArmController(HardwareMap hardwareMap) {

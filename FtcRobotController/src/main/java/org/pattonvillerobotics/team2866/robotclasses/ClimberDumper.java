@@ -11,22 +11,22 @@ public class ClimberDumper {
 
     private static final double UP = 0;
     private static final double DOWN = 0;
+    public Servo servoDumper;
     private HardwareMap hardwareMap;
-    private Servo servo;
 
     public ClimberDumper(HardwareMap hardwareMap) {
         this.hardwareMap = hardwareMap;
-        this.servo = this.hardwareMap.servo.get(Config.SERVO_DUMPER);
+        this.servoDumper = this.hardwareMap.servo.get(Config.SERVO_DUMPER);
 
     }
 
     public void move(DirectionEnum direction) {
         switch (direction) {
             case UP:
-                servo.setPosition(UP);
+                servoDumper.setPosition(UP);
                 break;
             case DOWN:
-                servo.setPosition(DOWN);
+                servoDumper.setPosition(DOWN);
                 break;
         }
     }
