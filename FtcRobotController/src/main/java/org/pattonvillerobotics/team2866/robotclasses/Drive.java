@@ -22,11 +22,10 @@ public class Drive {
     public static final double WHEEL_BASE_CIRCUMFERENCE = 2 * Math.PI * WHEEL_BASE_RADIUS;
     public static final int DEGREES_PER_REVOLUTION = 360; // Why lol
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
-
+    public DcMotor motorLeft;
+    public DcMotor motorRight;
     private HardwareMap hardwareMap;
     private LinearOpMode linearOpMode;
-    private DcMotor motorLeft;
-    private DcMotor motorRight;
 
     public Drive(HardwareMap hardwareMap, LinearOpMode linearOpMode) {
         this.hardwareMap = hardwareMap;

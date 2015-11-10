@@ -12,9 +12,9 @@ public class ZipRelease {
     private static final double LEFT_DOWN = 0;
     private static final double RIGHT_UP = 0;
     private static final double RIGHT_DOWN = 0;
+    public Servo servoLeft;
+    public Servo servoRight;
     private HardwareMap hardwareMap;
-    private Servo servoLeft;
-    private Servo servoRight;
 
     public ZipRelease(HardwareMap hardwareMap) {
 

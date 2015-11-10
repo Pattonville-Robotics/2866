@@ -8,25 +8,25 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  */
 public class ClimbAssist {
 
+    public DcMotor motorLiftLeft;
+    public DcMotor motorLiftRight;
+    public DcMotor motorChain;
     private HardwareMap hardwareMap;
-    private DcMotor motorLeft;
-    private DcMotor motorRight;
-    private DcMotor motorChain;
 
     public ClimbAssist(HardwareMap hardwareMap) {
 
         this.hardwareMap = hardwareMap;
-        this.motorLeft = hardwareMap.dcMotor.get(Config.MOTOR_LIFT_LEFT);
-        this.motorRight = hardwareMap.dcMotor.get(Config.MOTOR_LIFT_RIGHT);
+        this.motorLiftLeft = hardwareMap.dcMotor.get(Config.MOTOR_LIFT_LEFT);
+        this.motorLiftRight = hardwareMap.dcMotor.get(Config.MOTOR_LIFT_RIGHT);
         this.motorChain = hardwareMap.dcMotor.get(Config.MOTOR_CHAIN);
 
-        motorRight.setDirection(DcMotor.Direction.REVERSE);
+        motorLiftRight.setDirection(DcMotor.Direction.REVERSE);
     }
 
     public void moveLift(double power) {
 
-        motorLeft.setPower(power);
-        motorRight.setPower(power);
+        motorLiftLeft.setPower(power);
+        motorLiftRight.setPower(power);
     }
 
     public void moveChain(double power) {
@@ -36,8 +36,8 @@ public class ClimbAssist {
 
     public void stopLift() {
 
-        motorLeft.setPower(0);
-        motorRight.setPower(0);
+        motorLiftLeft.setPower(0);
+        motorLiftRight.setPower(0);
     }
 
     public void stopChain() {
@@ -48,6 +48,6 @@ public class ClimbAssist {
     @Override
     public String toString() {
 
-        return "Lift Motors: " + motorLeft.getPower() + "\n" + "Chain Motor: " + motorChain.getPower();
+        return "Lift Motors: " + motorLiftLeft.getPower() + "\n" + "Chain Motor: " + motorChain.getPower();
     }
 }
