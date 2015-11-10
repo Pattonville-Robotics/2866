@@ -50,4 +50,7 @@ public class ClimbAssist {
 
         return "Lift Motors: " + motorLiftLeft.getPower() + "\n" + "Chain Motor: " + motorChain.getPower();
     }
+
+    public void motorChain(int i) {
+    }
 }
