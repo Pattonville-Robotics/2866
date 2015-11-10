@@ -2,6 +2,7 @@ package org.pattonvillerobotics.team2866.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.pattonvillerobotics.team2866.robotclasses.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.DirectionEnum;
 import org.pattonvillerobotics.team2866.robotclasses.Drive;
@@ -20,6 +21,7 @@ public class AutoB extends LinearOpMode {
 
         Drive drive = new Drive(hardwareMap, this);
         ClimberDumper climberDumper = new ClimberDumper(hardwareMap);
+        ClimbAssist climbAssist = new ClimbAssist(hardwareMap);
 
         waitForStart();
 
