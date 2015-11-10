@@ -12,15 +12,15 @@ public class ZipRelease {
     private static final double LEFT_DOWN = 0;
     private static final double RIGHT_UP = 0;
     private static final double RIGHT_DOWN = 0;
-    public Servo servoLeft;
-    public Servo servoRight;
+    public Servo servoReleaseLeft;
+    public Servo servoReleaseRight;
     private HardwareMap hardwareMap;
 
     public ZipRelease(HardwareMap hardwareMap) {
 
         this.hardwareMap = hardwareMap;
-        this.servoLeft = hardwareMap.servo.get(Config.SERVO_RELEASE_LEFT);
-        this.servoRight = hardwareMap.servo.get(Config.SERVO_RELEASE_RIGHT);
+        this.servoReleaseLeft = hardwareMap.servo.get(Config.SERVO_RELEASE_LEFT);
+        this.servoReleaseRight = hardwareMap.servo.get(Config.SERVO_RELEASE_RIGHT);
     }
 
     public void moveLeft(DirectionEnum direction) {
@@ -28,11 +28,11 @@ public class ZipRelease {
         switch (direction) {
 
             case UP:
-                servoLeft.setPosition(LEFT_UP);
+                servoReleaseLeft.setPosition(LEFT_UP);
                 break;
 
             case DOWN:
-                servoLeft.setPosition(LEFT_DOWN);
+                servoReleaseLeft.setPosition(LEFT_DOWN);
                 break;
         }
     }
@@ -41,11 +41,11 @@ public class ZipRelease {
         switch (direction) {
 
             case UP:
-                servoRight.setPosition(RIGHT_UP);
+                servoReleaseRight.setPosition(RIGHT_UP);
                 break;
 
             case DOWN:
-                servoRight.setPosition(RIGHT_DOWN);
+                servoReleaseRight.setPosition(RIGHT_DOWN);
                 break;
         }
     }
