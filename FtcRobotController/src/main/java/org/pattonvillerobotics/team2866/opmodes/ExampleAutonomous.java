@@ -4,8 +4,6 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 
-import org.pattonvillerobotics.team2866.robotclasses.OpMode;
-
 /**
  * Created by skaggsm on 10/22/15.
  * <p/>
@@ -14,7 +12,7 @@ import org.pattonvillerobotics.team2866.robotclasses.OpMode;
  * <p/>
  * TO BE DELETED SOON(tm)
  */
-@OpMode("Example Autonomous")
+//@OpMode("Example Autonomous")
 public class ExampleAutonomous extends LinearOpMode {
 
     @Override
