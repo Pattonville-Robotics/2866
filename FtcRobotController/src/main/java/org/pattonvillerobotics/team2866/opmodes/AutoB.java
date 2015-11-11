@@ -36,9 +36,9 @@ public class AutoB extends LinearOpMode {
         drive.rotateDegrees(DirectionEnum.LEFT, 45, 1);
         drive.moveInches(DirectionEnum.FORWARDS, 18, 1);
         drive.rotateDegrees(DirectionEnum.LEFT, 90, 1);
-        climbAssist.motorChain(1);
-        drive.moveInches(DirectionEnum.BACKWARDS, 102, 1); //Measurement required
-        climbAssist.motorChain(0);
+        climbAssist.moveChain(1);
+        drive.moveInches(DirectionEnum.FORWARDS, 102, 1); //Measurement required
+        climbAssist.moveChain(0);
         drive.stop();
     }
 }
