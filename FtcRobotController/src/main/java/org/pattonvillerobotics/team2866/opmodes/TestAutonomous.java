@@ -3,6 +3,7 @@ package org.pattonvillerobotics.team2866.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 
+import org.pattonvillerobotics.team2866.robotclasses.DirectionEnum;
 import org.pattonvillerobotics.team2866.robotclasses.Drive;
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 
@@ -20,39 +21,11 @@ public class TestAutonomous extends LinearOpMode {
         Drive drive = new Drive(hardwareMap, this);
         waitForStart();
 
-        telemetry.addData("FLOW", "Starting move");
+        drive.moveInches(DirectionEnum.FORWARDS,30,.5);
+        drive.moveInches(DirectionEnum.BACKWARDS,30,.5);
 
-        int leftStart = drive.motorLeft.getCurrentPosition();
-        int rightStart = drive.motorLeft.getCurrentPosition();
-
-        waitOneFullHardwareCycle();
-
-        drive.motorLeft.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
-        drive.motorRight.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
-
-        waitOneFullHardwareCycle();
-
-        drive.motorLeft.setTargetPosition(leftStart + 1440 * 4);
-        drive.motorRight.setTargetPosition(rightStart + 1440 * 4);
-
-        waitOneFullHardwareCycle();
-
-        drive.motorLeft.setPower(1);
-        drive.motorRight.setPower(1);
-
-        waitOneFullHardwareCycle();
-
-        for (int i = 0; i < 20; i++) {
-            sleep(200);
-            waitForNextHardwareCycle();
-            telemetry.addData("LMotor", "Location: " + drive.motorLeft.getCurrentPosition());
-            telemetry.addData("RMotor", "Location: " + drive.motorRight.getCurrentPosition());
-        }
-
-        waitOneFullHardwareCycle();
-
-        drive.motorLeft.setPower(0);
-        drive.motorRight.setPower(0);
+        drive.rotateDegrees(DirectionEnum.LEFT,90,.5);
+        drive.rotateDegrees(DirectionEnum.RIGHT,90,.5);
 
         //drive.moveInches(DirectionEnum.FORWARDS, 30, 1);
         telemetry.addData("FLOW", "Finished move");
