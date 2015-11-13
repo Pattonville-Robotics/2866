@@ -118,9 +118,13 @@ public class Drive {
         motorRight.setPower(power);
 
         linearOpMode.telemetry.addData(TAG, "Started encoder move...");
-        while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) > 10 && Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
+        while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) > Config.ENCODER_MOVEMENT_TOLERANCE && Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
             try {
-                this.linearOpMode.sleep(Config.ENCODER_MOVEMENT_UPDATE_DELAY);
+                //noinspection ConstantConditions
+                if (Config.ENCODER_MOVEMENT_UPDATE_DELAY < 1)
+                    this.linearOpMode.waitForNextHardwareCycle();
+                else
+                    this.linearOpMode.sleep(Config.ENCODER_MOVEMENT_UPDATE_DELAY);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -174,9 +178,13 @@ public class Drive {
         motorRight.setPower(power);
 
         linearOpMode.telemetry.addData(TAG, "Started encoder rotate...");
-        while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) > 10 && Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
+        while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) > Config.ENCODER_MOVEMENT_TOLERANCE && Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
             try {
-                this.linearOpMode.sleep(Config.ENCODER_MOVEMENT_UPDATE_DELAY);
+                //noinspection ConstantConditions
+                if (Config.ENCODER_MOVEMENT_UPDATE_DELAY < 1)
+                    this.linearOpMode.waitForNextHardwareCycle();
+                else
+                    this.linearOpMode.sleep(Config.ENCODER_MOVEMENT_UPDATE_DELAY);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
