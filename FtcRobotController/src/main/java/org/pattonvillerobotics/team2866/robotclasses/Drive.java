@@ -18,7 +18,7 @@ public class Drive {
     public static final double TICKS_PER_REVOLUTION = 1440;
     public static final double INCHES_PER_TICK = WHEEL_CIRCUMFERENCE / TICKS_PER_REVOLUTION;
 
-    public static final double WHEEL_BASE_RADIUS = 8;
+    public static final double WHEEL_BASE_RADIUS = 8.5;
     public static final double WHEEL_BASE_CIRCUMFERENCE = 2 * Math.PI * WHEEL_BASE_RADIUS;
     public static final int DEGREES_PER_REVOLUTION = 360; // Why lol
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
