@@ -9,12 +9,12 @@ import org.pattonvillerobotics.team2866.robotclasses.Drive;
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 
 /**
- * Created by mcmahonj on 11/5/15.
+ * Created by Kevin Stewart & James McMahon on 10/15/15.
  */
-@OpMode("Blue Mountain Autonomous")
-public class AutoMountainB extends LinearOpMode {
+@OpMode("Blue Park Autonomous")
+public class AutoParkBlue extends LinearOpMode {
 
-    public static final String TAG = "TestAutonomous";
+    public static final String TAG = "Blue Park Autonomous";
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -25,13 +25,13 @@ public class AutoMountainB extends LinearOpMode {
 
         waitForStart();
 
-        drive.moveInches(DirectionEnum.FORWARDS, 30, 1); //Make sure this doesn't cross over! Go 30 inches
+        drive.moveInches(DirectionEnum.BACKWARDS, 30, 1); //Make sure this doesn't cross over! Go 30 inches
         drive.rotateDegrees(DirectionEnum.RIGHT, 45, 1); //Make sure this goes at a 45˚ angle!
-        drive.moveInches(DirectionEnum.FORWARDS, 30, 1); //Up to the mountain bit
-        drive.rotateDegrees(DirectionEnum.RIGHT, 135, 1); //rotate to face mountain
-        drive.moveInches(DirectionEnum.FORWARDS, 134.62, 1); //Moves up to mountain
-        climbAssist.moveChain(1);
-        drive.moveInches(DirectionEnum.FORWARDS, 124.46, 1); //Measurement required
-        climbAssist.moveChain(0);
+        drive.moveInches(DirectionEnum.BACKWARDS, 72, 1); //92 inches or w/e up to the rescue bit
+        drive.rotateDegrees(DirectionEnum.RIGHT, 45, 1);
+        drive.moveInches(DirectionEnum.BACKWARDS, 18, 1); //18 inches: NIN*2
+        climberDumper.move(DirectionEnum.UP); //Moves the servo to dump the lil guys into the basket
+        climberDumper.move(DirectionEnum.DOWN);
+        drive.stop();
     }
 }
