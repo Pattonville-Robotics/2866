@@ -22,6 +22,7 @@ public class Drive {
     public static final double WHEEL_BASE_CIRCUMFERENCE = 2 * Math.PI * WHEEL_BASE_RADIUS;
     public static final int DEGREES_PER_REVOLUTION = 360; // Why lol
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
+    private static final String TAG = Drive.class.getSimpleName();
     public DcMotor motorLeft;
     public DcMotor motorRight;
     private HardwareMap hardwareMap;
@@ -83,19 +84,24 @@ public class Drive {
         if (inches <= 0)
             throw new IllegalArgumentException("Distance must be positive!");
 
-        int targetPosition;
+        int targetPositionLeft;
+        int targetPositionRight;
 
         switch (direction) {
             case FORWARDS: {
-                int startPosition = motorLeft.getCurrentPosition();
+                int startPositionLeft = motorLeft.getCurrentPosition();
+                int startPositionRight = motorRight.getCurrentPosition();
                 int deltaPosition = (int) Math.round(inchesToTicks(inches));
-                targetPosition = startPosition + deltaPosition;
+                targetPositionLeft = startPositionLeft + deltaPosition;
+                targetPositionRight = startPositionRight + deltaPosition;
                 break;
             }
             case BACKWARDS: {
-                int startPosition = motorLeft.getCurrentPosition();
+                int startPositionLeft = motorLeft.getCurrentPosition();
+                int startPositionRight = motorRight.getCurrentPosition();
                 int deltaPosition = (int) Math.round(inchesToTicks(inches));
-                targetPosition = startPosition - deltaPosition;
+                targetPositionLeft = startPositionLeft - deltaPosition;
+                targetPositionRight = startPositionRight - deltaPosition;
                 break;
             }
             default:
@@ -105,21 +111,21 @@ public class Drive {
         motorLeft.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
         motorRight.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-        motorLeft.setTargetPosition(targetPosition);
-        motorRight.setTargetPosition(targetPosition);
+        motorLeft.setTargetPosition(targetPositionLeft);
+        motorRight.setTargetPosition(targetPositionRight);
 
         motorLeft.setPower(power);
         motorRight.setPower(power);
 
-        linearOpMode.telemetry.addData(this.getClass().getSimpleName(), "Started encoder move...");
-        while (Math.abs(motorRight.getCurrentPosition() - targetPosition) > 10 && Math.abs(motorLeft.getCurrentPosition() - targetPosition) > Config.ENCODER_MOVEMENT_TOLERANCE) {
+        linearOpMode.telemetry.addData(TAG, "Started encoder move...");
+        while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) > 10 && Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
             try {
                 this.linearOpMode.sleep(Config.ENCODER_MOVEMENT_UPDATE_DELAY);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
         }
-        linearOpMode.telemetry.addData(this.getClass().getSimpleName(), "Finished encoder move...");
+        linearOpMode.telemetry.addData(TAG, "Finished encoder move...");
     }
 
     public void rotateDegrees(DirectionEnum direction, double degrees, double power) {
@@ -128,28 +134,30 @@ public class Drive {
         if (power <= 0)
             throw new IllegalArgumentException("Power must be positive!");
 
-        int targetLeft;
-        int targetRight;
+        int targetPositionLeft;
+        int targetPositionRight;
 
         switch (direction) {
             case LEFT: {
                 int startPositionLeft = motorLeft.getCurrentPosition();
-                int deltaPositionLeft = (int) Math.round(degreesToTicks(degrees));
-                targetLeft = startPositionLeft - deltaPositionLeft;
-
                 int startPositionRight = motorLeft.getCurrentPosition();
+
+                int deltaPositionLeft = (int) Math.round(degreesToTicks(degrees));
                 int deltaPositionRight = (int) Math.round(degreesToTicks(degrees));
-                targetRight = startPositionRight + deltaPositionRight;
+
+                targetPositionLeft = startPositionLeft - deltaPositionLeft;
+                targetPositionRight = startPositionRight + deltaPositionRight;
                 break;
             }
             case RIGHT: {
                 int startPositionLeft = motorLeft.getCurrentPosition();
-                int deltaPositionLeft = (int) Math.round(degreesToTicks(degrees));
-                targetLeft = startPositionLeft + deltaPositionLeft;
-
                 int startPositionRight = motorLeft.getCurrentPosition();
+
+                int deltaPositionLeft = (int) Math.round(degreesToTicks(degrees));
                 int deltaPositionRight = (int) Math.round(degreesToTicks(degrees));
-                targetRight = startPositionRight - deltaPositionRight;
+
+                targetPositionLeft = startPositionLeft + deltaPositionLeft;
+                targetPositionRight = startPositionRight - deltaPositionRight;
                 break;
             }
             default:
@@ -159,16 +167,20 @@ public class Drive {
         motorLeft.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
         motorRight.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-        motorLeft.setTargetPosition(targetLeft);
-        motorRight.setTargetPosition(targetRight);
+        motorLeft.setTargetPosition(targetPositionLeft);
+        motorRight.setTargetPosition(targetPositionRight);
 
         motorLeft.setPower(power);
         motorRight.setPower(power);
-    }
 
-    @Override
-    public String toString() {
-
-        return "Drive Left Power: " + motorLeft.getPower() + ", Drive Right Power: " + motorRight.getPower();
+        linearOpMode.telemetry.addData(TAG, "Started encoder rotate...");
+        while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) > 10 && Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
+            try {
+                this.linearOpMode.sleep(Config.ENCODER_MOVEMENT_UPDATE_DELAY);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
+        linearOpMode.telemetry.addData(TAG, "Finished encoder rotate...");
     }
 }
