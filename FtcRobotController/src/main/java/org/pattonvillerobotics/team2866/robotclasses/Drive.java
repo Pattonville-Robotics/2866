@@ -17,12 +17,12 @@ public class Drive {
     public static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS;
     public static final double TICKS_PER_REVOLUTION = 1440;
     public static final double INCHES_PER_TICK = WHEEL_CIRCUMFERENCE / TICKS_PER_REVOLUTION;
-
     public static final double WHEEL_BASE_RADIUS = 8.5;
     public static final double WHEEL_BASE_CIRCUMFERENCE = 2 * Math.PI * WHEEL_BASE_RADIUS;
     public static final int DEGREES_PER_REVOLUTION = 360; // Why lol
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
     private static final String TAG = Drive.class.getSimpleName();
+    private static int numInstantiations = 0;
     public DcMotor motorLeft;
     public DcMotor motorRight;
     private HardwareMap hardwareMap;
@@ -36,6 +36,10 @@ public class Drive {
         this.motorRight = this.hardwareMap.dcMotor.get(Config.MOTOR_DRIVE_RIGHT);
 
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
+        motorRight.setDirection(DcMotor.Direction.FORWARD);
+
+        this.linearOpMode.telemetry.addData(TAG, "Drive class instantiated " + numInstantiations + " times so far!");
+        numInstantiations++;
     }
 
     public static double inchesToTicks(double inches) {
@@ -108,14 +112,24 @@ public class Drive {
                 throw new IllegalArgumentException("Direction must be FORWARDS or BACKWARDS!");
         }
 
-        motorLeft.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
-        motorRight.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        try {
+            this.linearOpMode.waitOneFullHardwareCycle();
+            motorLeft.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            this.linearOpMode.waitOneFullHardwareCycle();
+            motorRight.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-        motorLeft.setTargetPosition(targetPositionLeft);
-        motorRight.setTargetPosition(targetPositionRight);
+            this.linearOpMode.waitOneFullHardwareCycle();
+            motorLeft.setTargetPosition(targetPositionLeft);
+            this.linearOpMode.waitOneFullHardwareCycle();
+            motorRight.setTargetPosition(targetPositionRight);
 
-        motorLeft.setPower(power);
-        motorRight.setPower(power);
+            this.linearOpMode.waitOneFullHardwareCycle();
+            motorLeft.setPower(power);
+            this.linearOpMode.waitOneFullHardwareCycle();
+            motorRight.setPower(power);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         linearOpMode.telemetry.addData(TAG, "Started encoder move...");
         while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) > Config.ENCODER_MOVEMENT_TOLERANCE && Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
@@ -168,14 +182,24 @@ public class Drive {
                 throw new IllegalArgumentException("Direction must be LEFT or RIGHT!");
         }
 
-        motorLeft.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
-        motorRight.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        try {
+            this.linearOpMode.waitOneFullHardwareCycle();
+            motorLeft.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            this.linearOpMode.waitOneFullHardwareCycle();
+            motorRight.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-        motorLeft.setTargetPosition(targetPositionLeft);
-        motorRight.setTargetPosition(targetPositionRight);
+            this.linearOpMode.waitOneFullHardwareCycle();
+            motorLeft.setTargetPosition(targetPositionLeft);
+            this.linearOpMode.waitOneFullHardwareCycle();
+            motorRight.setTargetPosition(targetPositionRight);
 
-        motorLeft.setPower(power);
-        motorRight.setPower(power);
+            this.linearOpMode.waitOneFullHardwareCycle();
+            motorLeft.setPower(power);
+            this.linearOpMode.waitOneFullHardwareCycle();
+            motorRight.setPower(power);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         linearOpMode.telemetry.addData(TAG, "Started encoder rotate...");
         while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) > Config.ENCODER_MOVEMENT_TOLERANCE && Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
