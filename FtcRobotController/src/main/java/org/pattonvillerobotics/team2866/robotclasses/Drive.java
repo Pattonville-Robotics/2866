@@ -1,5 +1,6 @@
 package org.pattonvillerobotics.team2866.robotclasses;
 
+import com.qualcomm.hardware.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
@@ -7,7 +8,7 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 
 /**
  * Created by Nathan Skelton on 10/15/15.
- * Last edited by Mitchell Skaggs on 11/3/15
+ * Last edited by Mitchell Skaggs on 11/14/15
  * <p/>
  * TODO Change rotate() to use the gyro sensor instead of encoders :MITCHELL:
  */
@@ -25,6 +26,7 @@ public class Drive {
     private static int numInstantiations = 0;
     public DcMotor motorLeft;
     public DcMotor motorRight;
+    public ModernRoboticsI2cGyro gyro;
     private HardwareMap hardwareMap;
     private LinearOpMode linearOpMode;
 
@@ -35,10 +37,13 @@ public class Drive {
         this.motorLeft = this.hardwareMap.dcMotor.get(Config.MOTOR_DRIVE_LEFT);
         this.motorRight = this.hardwareMap.dcMotor.get(Config.MOTOR_DRIVE_RIGHT);
 
+        this.gyro = (ModernRoboticsI2cGyro) this.hardwareMap.gyroSensor.get(Config.SENSOR_GYRO);
+
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
         motorRight.setDirection(DcMotor.Direction.FORWARD);
 
         this.linearOpMode.telemetry.addData(TAG, "Drive class instantiated " + numInstantiations + " times so far!");
+        //noinspection AssignmentToStaticFieldFromInstanceMethod
         numInstantiations++;
     }
 
@@ -137,19 +142,21 @@ public class Drive {
         }
 
         this.waitForNextHardwareCycle();
+
         motorLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-        this.waitForNextHardwareCycle();
         motorRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
         this.waitForNextHardwareCycle();
+
         motorLeft.setTargetPosition(targetPositionLeft);
-        this.waitForNextHardwareCycle();
         motorRight.setTargetPosition(targetPositionRight);
 
         this.waitForNextHardwareCycle();
+
         motorLeft.setPower(power);
-        this.waitForNextHardwareCycle();
         motorRight.setPower(power);
+
+        this.waitForNextHardwareCycle();
 
         linearOpMode.telemetry.addData(TAG, "Started encoder move...");
         while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
@@ -160,6 +167,20 @@ public class Drive {
                 this.sleep(Config.ENCODER_MOVEMENT_UPDATE_DELAY);
         }
         linearOpMode.telemetry.addData(TAG, "Finished encoder move...");
+    }
+
+    public void rotateDegreesGyro(DirectionEnum direction, double degrees, double power) {
+        this.waitForNextHardwareCycle();
+
+        motorLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        motorRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
+        this.waitForNextHardwareCycle();
+
+        motorLeft.setPower(power);
+        motorRight.setPower(power);
+
+        this.waitForNextHardwareCycle();
     }
 
     public void rotateDegrees(DirectionEnum direction, double degrees, double power) {
@@ -199,19 +220,21 @@ public class Drive {
         }
 
         this.waitForNextHardwareCycle();
+
         motorLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-        this.waitForNextHardwareCycle();
         motorRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
         this.waitForNextHardwareCycle();
+
         motorLeft.setTargetPosition(targetPositionLeft);
-        this.waitForNextHardwareCycle();
         motorRight.setTargetPosition(targetPositionRight);
 
         this.waitForNextHardwareCycle();
+
         motorLeft.setPower(power);
-        this.waitForNextHardwareCycle();
         motorRight.setPower(power);
+
+        this.waitForNextHardwareCycle();
 
         linearOpMode.telemetry.addData(TAG, "Started encoder rotate...");
         while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {

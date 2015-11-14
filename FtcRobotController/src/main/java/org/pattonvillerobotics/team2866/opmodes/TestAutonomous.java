@@ -22,16 +22,19 @@ public class TestAutonomous extends LinearOpMode {
         waitForStart();
 
         telemetry.addData("FLOW", "Started move");
+
         telemetry.addData("FLOW", "Moving forwards");
-        drive.moveInches(DirectionEnum.FORWARDS, 30, .75);
+        drive.moveInches(DirectionEnum.FORWARDS, 30, 1);
+
         telemetry.addData("FLOW", "Moving backwards");
-        drive.moveInches(DirectionEnum.BACKWARDS, 30, .75);
+        drive.moveInches(DirectionEnum.BACKWARDS, 30, 1);
 
-        //drive.rotateDegrees(DirectionEnum.LEFT, 90, 1);
+        telemetry.addData("FLOW", "Rotating left");
+        drive.rotateDegrees(DirectionEnum.LEFT, 90, 1);
+
         telemetry.addData("FLOW", "Rotating right");
-        drive.rotateDegrees(DirectionEnum.RIGHT, 90, .75);
+        drive.rotateDegrees(DirectionEnum.RIGHT, 90, 1);
 
-        //drive.moveInches(DirectionEnum.FORWARDS, 30, 1);
         telemetry.addData("FLOW", "Finished move");
     }
 }

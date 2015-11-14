@@ -1,7 +1,9 @@
 package org.pattonvillerobotics.team2866.opmodes;
 
+import com.qualcomm.hardware.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
@@ -27,6 +29,7 @@ public class OfficialTeleOp extends LinearOpMode {
     private ArmController armController;
     private ZipRelease zipRelease;
     private ClimberDumper climberDumper;
+    private ModernRoboticsI2cGyro mrGyro;
 
     private boolean leftReleaseDown = false;
     private boolean leftReleaseTriggered = false;
@@ -44,6 +47,12 @@ public class OfficialTeleOp extends LinearOpMode {
         armController = new ArmController(hardwareMap);
         zipRelease = new ZipRelease(hardwareMap);
         climberDumper = new ClimberDumper(hardwareMap);
+        mrGyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get(Config.SENSOR_GYRO);
+
+        mrGyro.calibrate();
+        while (mrGyro.isCalibrating()) {
+            this.sleep(1);
+        }
 
         gamepad1.setJoystickDeadzone(0.05f);
         gamepad2.setJoystickDeadzone(0.05f);
@@ -51,6 +60,7 @@ public class OfficialTeleOp extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
+            log();
             doLoop();
             waitForNextHardwareCycle();
         }
@@ -64,10 +74,25 @@ public class OfficialTeleOp extends LinearOpMode {
         telemetry.addData("MOTORDATA", msg);
     }
 
+    private void logSensorData(Object msg) {
+        telemetry.addData("SENSORDATA", msg);
+    }
+
+    private void logSensors() {
+        logSensor(mrGyro, "MR Gyro");
+    }
+
     private void logServos() {
         logServo(climberDumper.servoDumper, "Dumper Servo");
         logServo(zipRelease.servoReleaseLeft, "Left Release Servo");
         logServo(zipRelease.servoReleaseRight, "Right Release Servo");
+    }
+
+    private void logSensor(HardwareDevice sensor, String name) {
+        if (sensor instanceof ModernRoboticsI2cGyro)
+            logServoData(String.format("%-20s Rotation (% 07d)", name + ":", ((ModernRoboticsI2cGyro) sensor).getIntegratedZValue()));
+        else
+            telemetry.addData("SENSORERROR", "Sensor not supported: " + sensor.getClass().getSimpleName());
     }
 
     private void logServo(Servo servo, String name) {
@@ -89,13 +114,12 @@ public class OfficialTeleOp extends LinearOpMode {
     }
 
     private void log() {
-        logServos();
-        logMotors();
+        //logServos();
+        //logMotors();
+        logSensors();
     }
 
     public void doLoop() {
-        log();
-
         // Treads
 
         float right = gamepad1.right_stick_y;
