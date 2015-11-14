@@ -50,6 +50,10 @@ public class Drive {
         return inchesToTicks(degrees * INCHES_PER_DEGREE);
     }
 
+    public void sleep(long milliseconds) throws InterruptedException {
+        this.linearOpMode.sleep(milliseconds);
+    }
+
     public void moveFreely(double left, double right) {
 
         motorLeft.setPower(left);
@@ -138,7 +142,7 @@ public class Drive {
                 if (Config.ENCODER_MOVEMENT_UPDATE_DELAY < 0)
                     this.linearOpMode.waitForNextHardwareCycle();
                 else
-                    this.linearOpMode.sleep(Config.ENCODER_MOVEMENT_UPDATE_DELAY);
+                    this.sleep(Config.ENCODER_MOVEMENT_UPDATE_DELAY);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
@@ -208,7 +212,7 @@ public class Drive {
                 if (Config.ENCODER_MOVEMENT_UPDATE_DELAY < 0)
                     this.linearOpMode.waitForNextHardwareCycle();
                 else
-                    this.linearOpMode.sleep(Config.ENCODER_MOVEMENT_UPDATE_DELAY);
+                    this.sleep(Config.ENCODER_MOVEMENT_UPDATE_DELAY);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
