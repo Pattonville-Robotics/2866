@@ -50,8 +50,28 @@ public class Drive {
         return inchesToTicks(degrees * INCHES_PER_DEGREE);
     }
 
-    public void sleep(long milliseconds) throws InterruptedException {
-        this.linearOpMode.sleep(milliseconds);
+    public void sleep(long milliseconds) {
+        try {
+            this.linearOpMode.sleep(milliseconds);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void waitForNextHardwareCycle() {
+        try {
+            this.linearOpMode.waitForNextHardwareCycle();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void waitOneFullHardwareCycle() {
+        try {
+            this.linearOpMode.waitOneFullHardwareCycle();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     public void moveFreely(double left, double right) {
@@ -116,36 +136,28 @@ public class Drive {
                 throw new IllegalArgumentException("Direction must be FORWARDS or BACKWARDS!");
         }
 
-        try {
-            this.linearOpMode.waitForNextHardwareCycle();
-            motorLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-            this.linearOpMode.waitForNextHardwareCycle();
-            motorRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        this.waitForNextHardwareCycle();
+        motorLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        this.waitForNextHardwareCycle();
+        motorRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-            this.linearOpMode.waitForNextHardwareCycle();
-            motorLeft.setTargetPosition(targetPositionLeft);
-            this.linearOpMode.waitForNextHardwareCycle();
-            motorRight.setTargetPosition(targetPositionRight);
+        this.waitForNextHardwareCycle();
+        motorLeft.setTargetPosition(targetPositionLeft);
+        this.waitForNextHardwareCycle();
+        motorRight.setTargetPosition(targetPositionRight);
 
-            this.linearOpMode.waitForNextHardwareCycle();
-            motorLeft.setPower(power);
-            this.linearOpMode.waitForNextHardwareCycle();
-            motorRight.setPower(power);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        this.waitForNextHardwareCycle();
+        motorLeft.setPower(power);
+        this.waitForNextHardwareCycle();
+        motorRight.setPower(power);
 
         linearOpMode.telemetry.addData(TAG, "Started encoder move...");
         while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
-            try {
-                //noinspection ConstantConditions
-                if (Config.ENCODER_MOVEMENT_UPDATE_DELAY < 0)
-                    this.linearOpMode.waitForNextHardwareCycle();
-                else
-                    this.sleep(Config.ENCODER_MOVEMENT_UPDATE_DELAY);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            //noinspection ConstantConditions
+            if (Config.ENCODER_MOVEMENT_UPDATE_DELAY < 0)
+                this.waitForNextHardwareCycle();
+            else
+                this.sleep(Config.ENCODER_MOVEMENT_UPDATE_DELAY);
         }
         linearOpMode.telemetry.addData(TAG, "Finished encoder move...");
     }
@@ -186,36 +198,28 @@ public class Drive {
                 throw new IllegalArgumentException("Direction must be LEFT or RIGHT!");
         }
 
-        try {
-            this.linearOpMode.waitForNextHardwareCycle();
-            motorLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-            this.linearOpMode.waitForNextHardwareCycle();
-            motorRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        this.waitForNextHardwareCycle();
+        motorLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        this.waitForNextHardwareCycle();
+        motorRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-            this.linearOpMode.waitForNextHardwareCycle();
-            motorLeft.setTargetPosition(targetPositionLeft);
-            this.linearOpMode.waitForNextHardwareCycle();
-            motorRight.setTargetPosition(targetPositionRight);
+        this.waitForNextHardwareCycle();
+        motorLeft.setTargetPosition(targetPositionLeft);
+        this.waitForNextHardwareCycle();
+        motorRight.setTargetPosition(targetPositionRight);
 
-            this.linearOpMode.waitForNextHardwareCycle();
-            motorLeft.setPower(power);
-            this.linearOpMode.waitForNextHardwareCycle();
-            motorRight.setPower(power);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        this.waitForNextHardwareCycle();
+        motorLeft.setPower(power);
+        this.waitForNextHardwareCycle();
+        motorRight.setPower(power);
 
         linearOpMode.telemetry.addData(TAG, "Started encoder rotate...");
         while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
-            try {
-                //noinspection ConstantConditions
-                if (Config.ENCODER_MOVEMENT_UPDATE_DELAY < 0)
-                    this.linearOpMode.waitForNextHardwareCycle();
-                else
-                    this.sleep(Config.ENCODER_MOVEMENT_UPDATE_DELAY);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            //noinspection ConstantConditions
+            if (Config.ENCODER_MOVEMENT_UPDATE_DELAY < 0)
+                this.waitForNextHardwareCycle();
+            else
+                this.sleep(Config.ENCODER_MOVEMENT_UPDATE_DELAY);
         }
         linearOpMode.telemetry.addData(TAG, "Finished encoder rotate...");
     }
