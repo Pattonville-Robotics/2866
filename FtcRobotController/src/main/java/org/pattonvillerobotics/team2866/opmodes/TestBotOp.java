@@ -1,12 +1,13 @@
 package org.pattonvillerobotics.team2866.opmodes;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 
 import org.pattonvillerobotics.team2866.robotclasses.ArmController;
 import org.pattonvillerobotics.team2866.robotclasses.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.Drive;
+import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
 
 /**
@@ -14,6 +15,7 @@ import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
  */
 @OpMode("Test Bot")
 public class TestBotOp extends LinearOpMode {
+
     DcMotor motorRight;
     DcMotor motorLeft;
 
@@ -30,7 +32,6 @@ public class TestBotOp extends LinearOpMode {
 
         float right = gamepad1.right_stick_y;
         float left = gamepad1.left_stick_y;
-
 
         waitForStart();
 
