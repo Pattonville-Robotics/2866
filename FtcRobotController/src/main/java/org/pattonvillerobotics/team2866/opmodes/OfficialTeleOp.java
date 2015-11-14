@@ -1,6 +1,6 @@
 package org.pattonvillerobotics.team2866.opmodes;
 
-import com.qualcomm.robotcore.eventloop.opmode.OpMode;
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
@@ -11,13 +11,14 @@ import org.pattonvillerobotics.team2866.robotclasses.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.Config;
 import org.pattonvillerobotics.team2866.robotclasses.DirectionEnum;
 import org.pattonvillerobotics.team2866.robotclasses.Drive;
+import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
 
 /**
  * Created by Team 2866 on 10/6/15.
  */
-@org.pattonvillerobotics.team2866.robotclasses.OpMode("OfficialTeleOp")
-public class OfficialTeleOp extends OpMode {
+@OpMode("OfficialTeleOp")
+public class OfficialTeleOp extends LinearOpMode {
 
     public static final String TAG = "OfficialTeleOp";
 
@@ -35,9 +36,10 @@ public class OfficialTeleOp extends OpMode {
     private boolean dumperTriggered = false;
     private boolean dumperDown = false;
 
-    public void init() {
+    @Override
+    public void runOpMode() throws InterruptedException {
 
-        drive = new Drive(hardwareMap, null);
+        drive = new Drive(hardwareMap, this);
         climbAssist = new ClimbAssist(hardwareMap);
         armController = new ArmController(hardwareMap);
         zipRelease = new ZipRelease(hardwareMap);
@@ -45,6 +47,13 @@ public class OfficialTeleOp extends OpMode {
 
         gamepad1.setJoystickDeadzone(0.05f);
         gamepad2.setJoystickDeadzone(0.05f);
+
+        waitForStart();
+
+        while (opModeIsActive()) {
+            doLoop();
+            waitForNextHardwareCycle();
+        }
     }
 
     private void logServoData(Object msg) {
@@ -84,7 +93,7 @@ public class OfficialTeleOp extends OpMode {
         logMotors();
     }
 
-    public void loop() {
+    public void doLoop() {
         log();
 
         // Treads
@@ -176,9 +185,9 @@ public class OfficialTeleOp extends OpMode {
 
         // Telemetry
 
-        telemetry.addData(TAG, drive);
-        telemetry.addData(TAG, climbAssist);
-        telemetry.addData(TAG, armController);
-        telemetry.addData(TAG, zipRelease);
+        //telemetry.addData(TAG, drive);
+        //telemetry.addData(TAG, climbAssist);
+        //telemetry.addData(TAG, armController);
+        //telemetry.addData(TAG, zipRelease);
     }
 }
