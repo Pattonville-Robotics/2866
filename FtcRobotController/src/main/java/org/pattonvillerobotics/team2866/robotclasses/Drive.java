@@ -113,29 +113,29 @@ public class Drive {
         }
 
         try {
-            this.linearOpMode.waitOneFullHardwareCycle();
-            motorLeft.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
-            this.linearOpMode.waitOneFullHardwareCycle();
-            motorRight.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            this.linearOpMode.waitForNextHardwareCycle();
+            motorLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            this.linearOpMode.waitForNextHardwareCycle();
+            motorRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-            this.linearOpMode.waitOneFullHardwareCycle();
+            this.linearOpMode.waitForNextHardwareCycle();
             motorLeft.setTargetPosition(targetPositionLeft);
-            this.linearOpMode.waitOneFullHardwareCycle();
+            this.linearOpMode.waitForNextHardwareCycle();
             motorRight.setTargetPosition(targetPositionRight);
 
-            this.linearOpMode.waitOneFullHardwareCycle();
+            this.linearOpMode.waitForNextHardwareCycle();
             motorLeft.setPower(power);
-            this.linearOpMode.waitOneFullHardwareCycle();
+            this.linearOpMode.waitForNextHardwareCycle();
             motorRight.setPower(power);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         linearOpMode.telemetry.addData(TAG, "Started encoder move...");
-        while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) > Config.ENCODER_MOVEMENT_TOLERANCE && Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
+        while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
             try {
                 //noinspection ConstantConditions
-                if (Config.ENCODER_MOVEMENT_UPDATE_DELAY < 1)
+                if (Config.ENCODER_MOVEMENT_UPDATE_DELAY < 0)
                     this.linearOpMode.waitForNextHardwareCycle();
                 else
                     this.linearOpMode.sleep(Config.ENCODER_MOVEMENT_UPDATE_DELAY);
@@ -183,29 +183,29 @@ public class Drive {
         }
 
         try {
-            this.linearOpMode.waitOneFullHardwareCycle();
-            motorLeft.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
-            this.linearOpMode.waitOneFullHardwareCycle();
-            motorRight.setChannelMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            this.linearOpMode.waitForNextHardwareCycle();
+            motorLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+            this.linearOpMode.waitForNextHardwareCycle();
+            motorRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-            this.linearOpMode.waitOneFullHardwareCycle();
+            this.linearOpMode.waitForNextHardwareCycle();
             motorLeft.setTargetPosition(targetPositionLeft);
-            this.linearOpMode.waitOneFullHardwareCycle();
+            this.linearOpMode.waitForNextHardwareCycle();
             motorRight.setTargetPosition(targetPositionRight);
 
-            this.linearOpMode.waitOneFullHardwareCycle();
+            this.linearOpMode.waitForNextHardwareCycle();
             motorLeft.setPower(power);
-            this.linearOpMode.waitOneFullHardwareCycle();
+            this.linearOpMode.waitForNextHardwareCycle();
             motorRight.setPower(power);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
         linearOpMode.telemetry.addData(TAG, "Started encoder rotate...");
-        while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) > Config.ENCODER_MOVEMENT_TOLERANCE && Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
+        while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
             try {
                 //noinspection ConstantConditions
-                if (Config.ENCODER_MOVEMENT_UPDATE_DELAY < 1)
+                if (Config.ENCODER_MOVEMENT_UPDATE_DELAY < 0)
                     this.linearOpMode.waitForNextHardwareCycle();
                 else
                     this.linearOpMode.sleep(Config.ENCODER_MOVEMENT_UPDATE_DELAY);
