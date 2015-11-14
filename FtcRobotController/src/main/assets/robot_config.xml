@@ -1,5 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
 <Robot>
+    <DeviceInterfaceModule name="Device Interface Module 1" serialNumber="AL00VE5Y">
+        <Gyro name="sensor_gyro" port="0"/>
+    </DeviceInterfaceModule>
     <MotorController name="Motor Controller Chain" serialNumber="AL00VTFM">
         <Motor name="motor_chain" port="1"/>
     </MotorController>
