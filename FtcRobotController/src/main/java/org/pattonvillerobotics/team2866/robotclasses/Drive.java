@@ -39,6 +39,12 @@ public class Drive {
 
         this.gyro = new MRGyroHelper((ModernRoboticsI2cGyro) this.hardwareMap.gyroSensor.get(Config.SENSOR_GYRO), this.linearOpMode);
 
+        try {
+            this.gyro.calibrateAndWait();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
         motorRight.setDirection(DcMotor.Direction.FORWARD);
 
