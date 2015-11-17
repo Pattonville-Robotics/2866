@@ -154,11 +154,13 @@ public class Drive {
 
         this.waitForNextHardwareCycle();
 
-        linearOpMode.telemetry.addData(TAG, "Started encoder move...");
-        while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
+        this.linearOpMode.telemetry.addData(TAG, "Started encoder move...");
+        while (this.linearOpMode.opModeIsActive() && Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
             this.waitForNextHardwareCycle();
         }
         linearOpMode.telemetry.addData(TAG, "Finished encoder move...");
+
+        this.stopDriveMotors();
     }
 
     public void waitForNextHardwareCycle() {
@@ -199,7 +201,7 @@ public class Drive {
             }
         }
 
-        while (Math.abs(gyro.getIntegratedZValue() - target) > Config.GYRO_TURN_TOLERANCE) {
+        while (this.linearOpMode.opModeIsActive() && Math.abs(gyro.getIntegratedZValue() - target) > Config.GYRO_TURN_TOLERANCE) {
             //this.linearOpMode.telemetry.addData(TAG, "Current degree readout: " + gyro.getIntegratedZValue());
             this.waitForNextHardwareCycle();
         }
