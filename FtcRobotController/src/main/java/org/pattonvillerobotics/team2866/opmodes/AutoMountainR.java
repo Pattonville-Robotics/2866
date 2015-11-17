@@ -26,9 +26,9 @@ public class AutoMountainR extends LinearOpMode {
         waitForStart();
 
         drive.moveInches(DirectionEnum.FORWARDS, 30, 1); //Make sure this doesn't cross over! Go 30 inches
-        drive.rotateDegrees(DirectionEnum.RIGHT, 45, 1); //Make sure this goes at a 45˚ angle!
+        drive.rotateDegreesGyro(DirectionEnum.RIGHT, 45, 1); //Make sure this goes at a 45˚ angle!
         drive.moveInches(DirectionEnum.FORWARDS, 74, 1); //Up to the mountain bit
-        drive.rotateDegrees(DirectionEnum.RIGHT, 135, 1); //rotate to face mountain
+        drive.rotateDegreesGyro(DirectionEnum.RIGHT, 135, 1); //rotate to face mountain
         drive.moveInches(DirectionEnum.FORWARDS, 102, 1); //Moves up to mountain
         climbAssist.moveChain(1);
         drive.moveInches(DirectionEnum.FORWARDS, 102, 1); //Measurement required
