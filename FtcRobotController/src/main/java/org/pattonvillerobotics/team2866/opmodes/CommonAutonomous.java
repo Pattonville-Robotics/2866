@@ -25,5 +25,28 @@ public class CommonAutonomous {
         climberDumper.move(DirectionEnum.UP);
         drive.moveInches(DirectionEnum.FORWARDS, 18, 1);
     }
+    public static void blueStartLeft(Drive drive) {
 
+    }
+    public static void blueStartRight(Drive drive) {
+
+    }
+    public static void redStartLeft (Drive drive) {
+
+    }
+    public static void redStartRight (Drive drive) {
+
+    }
+    public static void blueToMountain (Drive drive) {
+
+    }
+    public static void redToMountain (Drive drive) {
+
+    }
+    public static void redToOppositeMountain (Drive drive) {
+
+    }
+    public static void blueToOppositeMountain (Drive drive) {
+
+    }
 }
