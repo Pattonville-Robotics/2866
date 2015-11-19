@@ -19,10 +19,11 @@ public class CommonAutonomous {
 
     public static void dumpClimber(Drive drive, ClimberDumper climberDumper) {
 
-        drive.moveInches(DirectionEnum.BACKWARDS, 18, 1);
-        climberDumper.move(DirectionEnum.DOWN);
+        drive.moveInches(DirectionEnum.BACKWARDS, 22, 1);
         drive.sleep(1000);
         climberDumper.move(DirectionEnum.UP);
-        drive.moveInches(DirectionEnum.FORWARDS, 18, 1);
+        drive.sleep(1000);
+        climberDumper.move(DirectionEnum.DOWN);
+        drive.moveInches(DirectionEnum.FORWARDS, 22, 1);
     }
 }
