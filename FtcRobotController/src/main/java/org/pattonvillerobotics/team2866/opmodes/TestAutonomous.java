@@ -2,7 +2,7 @@ package org.pattonvillerobotics.team2866.opmodes;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.pattonvillerobotics.team2866.robotclasses.DirectionEnum;
+import org.pattonvillerobotics.team2866.robotclasses.Direction;
 import org.pattonvillerobotics.team2866.robotclasses.Drive;
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 
@@ -24,16 +24,16 @@ public class TestAutonomous extends LinearOpMode {
         telemetry.addData("FLOW", "Started move");
 
         telemetry.addData("FLOW", "Moving forwards");
-        drive.moveInches(DirectionEnum.FORWARDS, 30, 1);
+        drive.moveInches(Direction.FORWARDS, 30, 1);
 
         telemetry.addData("FLOW", "Moving backwards");
-        drive.moveInches(DirectionEnum.BACKWARDS, 30, 1);
+        drive.moveInches(Direction.BACKWARDS, 30, 1);
 
         telemetry.addData("FLOW", "Rotating left");
-        drive.rotateDegrees(DirectionEnum.LEFT, 90, 1);
+        drive.rotateDegrees(Direction.LEFT, 90, 1);
 
         telemetry.addData("FLOW", "Rotating right");
-        drive.rotateDegrees(DirectionEnum.RIGHT, 90, 1);
+        drive.rotateDegrees(Direction.RIGHT, 90, 1);
 
         telemetry.addData("FLOW", "Finished move");
     }

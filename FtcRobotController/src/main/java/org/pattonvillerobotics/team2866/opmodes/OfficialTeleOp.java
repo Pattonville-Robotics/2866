@@ -11,7 +11,7 @@ import org.pattonvillerobotics.team2866.robotclasses.ArmController;
 import org.pattonvillerobotics.team2866.robotclasses.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.Config;
-import org.pattonvillerobotics.team2866.robotclasses.DirectionEnum;
+import org.pattonvillerobotics.team2866.robotclasses.Direction;
 import org.pattonvillerobotics.team2866.robotclasses.Drive;
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
@@ -166,10 +166,10 @@ public class OfficialTeleOp extends LinearOpMode {
         if (gamepad2.x) {
             if (!leftReleaseTriggered) {
                 if (leftReleaseDown) {
-                    zipRelease.moveLeft(DirectionEnum.UP);
+                    zipRelease.moveLeft(Direction.UP);
                     leftReleaseDown = false;
                 } else {
-                    zipRelease.moveLeft(DirectionEnum.DOWN);
+                    zipRelease.moveLeft(Direction.DOWN);
                 }
                 leftReleaseTriggered = true;
             }
@@ -180,10 +180,10 @@ public class OfficialTeleOp extends LinearOpMode {
         if (gamepad2.b) {
             if (!rightReleaseTriggered) {
                 if (rightReleaseDown) {
-                    zipRelease.moveRight(DirectionEnum.UP);
+                    zipRelease.moveRight(Direction.UP);
                     rightReleaseDown = false;
                 } else {
-                    zipRelease.moveRight(DirectionEnum.DOWN);
+                    zipRelease.moveRight(Direction.DOWN);
                 }
                 rightReleaseTriggered = true;
             }
@@ -196,10 +196,10 @@ public class OfficialTeleOp extends LinearOpMode {
         if (gamepad1.x) {
             if (!dumperTriggered) {
                 if (dumperDown) {
-                    climberDumper.move(DirectionEnum.UP);
+                    climberDumper.move(Direction.UP);
                     dumperDown = false;
                 } else {
-                    climberDumper.move(DirectionEnum.DOWN);
+                    climberDumper.move(Direction.DOWN);
                 }
                 dumperTriggered = true;
             }
