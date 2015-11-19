@@ -122,6 +122,8 @@ public class Drive {
         int targetPositionLeft;
         int targetPositionRight;
 
+        this.waitForNextHardwareCycle();
+
         switch (direction) {
             case FORWARDS: {
                 int startPositionLeft = motorLeft.getCurrentPosition();
@@ -192,14 +194,14 @@ public class Drive {
                 motorLeft.setPower(-power);
                 motorRight.setPower(power);
 
-                target += degrees;
+                target += degrees + Config.GYRO_TURN_TOLERANCE;
                 break;
             }
             case RIGHT: {
                 motorLeft.setPower(power);
                 motorRight.setPower(-power);
 
-                target -= degrees;
+                target -= degrees - Config.GYRO_TURN_TOLERANCE;
                 break;
             }
             default: {
