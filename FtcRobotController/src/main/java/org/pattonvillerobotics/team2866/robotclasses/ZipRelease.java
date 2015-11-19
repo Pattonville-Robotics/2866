@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 public class ZipRelease {
 
-    private static final double LEFT_UP = 0;
-    private static final double LEFT_DOWN = 0;
+    private static final double LEFT_UP = .75;
+    private static final double LEFT_DOWN = .75;
     private static final double RIGHT_UP = 0;
     private static final double RIGHT_DOWN = 0;
     public Servo servoReleaseLeft;
