@@ -21,7 +21,7 @@ public class MRGyroHelper {
         linearOpMode.telemetry.addData(TAG, "Starting calibration...");
         gyro.calibrate();
         while (gyro.isCalibrating()) {
-            linearOpMode.sleep(5);
+            linearOpMode.waitForNextHardwareCycle();
         }
         linearOpMode.telemetry.addData(TAG, "Calibration complete!");
     }
