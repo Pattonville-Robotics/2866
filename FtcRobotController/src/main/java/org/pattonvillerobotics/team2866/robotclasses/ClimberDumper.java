@@ -20,7 +20,7 @@ public class ClimberDumper {
 
     }
 
-    public void move(DirectionEnum direction) {
+    public void move(Direction direction) {
         switch (direction) {
             case UP:
                 servoDumper.setPosition(UP);

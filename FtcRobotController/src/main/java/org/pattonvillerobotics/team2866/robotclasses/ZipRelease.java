@@ -23,7 +23,7 @@ public class ZipRelease {
         this.servoReleaseRight = hardwareMap.servo.get(Config.SERVO_RELEASE_RIGHT);
     }
 
-    public void moveLeft(DirectionEnum direction) {
+    public void moveLeft(Direction direction) {
 
         switch (direction) {
 
@@ -37,7 +37,7 @@ public class ZipRelease {
         }
     }
 
-    public void moveRight(DirectionEnum direction) {
+    public void moveRight(Direction direction) {
         switch (direction) {
 
             case UP:
