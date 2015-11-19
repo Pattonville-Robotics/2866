@@ -53,12 +53,12 @@ public class Drive {
         numInstantiations++;
     }
 
-    public static double inchesToTicks(double inches) {
-        return inches / INCHES_PER_TICK;
-    }
-
     public static double degreesToTicks(double degrees) {
         return inchesToTicks(degrees * INCHES_PER_DEGREE);
+    }
+
+    public static double inchesToTicks(double inches) {
+        return inches / INCHES_PER_TICK;
     }
 
     public void sleep(long milliseconds) {
@@ -101,14 +101,14 @@ public class Drive {
         motorLeft.setPower(power);
     }
 
-    public void stopDriveMotors() {
-        motorLeft.setPower(0);
-        motorRight.setPower(0);
-    }
-
     @Deprecated
     public void stop() {
         this.stopDriveMotors();
+    }
+
+    public void stopDriveMotors() {
+        motorLeft.setPower(0);
+        motorRight.setPower(0);
     }
 
     public void moveInches(DirectionEnum direction, double inches, double power) {
@@ -179,46 +179,6 @@ public class Drive {
         }
     }
 
-    public void rotateDegreesGyro(DirectionEnum direction, int degrees, double power) {
-        this.waitForNextHardwareCycle();
-
-        motorLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        motorRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-
-        this.waitForNextHardwareCycle();
-
-        int target = gyro.getIntegratedZValue();
-
-        switch (direction) {
-            case LEFT: {
-                motorLeft.setPower(-power);
-                motorRight.setPower(power);
-
-                target += degrees + Config.GYRO_TURN_TOLERANCE;
-                break;
-            }
-            case RIGHT: {
-                motorLeft.setPower(power);
-                motorRight.setPower(-power);
-
-                target -= degrees - Config.GYRO_TURN_TOLERANCE;
-                break;
-            }
-            default: {
-                throw new IllegalArgumentException("Direction must be LEFT or RIGHT!");
-            }
-        }
-
-        while (this.linearOpMode.opModeIsActive() && Math.abs(gyro.getIntegratedZValue() - target) > Config.GYRO_TURN_TOLERANCE) {
-            //this.linearOpMode.telemetry.addData(TAG, "Current degree readout: " + gyro.getIntegratedZValue());
-            this.waitForNextHardwareCycle();
-        }
-
-        this.stopDriveMotors();
-
-        this.waitForNextHardwareCycle();
-    }
-
     @Deprecated
     public void rotateDegrees(DirectionEnum direction, int degrees, double power) {
         this.rotateDegreesGyro(direction, degrees, power);
@@ -281,5 +241,45 @@ public class Drive {
          }
          linearOpMode.telemetry.addData(TAG, "Finished encoder rotate...");
          */
+    }
+
+    public void rotateDegreesGyro(DirectionEnum direction, int degrees, double power) {
+        this.waitForNextHardwareCycle();
+
+        motorLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        motorRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
+        this.waitForNextHardwareCycle();
+
+        int target = gyro.getIntegratedZValue();
+
+        switch (direction) {
+            case LEFT: {
+                motorLeft.setPower(-power);
+                motorRight.setPower(power);
+
+                target += degrees;
+                break;
+            }
+            case RIGHT: {
+                motorLeft.setPower(power);
+                motorRight.setPower(-power);
+
+                target -= degrees;
+                break;
+            }
+            default: {
+                throw new IllegalArgumentException("Direction must be LEFT or RIGHT!");
+            }
+        }
+
+        while (this.linearOpMode.opModeIsActive() && Math.abs(gyro.getIntegratedZValue() - target) > Config.GYRO_TURN_TOLERANCE) {
+            //this.linearOpMode.telemetry.addData(TAG, "Current degree readout: " + gyro.getIntegratedZValue());
+            this.waitForNextHardwareCycle();
+        }
+
+        this.stopDriveMotors();
+
+        this.waitForNextHardwareCycle();
     }
 }
