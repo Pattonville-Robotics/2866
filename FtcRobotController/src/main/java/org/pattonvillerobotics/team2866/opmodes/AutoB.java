@@ -7,6 +7,7 @@ import org.pattonvillerobotics.team2866.robotclasses.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.DirectionEnum;
 import org.pattonvillerobotics.team2866.robotclasses.Drive;
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
+import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
 
 /**
  * Created by Kevin Stewart & James McMahon on 10/15/15.
@@ -22,17 +23,22 @@ public class AutoB extends LinearOpMode {
         Drive drive = new Drive(hardwareMap, this);
         ClimberDumper climberDumper = new ClimberDumper(hardwareMap);
         ClimbAssist climbAssist = new ClimbAssist(hardwareMap);
+        ZipRelease zipRelease = new ZipRelease(hardwareMap);
+
+        zipRelease.moveLeft(DirectionEnum.DOWN);
+        zipRelease.moveRight(DirectionEnum.DOWN);
+        climberDumper.move(DirectionEnum.DOWN);
 
         waitForStart();
 
         drive.moveInches(DirectionEnum.BACKWARDS, 30, 1); //66
-        drive.rotateDegreesGyro(DirectionEnum.RIGHT, 45, 1); //Make sure this goes at a 45˚ angle!
-        drive.moveInches(DirectionEnum.BACKWARDS, 72, 1); //92 inches or w/e up to the rescue bit
-        drive.rotateDegreesGyro(DirectionEnum.RIGHT, 45, 1);
+        drive.rotateDegreesGyro(DirectionEnum.RIGHT, 45, .5); //Make sure this goes at a 45˚ angle!
+        drive.moveInches(DirectionEnum.BACKWARDS, 80, 1); //92 inches or w/e up to the rescue bit
+        drive.rotateDegreesGyro(DirectionEnum.RIGHT, 45, .5);
         CommonAutonomous.dumpClimber(drive,climberDumper);
-        drive.rotateDegreesGyro(DirectionEnum.LEFT, 45, 1);
-        drive.moveInches(DirectionEnum.FORWARDS, 18, 1);
-        drive.rotateDegreesGyro(DirectionEnum.LEFT, 90, 1);
+        drive.rotateDegreesGyro(DirectionEnum.LEFT, 45, .5);
+        drive.moveInches(DirectionEnum.FORWARDS, 24, 1);
+        drive.rotateDegreesGyro(DirectionEnum.LEFT, 90, .4);
         drive.moveInches(DirectionEnum.FORWARDS, 60, 1); //Measurement required
         //climbAssist.moveChain(1);
         //climbAssist.moveChain(0);
