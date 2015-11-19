@@ -32,13 +32,13 @@ public class AutoB extends LinearOpMode {
         waitForStart();
 
         drive.moveInches(DirectionEnum.BACKWARDS, 30, 1); //66
-        drive.rotateDegreesGyro(DirectionEnum.RIGHT, 45, .5); //Make sure this goes at a 45˚ angle!
+        drive.rotateDegrees(DirectionEnum.RIGHT, 45, .5); //Make sure this goes at a 45˚ angle!
         drive.moveInches(DirectionEnum.BACKWARDS, 80, 1); //92 inches or w/e up to the rescue bit
-        drive.rotateDegreesGyro(DirectionEnum.RIGHT, 45, .5);
+        drive.rotateDegrees(DirectionEnum.RIGHT, 45, .5);
         CommonAutonomous.dumpClimber(drive,climberDumper);
-        drive.rotateDegreesGyro(DirectionEnum.LEFT, 45, .5);
+        drive.rotateDegrees(DirectionEnum.LEFT, 45, .5);
         drive.moveInches(DirectionEnum.FORWARDS, 24, 1);
-        drive.rotateDegreesGyro(DirectionEnum.LEFT, 90, .4);
+        drive.rotateDegrees(DirectionEnum.LEFT, 90, .4);
         drive.moveInches(DirectionEnum.FORWARDS, 60, 1); //Measurement required
         //climbAssist.moveChain(1);
         //climbAssist.moveChain(0);

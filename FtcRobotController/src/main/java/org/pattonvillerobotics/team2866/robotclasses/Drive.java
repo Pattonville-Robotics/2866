@@ -53,198 +53,199 @@ public class Drive {
         numInstantiations++;
     }
 
-    public static double degreesToTicks(double degrees) {
-        return inchesToTicks(degrees * INCHES_PER_DEGREE);
-    }
+	public void sleep(long milliseconds) {
+		try {
+			this.linearOpMode.sleep(milliseconds);
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
-    public static double inchesToTicks(double inches) {
-        return inches / INCHES_PER_TICK;
-    }
+	public void waitOneFullHardwareCycle() {
+		try {
+			this.linearOpMode.waitOneFullHardwareCycle();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
-    public void sleep(long milliseconds) {
-        try {
-            this.linearOpMode.sleep(milliseconds);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+	public void moveFreely(double left, double right) {
 
-    public void waitOneFullHardwareCycle() {
-        try {
-            this.linearOpMode.waitOneFullHardwareCycle();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+		motorLeft.setPower(left);
+		motorRight.setPower(right);
+	}
 
-    public void moveFreely(double left, double right) {
+	@Deprecated
+	public void moveStraight(double power) {
+		motorRight.setPower(power);
+		motorLeft.setPower(power);
+	}
 
-        motorLeft.setPower(left);
-        motorRight.setPower(right);
-    }
-
-    @Deprecated
-    public void moveStraight(double power) {
-        motorRight.setPower(power);
-        motorLeft.setPower(power);
-    }
-
-    @Deprecated
-    public void rotateLeft(double power) {
-        motorRight.setPower(power);
-        motorLeft.setPower(-power);
-    }
+	@Deprecated
+	public void rotateLeft(double power) {
+		motorRight.setPower(power);
+		motorLeft.setPower(-power);
+	}
 
     @Deprecated
     public void rotateRight(double power) {
-        motorRight.setPower(-power);
-        motorLeft.setPower(power);
+	    motorRight.setPower(-power);
+	    motorLeft.setPower(power);
     }
 
     @Deprecated
     public void stop() {
+	    this.stopDriveMotors();
+    }
+
+	public void stopDriveMotors() {
+		motorLeft.setPower(0);
+		motorRight.setPower(0);
+	}
+
+	public void moveInches(DirectionEnum direction, double inches, double power) {
+		//if (Math.signum(motorLeft.getCurrentPosition()) != Math.signum(motorRight.getCurrentPosition()))
+		//    throw new AssertionError("robit is kill");
+		if (power > 1 || power < 0)
+			throw new IllegalArgumentException("Power must be positive!");
+		if (inches <= 0)
+			throw new IllegalArgumentException("Distance must be positive!");
+
+		int targetPositionLeft;
+		int targetPositionRight;
+
+		this.waitForNextHardwareCycle();
+
+		switch (direction) {
+			case FORWARDS: {
+				int startPositionLeft = motorLeft.getCurrentPosition();
+				int startPositionRight = motorRight.getCurrentPosition();
+				int deltaPosition = (int) Math.round(inchesToTicks(inches));
+				targetPositionLeft = startPositionLeft + deltaPosition;
+				targetPositionRight = startPositionRight + deltaPosition;
+				break;
+			}
+			case BACKWARDS: {
+				int startPositionLeft = motorLeft.getCurrentPosition();
+				int startPositionRight = motorRight.getCurrentPosition();
+				int deltaPosition = (int) Math.round(inchesToTicks(inches));
+				targetPositionLeft = startPositionLeft - deltaPosition;
+				targetPositionRight = startPositionRight - deltaPosition;
+				break;
+			}
+			default:
+				throw new IllegalArgumentException("Direction must be FORWARDS or BACKWARDS!");
+		}
+
+		this.waitForNextHardwareCycle();
+
+		motorLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+		motorRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+
+		this.waitForNextHardwareCycle();
+
+		motorLeft.setTargetPosition(targetPositionLeft);
+		motorRight.setTargetPosition(targetPositionRight);
+
+		this.waitForNextHardwareCycle();
+
+		motorLeft.setPower(power);
+		motorRight.setPower(power);
+
+		this.waitForNextHardwareCycle();
+
+		this.linearOpMode.telemetry.addData(TAG, "Started encoder move...");
+		while (this.linearOpMode.opModeIsActive() && Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
+			this.waitForNextHardwareCycle();
+		}
+		linearOpMode.telemetry.addData(TAG, "Finished encoder move...");
+
         this.stopDriveMotors();
     }
 
-    public void stopDriveMotors() {
-        motorLeft.setPower(0);
-        motorRight.setPower(0);
-    }
+	public void waitForNextHardwareCycle() {
+		try {
+			this.linearOpMode.waitForNextHardwareCycle();
+		} catch (InterruptedException e) {
+			e.printStackTrace();
+		}
+	}
 
-    public void moveInches(DirectionEnum direction, double inches, double power) {
-        //if (Math.signum(motorLeft.getCurrentPosition()) != Math.signum(motorRight.getCurrentPosition()))
-        //    throw new AssertionError("robit is kill");
-        if (power > 1 || power < 0)
-            throw new IllegalArgumentException("Power must be positive!");
-        if (inches <= 0)
-            throw new IllegalArgumentException("Distance must be positive!");
+	public static double inchesToTicks(double inches) {
+		return inches / INCHES_PER_TICK;
+	}
 
-        int targetPositionLeft;
-        int targetPositionRight;
+	@Deprecated
+	private void rotateDegreesEncoder(DirectionEnum direction, int degrees, double power) {
+		if (degrees <= 0)
+			throw new IllegalArgumentException("Degrees must be positive!");
+		if (power <= 0)
+			throw new IllegalArgumentException("Power must be positive!");
 
-        this.waitForNextHardwareCycle();
+		int targetPositionLeft;
+		int targetPositionRight;
 
-        switch (direction) {
-            case FORWARDS: {
-                int startPositionLeft = motorLeft.getCurrentPosition();
-                int startPositionRight = motorRight.getCurrentPosition();
-                int deltaPosition = (int) Math.round(inchesToTicks(inches));
-                targetPositionLeft = startPositionLeft + deltaPosition;
-                targetPositionRight = startPositionRight + deltaPosition;
-                break;
-            }
-            case BACKWARDS: {
-                int startPositionLeft = motorLeft.getCurrentPosition();
-                int startPositionRight = motorRight.getCurrentPosition();
-                int deltaPosition = (int) Math.round(inchesToTicks(inches));
-                targetPositionLeft = startPositionLeft - deltaPosition;
-                targetPositionRight = startPositionRight - deltaPosition;
-                break;
-            }
-            default:
-                throw new IllegalArgumentException("Direction must be FORWARDS or BACKWARDS!");
-        }
+		switch (direction) {
+			case LEFT: {
+				int startPositionLeft = motorLeft.getCurrentPosition();
+				int startPositionRight = motorLeft.getCurrentPosition();
 
-        this.waitForNextHardwareCycle();
+				int deltaPositionLeft = (int) Math.round(degreesToTicks(degrees));
+				int deltaPositionRight = (int) Math.round(degreesToTicks(degrees));
 
-        motorLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-        motorRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+				targetPositionLeft = startPositionLeft - deltaPositionLeft;
+				targetPositionRight = startPositionRight + deltaPositionRight;
+				break;
+			}
+			case RIGHT: {
+				int startPositionLeft = motorLeft.getCurrentPosition();
+				int startPositionRight = motorLeft.getCurrentPosition();
 
-        this.waitForNextHardwareCycle();
+				int deltaPositionLeft = (int) Math.round(degreesToTicks(degrees));
+				int deltaPositionRight = (int) Math.round(degreesToTicks(degrees));
 
-        motorLeft.setTargetPosition(targetPositionLeft);
-        motorRight.setTargetPosition(targetPositionRight);
+				targetPositionLeft = startPositionLeft + deltaPositionLeft;
+				targetPositionRight = startPositionRight - deltaPositionRight;
+				break;
+			}
+			default:
+				throw new IllegalArgumentException("Direction must be LEFT or RIGHT!");
+		}
 
-        this.waitForNextHardwareCycle();
+		this.waitForNextHardwareCycle();
 
-        motorLeft.setPower(power);
-        motorRight.setPower(power);
+		motorLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+		motorRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-        this.waitForNextHardwareCycle();
+		this.waitForNextHardwareCycle();
 
-        this.linearOpMode.telemetry.addData(TAG, "Started encoder move...");
-        while (this.linearOpMode.opModeIsActive() && Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
-            this.waitForNextHardwareCycle();
-        }
-        linearOpMode.telemetry.addData(TAG, "Finished encoder move...");
+		motorLeft.setTargetPosition(targetPositionLeft);
+		motorRight.setTargetPosition(targetPositionRight);
 
-        this.stopDriveMotors();
-    }
+		this.waitForNextHardwareCycle();
 
-    public void waitForNextHardwareCycle() {
-        try {
-            this.linearOpMode.waitForNextHardwareCycle();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
+		motorLeft.setPower(power);
+		motorRight.setPower(power);
 
-    @Deprecated
+		this.waitForNextHardwareCycle();
+
+		linearOpMode.telemetry.addData(TAG, "Started encoder rotate...");
+		while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
+			this.waitForNextHardwareCycle();
+		}
+		linearOpMode.telemetry.addData(TAG, "Finished encoder rotate...");
+	}
+
+	public static double degreesToTicks(double degrees) {
+		return inchesToTicks(degrees * INCHES_PER_DEGREE);
+	}
+
     public void rotateDegrees(DirectionEnum direction, int degrees, double power) {
         this.rotateDegreesGyro(direction, degrees, power);
-        /*
-         if (degrees <= 0)
-         throw new IllegalArgumentException("Degrees must be positive!");
-         if (power <= 0)
-         throw new IllegalArgumentException("Power must be positive!");
-
-         int targetPositionLeft;
-         int targetPositionRight;
-
-         switch (direction) {
-         case LEFT: {
-         int startPositionLeft = motorLeft.getCurrentPosition();
-         int startPositionRight = motorLeft.getCurrentPosition();
-
-         int deltaPositionLeft = (int) Math.round(degreesToTicks(degrees));
-         int deltaPositionRight = (int) Math.round(degreesToTicks(degrees));
-
-         targetPositionLeft = startPositionLeft - deltaPositionLeft;
-         targetPositionRight = startPositionRight + deltaPositionRight;
-         break;
-         }
-         case RIGHT: {
-         int startPositionLeft = motorLeft.getCurrentPosition();
-         int startPositionRight = motorLeft.getCurrentPosition();
-
-         int deltaPositionLeft = (int) Math.round(degreesToTicks(degrees));
-         int deltaPositionRight = (int) Math.round(degreesToTicks(degrees));
-
-         targetPositionLeft = startPositionLeft + deltaPositionLeft;
-         targetPositionRight = startPositionRight - deltaPositionRight;
-         break;
-         }
-         default:
-         throw new IllegalArgumentException("Direction must be LEFT or RIGHT!");
-         }
-
-         this.waitForNextHardwareCycle();
-
-         motorLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-         motorRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
-
-         this.waitForNextHardwareCycle();
-
-         motorLeft.setTargetPosition(targetPositionLeft);
-         motorRight.setTargetPosition(targetPositionRight);
-
-         this.waitForNextHardwareCycle();
-
-         motorLeft.setPower(power);
-         motorRight.setPower(power);
-
-         this.waitForNextHardwareCycle();
-
-         linearOpMode.telemetry.addData(TAG, "Started encoder rotate...");
-         while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
-         this.waitForNextHardwareCycle();
-         }
-         linearOpMode.telemetry.addData(TAG, "Finished encoder rotate...");
-         */
     }
 
-    public void rotateDegreesGyro(DirectionEnum direction, int degrees, double power) {
-        this.waitForNextHardwareCycle();
+	private void rotateDegreesGyro(DirectionEnum direction, int degrees, double power) {
+		this.waitForNextHardwareCycle();
 
         motorLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         motorRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);

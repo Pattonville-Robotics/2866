@@ -30,10 +30,10 @@ public class TestAutonomous extends LinearOpMode {
         drive.moveInches(DirectionEnum.BACKWARDS, 30, 1);
 
         telemetry.addData("FLOW", "Rotating left");
-        drive.rotateDegreesGyro(DirectionEnum.LEFT, 90, 1);
+        drive.rotateDegrees(DirectionEnum.LEFT, 90, 1);
 
         telemetry.addData("FLOW", "Rotating right");
-        drive.rotateDegreesGyro(DirectionEnum.RIGHT, 90, 1);
+        drive.rotateDegrees(DirectionEnum.RIGHT, 90, 1);
 
         telemetry.addData("FLOW", "Finished move");
     }

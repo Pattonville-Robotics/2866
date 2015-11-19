@@ -26,9 +26,9 @@ public class AutoParkBlue extends LinearOpMode {
         waitForStart();
 
         drive.moveInches(DirectionEnum.BACKWARDS, 30, 1); //Make sure this doesn't cross over! Go 30 inches
-        drive.rotateDegreesGyro(DirectionEnum.RIGHT, 45, 1); //Make sure this goes at a 45˚ angle!
+        drive.rotateDegrees(DirectionEnum.RIGHT, 45, 1); //Make sure this goes at a 45˚ angle!
         drive.moveInches(DirectionEnum.BACKWARDS, 72, 1); //92 inches or w/e up to the rescue bit
-        drive.rotateDegreesGyro(DirectionEnum.RIGHT, 45, 1);
+        drive.rotateDegrees(DirectionEnum.RIGHT, 45, 1);
         drive.moveInches(DirectionEnum.BACKWARDS, 18, 1); //18 inches: NIN*2
         climberDumper.move(DirectionEnum.UP); //Moves the servo to dump the lil guys into the basket
         climberDumper.move(DirectionEnum.DOWN);
