@@ -13,7 +13,7 @@ import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
  * Created by Kevin Stewart & James McMahon on 10/15/15.
  */
 @OpMode("Blue Autonomous")
-public class AutoB extends LinearOpMode {
+public class  AutoB extends LinearOpMode {
 
     public static final String TAG = "TestAutonomous";
 
@@ -33,13 +33,13 @@ public class AutoB extends LinearOpMode {
 
         drive.moveInches(Direction.BACKWARDS, 30, 1); //66
         drive.rotateDegrees(Direction.RIGHT, 45, .5); //Make sure this goes at a 45˚ angle!
-        drive.moveInches(Direction.BACKWARDS, 80, 1); //92 inches or w/e up to the rescue bit
+        drive.moveInches(Direction.BACKWARDS, 62, 1); //92 inches or w/e up to the rescue bit
         drive.rotateDegrees(Direction.RIGHT, 45, .5);
         CommonAutonomous.dumpClimber(drive,climberDumper);
         drive.rotateDegrees(Direction.LEFT, 45, .5);
-        drive.moveInches(Direction.FORWARDS, 24, 1);
+        drive.moveInches(Direction.FORWARDS, 19, 1);
         drive.rotateDegrees(Direction.LEFT, 90, .4);
-        drive.moveInches(Direction.FORWARDS, 60, 1); //Measurement required
+        drive.moveInches(Direction.FORWARDS, 50, 1); //Measurement required
         //climbAssist.moveChain(1);
         //climbAssist.moveChain(0);
         drive.stop();
