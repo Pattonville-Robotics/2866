@@ -14,11 +14,13 @@ public class CommonAutonomous {
 
     public static void dumpClimber(Drive drive, ClimberDumper climberDumper) {
 
-        drive.moveInches(Direction.BACKWARDS, 22, 1);
+        drive.moveInches(Direction.BACKWARDS, 24, 1);
+        drive.sleep(1000);
+        climberDumper.move(Direction.MID);
         drive.sleep(1000);
         climberDumper.move(Direction.UP);
         drive.sleep(1000);
         climberDumper.move(Direction.DOWN);
-        drive.moveInches(Direction.FORWARDS, 22, 1);
+        drive.moveInches(Direction.FORWARDS, 24, 1);
     }
 }
