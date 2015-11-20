@@ -13,7 +13,7 @@ import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
  * Created by Kevin Stewart & James McMahon on 10/15/15.
  */
 @OpMode("Blue Autonomous")
-public class  AutoB extends LinearOpMode {
+public class AutoBucketMountainBlue1 extends LinearOpMode {
 
     public static final String TAG = "TestAutonomous";
 
