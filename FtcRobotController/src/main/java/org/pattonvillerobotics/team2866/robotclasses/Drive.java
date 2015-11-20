@@ -241,8 +241,8 @@ public class Drive {
     }
 
     public void rotateDegrees(Direction direction, int degrees, double power) {
-        //this.rotateDegreesGyro(direction, degrees, power);
-        this.rotateDegreesPID(direction, degrees, power);
+        this.rotateDegreesGyro(direction, degrees, power);
+        //this.rotateDegreesPID(direction, degrees, power);
     }
 
     private void rotateDegreesPID(Direction direction, int degrees, final double power) {
@@ -265,7 +265,7 @@ public class Drive {
 
             int error = target - gyro.getIntegratedZValue();
 
-            double multiplier = Math.min(Math.sqrt(Math.abs(error)) / 5, 1);
+            double multiplier = Math.min(Math.sqrt(Math.abs(error)) / 10, 1);
             proportionalPower = power * multiplier;
 
             switch (direction) {
