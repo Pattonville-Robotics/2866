@@ -61,7 +61,7 @@ public class Drive {
         return inchesToTicks(degrees * INCHES_PER_DEGREE);
     }
 
-	public void sleep(long milliseconds) {
+    public void sleep(long milliseconds) {
         try {
             this.linearOpMode.sleep(milliseconds);
         } catch (InterruptedException e) {
@@ -171,13 +171,13 @@ public class Drive {
         this.stopDriveMotors();
     }
 
-	public void waitForNextHardwareCycle() {
+    public void waitForNextHardwareCycle() {
         try {
             this.linearOpMode.waitForNextHardwareCycle();
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-	}
+    }
 
     @Deprecated
     private void rotateDegreesEncoder(Direction direction, int degrees, double power) {
@@ -259,14 +259,14 @@ public class Drive {
                 motorLeft.setPower(-power);
                 motorRight.setPower(power);
 
-                target += degrees;
+                target += degrees + Config.GYRO_TRIM;
                 break;
             }
             case RIGHT: {
                 motorLeft.setPower(power);
                 motorRight.setPower(-power);
 
-                target -= degrees;
+                target -= degrees - Config.GYRO_TRIM;
                 break;
             }
             default: {
