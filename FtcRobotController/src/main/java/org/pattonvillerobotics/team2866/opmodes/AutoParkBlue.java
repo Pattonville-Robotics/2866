@@ -10,6 +10,9 @@ import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 
 /**
  * Created by Kevin Stewart & James McMahon on 10/15/15.
+ *
+ * TODO: Walk through values
+ * TODO: Initialize servo values
  */
 @OpMode("Blue Park Autonomous")
 public class AutoParkBlue extends LinearOpMode {

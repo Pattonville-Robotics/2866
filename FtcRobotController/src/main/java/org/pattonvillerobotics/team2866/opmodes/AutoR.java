@@ -10,6 +10,9 @@ import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 
 /**
  * Created by skaggsm on 10/17/15.
+ *
+ * TODO: Walk through values
+ * TODO: Initialize servo values
  */
 @OpMode("Red Autonomous")
 public class AutoR extends LinearOpMode {
