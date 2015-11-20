@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 public class ClimberDumper {
 
     private static final double UP = 0.6;
-    private static final double MID = 0.8;
+    private static final double MID = 0.75;
     private static final double DOWN = 1;
     public Servo servoDumper;
     private HardwareMap hardwareMap;
@@ -28,6 +28,7 @@ public class ClimberDumper {
                 break;
             case MID:
                 servoDumper.setPosition(MID);
+                break;
             case DOWN:
                 servoDumper.setPosition(DOWN);
                 break;
