@@ -9,6 +9,9 @@ import org.pattonvillerobotics.team2866.robotclasses.Drive;
  * Start position
  * End position
  * Team color
+ *
+ * TODO: Add climbMountain(Drive drive, ClimbAssist climbAssist) and use it in OpModes
+ * TODO: Use dumpClimber(Drive drive, ClimberDumbper climberDumper) in all OpModes
  */
 public class CommonAutonomous {
 
