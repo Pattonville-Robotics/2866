@@ -241,7 +241,54 @@ public class Drive {
     }
 
     public void rotateDegrees(Direction direction, int degrees, double power) {
-        this.rotateDegreesGyro(direction, degrees, power);
+        //this.rotateDegreesGyro(direction, degrees, power);
+        this.rotateDegreesPID(direction, degrees, power);
+    }
+
+    private void rotateDegreesPID(Direction direction, int degrees, final double power) {
+        if (direction != Direction.LEFT && direction != Direction.RIGHT)
+            throw new IllegalArgumentException("Direction must be LEFT or RIGHT!");
+
+        this.waitForNextHardwareCycle();
+
+        motorLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        motorRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+
+        this.waitForNextHardwareCycle();
+
+        int target = gyro.getIntegratedZValue() + (direction == Direction.LEFT ? degrees : -degrees);
+        double proportionalPower = power;
+
+        while (this.linearOpMode.opModeIsActive() && Math.abs(target - gyro.getIntegratedZValue()) > Config.GYRO_TURN_TOLERANCE) {
+            //this.linearOpMode.telemetry.addData(TAG, "Current degree readout: " + gyro.getIntegratedZValue());
+            this.waitForNextHardwareCycle();
+
+            int error = target - gyro.getIntegratedZValue();
+
+            double multiplier = Math.min(Math.sqrt(Math.abs(error)) / 5, 1);
+            proportionalPower = power * multiplier;
+
+            switch (direction) {
+                case LEFT: {
+                    motorLeft.setPower(-proportionalPower);
+                    motorRight.setPower(proportionalPower);
+
+                    //target += degrees;// + Config.GYRO_TRIM;
+                    break;
+                }
+                case RIGHT: {
+                    motorLeft.setPower(proportionalPower);
+                    motorRight.setPower(-proportionalPower);
+
+                    //target -= degrees;// - Config.GYRO_TRIM;
+                    break;
+                }
+            }
+        }
+
+        this.stopDriveMotors();
+
+        this.waitForNextHardwareCycle();
     }
 
     private void rotateDegreesGyro(Direction direction, int degrees, double power) {
