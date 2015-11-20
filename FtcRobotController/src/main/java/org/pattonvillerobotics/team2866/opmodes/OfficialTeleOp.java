@@ -200,12 +200,14 @@ public class OfficialTeleOp extends LinearOpMode {
                     dumperDown = false;
                 } else {
                     climberDumper.move(Direction.DOWN);
+                    dumperDown = true;
                 }
                 dumperTriggered = true;
             }
         } else {
-            dumperTriggered = false;
+                dumperTriggered = false;
         }
+
 
         // Telemetry
 
