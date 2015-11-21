@@ -19,7 +19,7 @@ import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
 /**
  * Created by Team 2866 on 10/6/15.
  */
-@OpMode("OfficialTeleOp")
+@OpMode("Official TeleOp")
 public class OfficialTeleOp extends LinearOpMode {
 
     public static final String TAG = "OfficialTeleOp";
@@ -31,13 +31,13 @@ public class OfficialTeleOp extends LinearOpMode {
     private ClimberDumper climberDumper;
     private ModernRoboticsI2cGyro mrGyro;
 
-    private boolean leftReleaseDown = false;
+    private boolean leftReleaseDown = true;
     private boolean leftReleaseTriggered = false;
-    private boolean rightReleaseDown = false;
+    private boolean rightReleaseDown = true;
     private boolean rightReleaseTriggered = false;
 
     private boolean dumperTriggered = false;
-    private boolean dumperDown = false;
+    private boolean dumperDown = true;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -56,6 +56,10 @@ public class OfficialTeleOp extends LinearOpMode {
 
         gamepad1.setJoystickDeadzone(0.05f);
         gamepad2.setJoystickDeadzone(0.05f);
+
+        zipRelease.moveLeft(Direction.DOWN);
+        zipRelease.moveRight(Direction.DOWN);
+        climberDumper.move(Direction.DOWN);
 
         waitForStart();
 
@@ -170,6 +174,7 @@ public class OfficialTeleOp extends LinearOpMode {
                     leftReleaseDown = false;
                 } else {
                     zipRelease.moveLeft(Direction.DOWN);
+                    leftReleaseDown = true;
                 }
                 leftReleaseTriggered = true;
             }
@@ -184,6 +189,7 @@ public class OfficialTeleOp extends LinearOpMode {
                     rightReleaseDown = false;
                 } else {
                     zipRelease.moveRight(Direction.DOWN);
+                    rightReleaseDown = true;
                 }
                 rightReleaseTriggered = true;
             }
@@ -214,6 +220,6 @@ public class OfficialTeleOp extends LinearOpMode {
         //telemetry.addData(TAG, drive);
         //telemetry.addData(TAG, climbAssist);
         //telemetry.addData(TAG, armController);
-        //telemetry.addData(TAG, zipRelease);
+        telemetry.addData(TAG, zipRelease);
     }
 }
