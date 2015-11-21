@@ -18,6 +18,7 @@ import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
 
 /**
  * Created by Team 2866 on 10/6/15.
+ * TODO: Implement Blocker into a toggle similar to the climber dumper
  */
 @OpMode("Official TeleOp")
 public class OfficialTeleOp extends LinearOpMode {
