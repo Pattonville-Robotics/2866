@@ -14,7 +14,7 @@ import org.pattonvillerobotics.team2866.robotclasses.OpMode;
  * TODO: Walk through values
  * TODO: Initialize servo values
  */
-@OpMode("Red Autonomous")
+@OpMode("Red Mountain 1")
 public class AutoBucketMountainRed1 extends LinearOpMode {
 
     public static final String TAG = "TestAutonomous";

@@ -9,6 +9,7 @@ import org.pattonvillerobotics.team2866.robotclasses.OpMode;
  *
  * TODO: Measure and write OpMode
  */
+@OpMode("Red Mountain 2")
 public class AutoBucketMountainRed2 extends LinearOpMode {
 
     @Override
