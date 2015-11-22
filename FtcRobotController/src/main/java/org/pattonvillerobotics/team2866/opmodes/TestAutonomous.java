@@ -25,27 +25,27 @@ public class TestAutonomous extends LinearOpMode {
 
         telemetry.addData("FLOW", "Moving forwards");
         drive.moveInches(Direction.FORWARDS, 30, 1);
-        wait(1000);
+        sleep(1000);
 
         telemetry.addData("FLOW", "Moving backwards");
         drive.moveInches(Direction.BACKWARDS, 30, 1);
-        wait(1000);
+        sleep(1000);
 
         telemetry.addData("FLOW", "Rotating left 45");
         drive.rotateDegrees(Direction.LEFT, 45, 1);
-        wait(1000);
+        sleep(1000);
 
         telemetry.addData("FLOW", "Rotating right 45");
         drive.rotateDegrees(Direction.RIGHT, 45, 1);
-        wait(1000);
+        sleep(1000);
 
         telemetry.addData("FLOW", "Rotating left 90");
         drive.rotateDegrees(Direction.LEFT, 90, 1);
-        wait(1000);
+        sleep(1000);
 
         telemetry.addData("FLOW", "Rotating right 90");
         drive.rotateDegrees(Direction.RIGHT, 90, 1);
-        wait(1000);
+        sleep(1000);
 
         telemetry.addData("FLOW", "Finished move");
     }
