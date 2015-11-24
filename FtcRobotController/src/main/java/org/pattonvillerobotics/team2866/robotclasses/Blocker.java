@@ -10,7 +10,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  * TODO: Find servo values
  * TODO: Create a control method similar to ZipRelease
  */
-public class Blocker {
+public class  Blocker {
 
     private HardwareMap hardwareMap;
 

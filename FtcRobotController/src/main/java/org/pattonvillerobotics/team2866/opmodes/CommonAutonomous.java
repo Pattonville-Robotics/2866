@@ -26,4 +26,10 @@ public class CommonAutonomous {
         climberDumper.move(Direction.DOWN);
         drive.moveInches(Direction.FORWARDS, 24, 1);
     }
+    public static void leadPosition1(Drive drive) {
+        drive.moveInches(Direction.BACKWARDS, 30, 1);
+    }
+    public static void leadPosition2(Drive drive) {
+        drive.moveInches(Direction.BACKWARDS, 69, 1);
+    }
 }
