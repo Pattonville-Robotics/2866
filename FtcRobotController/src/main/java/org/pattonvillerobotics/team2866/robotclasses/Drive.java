@@ -10,7 +10,6 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
  * Created by Nathan Skelton on 10/15/15.
  * Last edited by Mitchell Skaggs on 11/14/15
  * <p/>
- *
  */
 public class Drive {
 
@@ -78,7 +77,6 @@ public class Drive {
     }
 
     public void moveFreely(double left, double right) {
-
         motorLeft.setPower(left);
         motorRight.setPower(right);
     }
