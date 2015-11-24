@@ -18,8 +18,8 @@
         <Servo name="servo_dumper" port="1"/>
         <Servo name="servo_release_left" port="2"/>
         <Servo name="servo_release_right" port="3"/>
-        <Servo name="servo_sweep_left" port="4"/>
-        <Servo name="servo_sweep_right" port="5"/>
+        <Servo name="servo_blocker_left" port="4"/>
+        <Servo name="servo_blocker_right" port="5"/>
     </ServoController>
     <MotorController name="Motor Controller 5" serialNumber="AH00QIKP">
         <Motor name="motor_drive_right" port="1"/>
