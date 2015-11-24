@@ -13,6 +13,8 @@ import org.pattonvillerobotics.team2866.robotclasses.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.Config;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
 import org.pattonvillerobotics.team2866.robotclasses.Drive;
+import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
+import org.pattonvillerobotics.team2866.robotclasses.MRGyroHelper;
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
 
@@ -31,6 +33,7 @@ public class OfficialTeleOp extends LinearOpMode {
     private ZipRelease zipRelease;
     private ClimberDumper climberDumper;
     private ModernRoboticsI2cGyro mrGyro;
+    private MRGyroHelper mrGyroHelper;
 
     private boolean leftReleaseDown = true;
     private boolean leftReleaseTriggered = false;
@@ -39,6 +42,11 @@ public class OfficialTeleOp extends LinearOpMode {
 
     private boolean dumperTriggered = false;
     private boolean dumperDown = true;
+
+    private GamepadData gamepad1DataCurrent;
+    private GamepadData gamepad2DataCurrent;
+    private GamepadData gamepad1DataHistory;
+    private GamepadData gamepad2DataHistory;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -49,11 +57,8 @@ public class OfficialTeleOp extends LinearOpMode {
         zipRelease = new ZipRelease(hardwareMap);
         climberDumper = new ClimberDumper(hardwareMap);
         mrGyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get(Config.SENSOR_GYRO);
-
-        mrGyro.calibrate();
-        while (mrGyro.isCalibrating()) {
-            this.sleep(1);
-        }
+        mrGyroHelper = new MRGyroHelper(mrGyro, this);
+        mrGyroHelper.calibrateAndWait();
 
         //noinspection MagicNumber
         gamepad1.setJoystickDeadzone(0.05f);
@@ -68,9 +73,18 @@ public class OfficialTeleOp extends LinearOpMode {
 
         while (opModeIsActive()) {
             log();
+            updateGamepads();
             doLoop();
             waitForNextHardwareCycle();
         }
+    }
+
+    private void updateGamepads() {
+        this.gamepad1DataHistory = this.gamepad1DataCurrent;
+        this.gamepad2DataHistory = this.gamepad2DataCurrent;
+
+        this.gamepad1DataCurrent = new GamepadData(gamepad1);
+        this.gamepad2DataCurrent = new GamepadData(gamepad2);
     }
 
     private void logServoData(Object msg) {
@@ -129,8 +143,8 @@ public class OfficialTeleOp extends LinearOpMode {
     public void doLoop() {
         // Treads
 
-        float right = gamepad1.right_stick_y;
-        float left = gamepad1.left_stick_y;
+        float right = gamepad1DataCurrent.right_stick_y;
+        float left = gamepad1DataCurrent.left_stick_y;
 
         // clip the right/left values so that the values never exceed +/- 1
         right = Range.clip(right, -1, 1);
@@ -140,17 +154,17 @@ public class OfficialTeleOp extends LinearOpMode {
 
         // Climb Assist
 
-        if (gamepad1.y && !gamepad1.a) {
+        if (gamepad1DataCurrent.y && !gamepad1DataCurrent.a) {
             climbAssist.moveLift(Config.LIFT_MOVEMENT_SPEED);
-        } else if (gamepad1.a && !gamepad1.y) {
+        } else if (gamepad1DataCurrent.a && !gamepad1DataCurrent.y) {
             climbAssist.moveLift(-Config.LIFT_MOVEMENT_SPEED);
         } else {
             climbAssist.stopLift();
         }
 
-        if (gamepad1.right_bumper && !gamepad1.left_bumper) {
+        if (gamepad1DataCurrent.right_bumper && !gamepad1DataCurrent.left_bumper) {
             climbAssist.moveChain(Config.CHAIN_MOVEMENT_SPEED);
-        } else if (gamepad1.left_bumper && !gamepad1.right_bumper) {
+        } else if (gamepad1DataCurrent.left_bumper && !gamepad1DataCurrent.right_bumper) {
             climbAssist.moveChain(-Config.CHAIN_MOVEMENT_SPEED);
         } else {
             climbAssist.stopChain();
@@ -158,10 +172,10 @@ public class OfficialTeleOp extends LinearOpMode {
 
         // Arm
 
-        if (gamepad2.y) {
+        if (gamepad2DataCurrent.y) {
             armController.moveArm(.25);
             //armController.advanceArm(Config.ARM_MOVEMENT_SPEED);
-        } else if (gamepad2.a) {
+        } else if (gamepad2DataCurrent.a) {
             armController.moveArm(-.25);
             //armController.advanceArm(-Config.ARM_MOVEMENT_SPEED);
         } else {
@@ -170,7 +184,7 @@ public class OfficialTeleOp extends LinearOpMode {
 
         // Zip Release
 
-        if (gamepad2.x) {
+        if (gamepad2DataCurrent.x) {
             if (!leftReleaseTriggered) {
                 if (leftReleaseDown) {
                     zipRelease.moveLeft(Direction.UP);
@@ -185,7 +199,7 @@ public class OfficialTeleOp extends LinearOpMode {
             leftReleaseTriggered = false;
         }
 
-        if (gamepad2.b) {
+        if (gamepad2DataCurrent.b) {
             if (!rightReleaseTriggered) {
                 if (rightReleaseDown) {
                     zipRelease.moveRight(Direction.UP);
@@ -202,7 +216,7 @@ public class OfficialTeleOp extends LinearOpMode {
 
         // Climber Dumper
 
-        if (gamepad1.x) {
+        if (gamepad1DataCurrent.x) {
             if (!dumperTriggered) {
                 if (dumperDown) {
                     climberDumper.move(Direction.UP);
