@@ -28,7 +28,7 @@ public class AutoBucketParkBlue1 extends LinearOpMode {
 
         waitForStart();
 
-        drive.moveInches(Direction.BACKWARDS, 30, 1); //Make sure this doesn't cross over! Go 30 inches
+        CommonAutonomous.leadPosition1(drive);
         drive.rotateDegrees(Direction.RIGHT, 45, 1); //Make sure this goes at a 45˚ angle!
         drive.moveInches(Direction.BACKWARDS, 72, 1); //92 inches or w/e up to the rescue bit
         drive.rotateDegrees(Direction.RIGHT, 45, 1);
