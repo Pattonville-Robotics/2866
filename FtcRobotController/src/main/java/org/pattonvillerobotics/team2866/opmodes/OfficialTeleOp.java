@@ -111,7 +111,7 @@ public class OfficialTeleOp extends LinearOpMode {
 
     private void logSensor(HardwareDevice sensor, String name) {
         if (sensor instanceof ModernRoboticsI2cGyro)
-            logServoData(String.format("%-20s Rotation (% 07d)", name + ":", ((ModernRoboticsI2cGyro) sensor).getIntegratedZValue()));
+            logSensorData(String.format("%-20s Rotation (% 07d)", name + ":", ((ModernRoboticsI2cGyro) sensor).getIntegratedZValue()));
         else
             telemetry.addData("SENSORERROR", "Sensor not supported: " + sensor.getClass().getSimpleName());
     }
@@ -135,8 +135,8 @@ public class OfficialTeleOp extends LinearOpMode {
     }
 
     private void log() {
-        //logServos();
-        //logMotors();
+        logServos();
+        logMotors();
         logSensors();
     }
 
@@ -161,7 +161,6 @@ public class OfficialTeleOp extends LinearOpMode {
         } else {
             climbAssist.stopLift();
         }
-
         if (gamepad1DataCurrent.right_bumper && !gamepad1DataCurrent.left_bumper) {
             climbAssist.moveChain(Config.CHAIN_MOVEMENT_SPEED);
         } else if (gamepad1DataCurrent.left_bumper && !gamepad1DataCurrent.right_bumper) {
@@ -198,7 +197,6 @@ public class OfficialTeleOp extends LinearOpMode {
         } else {
             leftReleaseTriggered = false;
         }
-
         if (gamepad2DataCurrent.b) {
             if (!rightReleaseTriggered) {
                 if (rightReleaseDown) {
@@ -230,12 +228,5 @@ public class OfficialTeleOp extends LinearOpMode {
         } else {
             dumperTriggered = false;
         }
-
-        // Telemetry
-
-        //telemetry.addData(TAG, drive);
-        //telemetry.addData(TAG, climbAssist);
-        //telemetry.addData(TAG, armController);
-        telemetry.addData(TAG, zipRelease);
     }
 }
