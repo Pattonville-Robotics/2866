@@ -55,7 +55,9 @@ public class OfficialTeleOp extends LinearOpMode {
             this.sleep(1);
         }
 
+        //noinspection MagicNumber
         gamepad1.setJoystickDeadzone(0.05f);
+        //noinspection MagicNumber
         gamepad2.setJoystickDeadzone(0.05f);
 
         zipRelease.moveLeft(Direction.DOWN);
@@ -212,9 +214,8 @@ public class OfficialTeleOp extends LinearOpMode {
                 dumperTriggered = true;
             }
         } else {
-                dumperTriggered = false;
+            dumperTriggered = false;
         }
-
 
         // Telemetry
 
