@@ -105,6 +105,7 @@ public class Drive {
     }
 
     public void stopDriveMotors() {
+        this.waitForNextHardwareCycle(); // So they can be applied simultaneously all the time
         motorLeft.setPower(0);
         motorRight.setPower(0);
     }
