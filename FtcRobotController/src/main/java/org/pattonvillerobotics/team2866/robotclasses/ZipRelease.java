@@ -29,7 +29,6 @@ public class ZipRelease {
     public void moveLeft(Direction direction) {
 
         switch (direction) {
-
             case UP:
                 servoReleaseLeft.setPosition(LEFT_UP);
                 servoLeft = Direction.UP;
@@ -39,6 +38,8 @@ public class ZipRelease {
                 servoReleaseLeft.setPosition(LEFT_DOWN);
                 servoLeft = Direction.DOWN;
                 break;
+            default:
+                throw new IllegalArgumentException("Direction must be UP or DOWN!");
         }
     }
 
@@ -54,6 +55,8 @@ public class ZipRelease {
                 servoReleaseRight.setPosition(RIGHT_DOWN);
                 servoRight = Direction.DOWN;
                 break;
+            default:
+                throw new IllegalArgumentException("Direction must be UP or DOWN!");
         }
     }
 
