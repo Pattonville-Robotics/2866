@@ -32,4 +32,7 @@ public class CommonAutonomous {
     public static void leadPosition2(Drive drive) {
         drive.moveInches(Direction.BACKWARDS, 69, 1);
     }
+    public static void leadPosition3(Drive drive) {
+        drive.moveInches(Direction.BACKWARDS, 94, 1);
+    }
 }
