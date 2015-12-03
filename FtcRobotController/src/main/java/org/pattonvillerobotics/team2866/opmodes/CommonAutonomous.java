@@ -17,17 +17,16 @@ public class CommonAutonomous {
 
     public static void dumpClimber(Drive drive, ClimberDumper climberDumper) {
 
-        drive.moveInches(Direction.BACKWARDS, 10, 1);
+        drive.moveInches(Direction.BACKWARDS, 30, 1);
         climberDumper.move(Direction.MID);
         drive.sleep(1000);
         climberDumper.move(Direction.UP);
         drive.sleep(1000);
         climberDumper.move(Direction.DOWN);
-        drive.moveInches(Direction.FORWARDS, 24, 1);
     }
 
     public static void secondPositionTravel(Drive drive) {
-        drive.moveInches(Direction.BACKWARDS, 74, 1);
+        drive.moveInches(Direction.BACKWARDS, 30, 1);
     }
 
     public static void mountainTravel(Drive drive) {
@@ -36,6 +35,10 @@ public class CommonAutonomous {
 
     public static void mountainAscend(Drive drive) {
         drive.moveInches(Direction.FORWARDS, 60, 1);
+    }
+
+    public static void dumperReturn(Drive drive) {
+        drive.moveInches(Direction.FORWARDS, 24, 1);
     }
 
     public static void firstPosition1(Drive drive) {

@@ -39,6 +39,7 @@ public class AutoBucketMountainRed1 extends LinearOpMode {
         CommonAutonomous.secondPositionTravel(drive);
         drive.rotateDegrees(Direction.LEFT, 45, .5);
         CommonAutonomous.dumpClimber(drive, climberDumper);
+        CommonAutonomous.dumperReturn(drive);
         drive.rotateDegrees(Direction.RIGHT, 45, .5);
         CommonAutonomous.mountainTravel(drive);
         drive.rotateDegrees(Direction.RIGHT, 90 + 10, .4);
