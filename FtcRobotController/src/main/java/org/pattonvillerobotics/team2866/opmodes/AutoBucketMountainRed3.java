@@ -10,12 +10,10 @@ import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
 
 /**
- * Created by stewartk02 on 11/5/15.
- *
- * TODO: Measure and write OpMode
+ * Created by mcmahonj on 12/1/15.
  */
-@OpMode("Blue Mountain 2")
-public class AutoBucketMountainBlue2 extends LinearOpMode {
+@OpMode("Red Mountain 3")
+public class AutoBucketMountainRed3 extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -30,15 +28,15 @@ public class AutoBucketMountainBlue2 extends LinearOpMode {
 
         waitForStart();
 
-        CommonAutonomous.firstPosition2(drive);
-        drive.rotateDegrees(Direction.RIGHT, 45, 1); //Make sure this goes at a 45˚ angle!
-        CommonAutonomous.secondPositionTravel(drive);
-        drive.rotateDegrees(Direction.RIGHT, 45, 1);
-        CommonAutonomous.dumpClimber(drive);
-        drive.rotateDegrees(Direction.LEFT, 45, 1);
-        CommonAutonomous.mountainTravel(drive);
-        drive.rotateDegrees(Direction.LEFT, 90 - 15, 1);
-        CommonAutonomous.mountainAscend(drive);
+        CommonAutonomous.firstPosition3(drive);
+        drive.rotateDegrees(Direction.LEFT, 45, .5); //Make sure this goes at a 45˚ angle!
+        drive.moveInches(Direction.BACKWARDS, 24, 1); //92 inches or w/e up to the rescue bit
+        drive.rotateDegrees(Direction.LEFT, 45, .5);
+        CommonAutonomous.dumpClimber(drive, climberDumper);
+        drive.rotateDegrees(Direction.RIGHT, 45, .5);
+        drive.moveInches(Direction.FORWARDS, 12, 1);
+        drive.rotateDegrees(Direction.RIGHT, 90, .4);
+        drive.moveInches(Direction.FORWARDS, 50, 1); //Measurement required
         //climbAssist.moveChain(1);
         //climbAssist.moveChain(0);
         drive.stop();

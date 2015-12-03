@@ -17,8 +17,7 @@ public class CommonAutonomous {
 
     public static void dumpClimber(Drive drive, ClimberDumper climberDumper) {
 
-        drive.moveInches(Direction.BACKWARDS, 24, 1);
-        drive.sleep(1000);
+        drive.moveInches(Direction.BACKWARDS, 10, 1);
         climberDumper.move(Direction.MID);
         drive.sleep(1000);
         climberDumper.move(Direction.UP);
@@ -26,13 +25,28 @@ public class CommonAutonomous {
         climberDumper.move(Direction.DOWN);
         drive.moveInches(Direction.FORWARDS, 24, 1);
     }
-    public static void leadPosition1(Drive drive) {
+
+    public static void secondPositionTravel(Drive drive) {
+        drive.moveInches(Direction.BACKWARDS, 74, 1);
+    }
+
+    public static void mountainTravel(Drive drive) {
+        drive.moveInches(Direction.FORWARDS, 28, 1);
+    }
+
+    public static void mountainAscend(Drive drive) {
+        drive.moveInches(Direction.FORWARDS, 60, 1);
+    }
+
+    public static void firstPosition1(Drive drive) {
         drive.moveInches(Direction.BACKWARDS, 30, 1);
     }
-    public static void leadPosition2(Drive drive) {
-        drive.moveInches(Direction.BACKWARDS, 69, 1);
+
+    public static void firstPosition2(Drive drive) {
+        drive.moveInches(Direction.BACKWARDS, 51, 1);
     }
-    public static void leadPosition3(Drive drive) {
+
+    public static void firstPosition3(Drive drive) {
         drive.moveInches(Direction.BACKWARDS, 94, 1);
     }
 }

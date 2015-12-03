@@ -7,6 +7,7 @@ import org.pattonvillerobotics.team2866.robotclasses.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
 import org.pattonvillerobotics.team2866.robotclasses.Drive;
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
+import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
 
 /**
  * Created by Kevin Stewart & James McMahon on 10/15/15.
@@ -25,16 +26,19 @@ public class AutoBucketParkBlue1 extends LinearOpMode {
         Drive drive = new Drive(hardwareMap, this);
         ClimberDumper climberDumper = new ClimberDumper(hardwareMap);
         ClimbAssist climbAssist = new ClimbAssist(hardwareMap);
+        ZipRelease zipRelease = new ZipRelease(hardwareMap);
+
+        zipRelease.moveLeft(Direction.DOWN);
+        zipRelease.moveRight(Direction.DOWN);
+        climberDumper.move(Direction.DOWN);
 
         waitForStart();
 
-        CommonAutonomous.leadPosition1(drive);
-        drive.rotateDegrees(Direction.RIGHT, 45, 1); //Make sure this goes at a 45˚ angle!
-        drive.moveInches(Direction.BACKWARDS, 72, 1); //92 inches or w/e up to the rescue bit
+        CommonAutonomous.firstPosition1(drive);
         drive.rotateDegrees(Direction.RIGHT, 45, 1);
-        drive.moveInches(Direction.BACKWARDS, 18, 1); //18 inches: NIN*2
-        climberDumper.move(Direction.UP); //Moves the servo to dump the lil guys into the basket
-        climberDumper.move(Direction.DOWN);
+        CommonAutonomous.secondPositionTravel(drive);
+        drive.rotateDegrees(Direction.RIGHT, 45, 1);
+        CommonAutonomous.dumpClimber(drive);
         drive.stop();
     }
 }
