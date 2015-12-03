@@ -38,7 +38,7 @@ public class AutoBucketParkBlue1 extends LinearOpMode {
         drive.rotateDegrees(Direction.RIGHT, 45, 1);
         CommonAutonomous.secondPositionTravel(drive);
         drive.rotateDegrees(Direction.RIGHT, 45, 1);
-        CommonAutonomous.dumpClimber(drive);
+        CommonAutonomous.dumpClimber(drive, climberDumper);
         drive.stop();
     }
 }

@@ -29,7 +29,7 @@ public class AutoBucketParkRed1 extends LinearOpMode {
         drive.rotateDegrees(Direction.LEFT, 45, 0.5); //Make sure this goes at a 45˚ angle!
         CommonAutonomous.secondPositionTravel(drive);
         drive.rotateDegrees(Direction.LEFT, 45, 0.5);
-        CommonAutonomous.dumpClimber(drive);
+        CommonAutonomous.dumpClimber(drive, climberDumper);
         drive.stop();
 
     }
