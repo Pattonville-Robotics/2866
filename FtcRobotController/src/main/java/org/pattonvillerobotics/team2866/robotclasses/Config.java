@@ -18,6 +18,7 @@ public final class Config {
     public static final String MOTOR_CHAIN = "motor_chain";
 
     public static final String SERVO_DUMPER = "servo_dumper";
+    public static final String SERVO_SHIELD = "servo_shield";
 
     public static final String SERVO_RELEASE_LEFT = "servo_release_left";
     public static final String SERVO_RELEASE_RIGHT = "servo_release_right";

@@ -29,12 +29,11 @@ public class AutoBucketParkBlue2 extends LinearOpMode {
 
         waitForStart();
 
-        drive.moveInches(Direction.BACKWARDS, 69, 1); //66
-        drive.rotateDegrees(Direction.RIGHT, 45, .5); //Make sure this goes at a 45˚ angle!
-        drive.moveInches(Direction.BACKWARDS, 24, 1); //92 inches or w/e up to the rescue bit
-        drive.rotateDegrees(Direction.RIGHT, 45, .5);
-        climberDumper.move(Direction.UP); //Moves the servo to dump the lil guys into the basket
-        climberDumper.move(Direction.DOWN);
+        CommonAutonomous.firstPosition2(drive);
+        drive.rotateDegrees(Direction.RIGHT, 45, 1); //Make sure this goes at a 45˚ angle!
+        CommonAutonomous.secondPositionTravel(drive);
+        drive.rotateDegrees(Direction.RIGHT, 45, 1);
+        CommonAutonomous.dumpClimber(drive);
         drive.stop();
     }
 }
