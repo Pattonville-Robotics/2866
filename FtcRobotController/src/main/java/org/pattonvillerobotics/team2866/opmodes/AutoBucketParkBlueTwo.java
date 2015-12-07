@@ -10,14 +10,19 @@ import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
 
 /**
- * Created by skeltonn on 11/20/15.
- *
- * TODO: Measure and write OpMode
+ * Created by Kevin Stewart & James McMahon on 10/15/15.
+ * <p/>
+ * TODO: Walk through values
+ * TODO: Initialize servo values
  */
 @OpMode("Blue Park 2")
-public class AutoBucketParkBlue2 extends LinearOpMode {
+public class AutoBucketParkBlueTwo extends LinearOpMode {
+
+    public static final String TAG = "Blue Park Autonomous";
+
     @Override
     public void runOpMode() throws InterruptedException {
+
         Drive drive = new Drive(hardwareMap, this);
         ClimberDumper climberDumper = new ClimberDumper(hardwareMap);
         ClimbAssist climbAssist = new ClimbAssist(hardwareMap);
@@ -29,10 +34,10 @@ public class AutoBucketParkBlue2 extends LinearOpMode {
 
         waitForStart();
 
-        CommonAutonomous.firstPosition2(drive);
-        drive.rotateDegrees(Direction.RIGHT, 45, 1); //Make sure this goes at a 45˚ angle!
+        CommonAutonomous.leavePositionTwo(drive);
+        drive.rotateDegrees(Direction.RIGHT, 45, 0.5);
         CommonAutonomous.secondPositionTravel(drive);
-        drive.rotateDegrees(Direction.RIGHT, 45, 1);
+        drive.rotateDegrees(Direction.RIGHT, 45, 0.5);
         CommonAutonomous.dumpClimber(drive, climberDumper);
         drive.stop();
     }

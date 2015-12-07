@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
 import org.pattonvillerobotics.team2866.robotclasses.ArmController;
+import org.pattonvillerobotics.team2866.robotclasses.Blocker;
 import org.pattonvillerobotics.team2866.robotclasses.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.Config;
@@ -34,6 +35,7 @@ public class OfficialTeleOp extends LinearOpMode {
     private ClimberDumper climberDumper;
     private ModernRoboticsI2cGyro mrGyro;
     private MRGyroHelper mrGyroHelper;
+    private Blocker blocker;
 
     private boolean leftReleaseDown = true;
     private boolean leftReleaseTriggered = false;
@@ -58,6 +60,9 @@ public class OfficialTeleOp extends LinearOpMode {
         climberDumper = new ClimberDumper(hardwareMap);
         mrGyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get(Config.SENSOR_GYRO);
         mrGyroHelper = new MRGyroHelper(mrGyro, this);
+
+        blocker = new Blocker(hardwareMap);
+
         mrGyroHelper.calibrateAndWait();
 
         //noinspection MagicNumber
@@ -72,7 +77,7 @@ public class OfficialTeleOp extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            log();
+            //log();
             updateGamepads();
             doLoop();
             waitForNextHardwareCycle();
@@ -141,6 +146,41 @@ public class OfficialTeleOp extends LinearOpMode {
     }
 
     public void doLoop() {
+        /*
+
+        Gamepad 1 Functions:
+            A: Move lift down
+            B:
+            X:
+            Y: Move lift up
+
+            Right stick:
+            Left stick:
+
+            Right bumper: Chain forewards
+            Left bumper: Chain backwards
+
+            Right trigger:
+            Left trigger:
+
+        Gamepad 2 Functions:
+            A: Move arm down
+            B:
+            X:
+            Y: Move arm up
+
+            Right stick:
+            Left stick:
+
+            Right bumper:
+            Left bumper:
+
+            Right trigger:
+            Left trigger:
+
+
+         */
+
         // Treads
 
         float right = gamepad1DataCurrent.right_stick_y;
@@ -151,6 +191,16 @@ public class OfficialTeleOp extends LinearOpMode {
         left = Range.clip(left, -1, 1);
 
         drive.moveFreely(left, right);
+
+        // Blocker
+
+        if (gamepad1DataCurrent.left_trigger > .5 && !(gamepad1DataHistory.left_trigger > .5)) {
+            blocker.move(Direction.UP);
+            telemetry.addData("Blocker", "UP");
+        } else if (gamepad1DataCurrent.right_trigger > .5 && !(gamepad1DataHistory.left_trigger > .5)) {
+            blocker.move(Direction.DOWN);
+            telemetry.addData("Blocker", "DOWN");
+        }
 
         // Climb Assist
 
@@ -171,10 +221,10 @@ public class OfficialTeleOp extends LinearOpMode {
 
         // Arm
 
-        if (gamepad2DataCurrent.y) {
+        if (gamepad2DataCurrent.y && !gamepad2DataCurrent.a) {
             armController.moveArm(.25);
             //armController.advanceArm(Config.ARM_MOVEMENT_SPEED);
-        } else if (gamepad2DataCurrent.a) {
+        } else if (gamepad2DataCurrent.a && !gamepad2DataCurrent.y) {
             armController.moveArm(-.25);
             //armController.advanceArm(-Config.ARM_MOVEMENT_SPEED);
         } else {
@@ -183,6 +233,16 @@ public class OfficialTeleOp extends LinearOpMode {
 
         // Zip Release
 
+        if (gamepad2DataCurrent.x && !gamepad2DataHistory.x) {
+            if (leftReleaseDown) {
+                zipRelease.moveLeft(Direction.UP);
+                leftReleaseDown = false;
+            } else {
+                zipRelease.moveLeft(Direction.DOWN);
+                leftReleaseDown = true;
+            }
+        }
+        /*
         if (gamepad2DataCurrent.x) {
             if (!leftReleaseTriggered) {
                 if (leftReleaseDown) {
@@ -196,7 +256,17 @@ public class OfficialTeleOp extends LinearOpMode {
             }
         } else {
             leftReleaseTriggered = false;
-        }
+        }*/
+
+        if (gamepad2DataCurrent.b && !gamepad2DataHistory.b) {
+            if (rightReleaseDown) {
+                zipRelease.moveRight(Direction.UP);
+                rightReleaseDown = false;
+            } else {
+                zipRelease.moveRight(Direction.DOWN);
+                rightReleaseDown = true;
+            }
+        }/*
         if (gamepad2DataCurrent.b) {
             if (!rightReleaseTriggered) {
                 if (rightReleaseDown) {
@@ -210,10 +280,20 @@ public class OfficialTeleOp extends LinearOpMode {
             }
         } else {
             rightReleaseTriggered = false;
-        }
+        }*/
 
         // Climber Dumper
 
+        if (gamepad1DataCurrent.x && !gamepad1DataHistory.x) {
+            if (dumperDown) {
+                climberDumper.move(Direction.UP);
+                dumperDown = false;
+            } else {
+                climberDumper.move(Direction.DOWN);
+                dumperDown = true;
+            }
+        }
+        /*
         if (gamepad1DataCurrent.x) {
             if (!dumperTriggered) {
                 if (dumperDown) {
@@ -227,6 +307,6 @@ public class OfficialTeleOp extends LinearOpMode {
             }
         } else {
             dumperTriggered = false;
-        }
+        }*/
     }
 }
