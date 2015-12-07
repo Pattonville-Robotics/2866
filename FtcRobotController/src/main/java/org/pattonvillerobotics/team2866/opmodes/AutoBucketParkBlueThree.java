@@ -10,15 +10,14 @@ import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
 
 /**
- * Created by mcmahonj on 12/1/15.
+ * Created by skeltonn on 11/20/15.
+ * <p/>
+ * TODO: Measure and write OpMode
  */
-@OpMode("Blue Mountain 3")
-public class AutoBucketMountainBlue3 extends LinearOpMode {
-    public static final String TAG = "TestAutonomous";
-
+@OpMode("Blue Park 3")
+public class AutoBucketParkBlueThree extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
-
         Drive drive = new Drive(hardwareMap, this);
         ClimberDumper climberDumper = new ClimberDumper(hardwareMap);
         ClimbAssist climbAssist = new ClimbAssist(hardwareMap);
@@ -30,17 +29,11 @@ public class AutoBucketMountainBlue3 extends LinearOpMode {
 
         waitForStart();
 
-        CommonAutonomous.firstPosition3(drive);
-        drive.rotateDegrees(Direction.RIGHT, 45, 1);
+        CommonAutonomous.leavePositionThree(drive);
+        drive.rotateDegrees(Direction.RIGHT, 45, 0.5); //Make sure this goes at a 45˚ angle!
         CommonAutonomous.secondPositionTravel(drive);
-        drive.rotateDegrees(Direction.RIGHT, 45, 1);
+        drive.rotateDegrees(Direction.RIGHT, 45, 0.5);
         CommonAutonomous.dumpClimber(drive, climberDumper);
-        drive.rotateDegrees(Direction.LEFT, 45, 1);
-        CommonAutonomous.secondPositionTravel(drive);
-        drive.rotateDegrees(Direction.LEFT, 90, 1);
-        CommonAutonomous.mountainAscend(drive);
-        //climbAssist.moveChain(1);
-        //climbAssist.moveChain(0);
         drive.stop();
     }
 }

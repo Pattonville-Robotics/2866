@@ -17,20 +17,39 @@ public class CommonAutonomous {
 
     public static void dumpClimber(Drive drive, ClimberDumper climberDumper) {
 
-        drive.moveInches(Direction.BACKWARDS, 30, 1);
+        drive.moveInches(Direction.BACKWARDS, 24, 1);
+/*
         climberDumper.move(Direction.MID);
         drive.sleep(1000);
         climberDumper.move(Direction.UP);
         drive.sleep(1000);
         climberDumper.move(Direction.DOWN);
+*/
+
+
+        double diff = (climberDumper.UP - .3) - climberDumper.DOWN;
+
+        for (int i = 0; i < 100; i++) {
+            t
+            double target = climberDumper.DOWN + (i * diff) / 100;
+            climberDumper.servoDumper.setPosition(target);
+            drive.sleep(15);
+        }
+        drive.sleep(1000);
+        climberDumper.move(Direction.DOWN);
+
     }
 
     public static void secondPositionTravel(Drive drive) {
-        drive.moveInches(Direction.BACKWARDS, 30, 1);
+        drive.moveInches(Direction.BACKWARDS, 68, 1);
+    }
+
+    public static void thirdPositionTravel(Drive drive) {
+        drive.moveInches(Direction.BACKWARDS, 34, 1);
     }
 
     public static void mountainTravel(Drive drive) {
-        drive.moveInches(Direction.FORWARDS, 28, 1);
+        drive.moveInches(Direction.FORWARDS, 35, 1);
     }
 
     public static void mountainAscend(Drive drive) {
@@ -38,18 +57,18 @@ public class CommonAutonomous {
     }
 
     public static void dumperReturn(Drive drive) {
-        drive.moveInches(Direction.FORWARDS, 24, 1);
+        drive.moveInches(Direction.FORWARDS, 28, 1);
     }
 
-    public static void firstPosition1(Drive drive) {
-        drive.moveInches(Direction.BACKWARDS, 30, 1);
+    public static void leavePositionTwo(Drive drive) {
+        drive.moveInches(Direction.BACKWARDS, 27, 1);
     }
 
-    public static void firstPosition2(Drive drive) {
-        drive.moveInches(Direction.BACKWARDS, 51, 1);
+    public static void leavePositionThree(Drive drive) {
+        drive.moveInches(Direction.BACKWARDS, 50, 1);
     }
 
-    public static void firstPosition3(Drive drive) {
-        drive.moveInches(Direction.BACKWARDS, 94, 1);
+    public static void leavePositionOne(Drive drive) {
+        drive.moveInches(Direction.BACKWARDS, 97, 1);
     }
 }

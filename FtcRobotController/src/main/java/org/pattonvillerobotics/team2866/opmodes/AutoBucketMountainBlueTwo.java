@@ -10,13 +10,10 @@ import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
 
 /**
- * Created by skaggsm on 10/17/15.
- *
- * TODO: Walk through values
- * TODO: Initialize servo values
+ * Created by Kevin Stewart & James McMahon on 10/15/15.
  */
-@OpMode("Red Mountain 1")
-public class AutoBucketMountainRed1 extends LinearOpMode {
+@OpMode("Blue Mountain 2")
+public class AutoBucketMountainBlueTwo extends LinearOpMode {
 
     public static final String TAG = "TestAutonomous";
 
@@ -34,15 +31,15 @@ public class AutoBucketMountainRed1 extends LinearOpMode {
 
         waitForStart();
 
-        CommonAutonomous.firstPosition1(drive);
-        drive.rotateDegrees(Direction.LEFT, 45, .5);
+        CommonAutonomous.leavePositionTwo(drive);
+        drive.rotateDegrees(Direction.RIGHT, 45, 0.5);
         CommonAutonomous.secondPositionTravel(drive);
-        drive.rotateDegrees(Direction.LEFT, 45, .5);
+        drive.rotateDegrees(Direction.RIGHT, 45, 0.5);
         CommonAutonomous.dumpClimber(drive, climberDumper);
         CommonAutonomous.dumperReturn(drive);
-        drive.rotateDegrees(Direction.RIGHT, 45, .5);
+        drive.rotateDegrees(Direction.LEFT, 45 - 5, 0.4);
         CommonAutonomous.mountainTravel(drive);
-        drive.rotateDegrees(Direction.RIGHT, 90 + 10, .4);
+        drive.rotateDegrees(Direction.LEFT, 90, 0.4);
         CommonAutonomous.mountainAscend(drive);
         //climbAssist.moveChain(1);
         //climbAssist.moveChain(0);

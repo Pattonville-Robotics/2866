@@ -10,11 +10,10 @@ import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
 
 /**
- * Created by Kevin Stewart & James McMahon on 10/15/15.
+ * Created by mcmahonj on 12/1/15.
  */
 @OpMode("Blue Mountain 1")
-public class AutoBucketMountainBlue1 extends LinearOpMode {
-
+public class AutoBucketMountainBlueOne extends LinearOpMode {
     public static final String TAG = "TestAutonomous";
 
     @Override
@@ -31,15 +30,13 @@ public class AutoBucketMountainBlue1 extends LinearOpMode {
 
         waitForStart();
 
-        CommonAutonomous.firstPosition1(drive);
-        drive.rotateDegrees(Direction.RIGHT, 45, 1);
-        CommonAutonomous.secondPositionTravel(drive);
-        drive.rotateDegrees(Direction.RIGHT, 45, 1);
+        CommonAutonomous.leavePositionOne(drive);
+        drive.rotateDegrees(Direction.RIGHT, 45, 0.5);
         CommonAutonomous.dumpClimber(drive, climberDumper);
         CommonAutonomous.dumperReturn(drive);
-        drive.rotateDegrees(Direction.LEFT, 45, 1);
+        drive.rotateDegrees(Direction.LEFT, 45, 0.4);
         CommonAutonomous.mountainTravel(drive);
-        drive.rotateDegrees(Direction.LEFT, 90 - 15, 1);
+        drive.rotateDegrees(Direction.LEFT, 90, 0.4);
         CommonAutonomous.mountainAscend(drive);
         //climbAssist.moveChain(1);
         //climbAssist.moveChain(0);

@@ -8,16 +8,15 @@ import com.qualcomm.robotcore.hardware.Servo;
  * TODO: Find servo values
  * TODO: Create a control method similar to ZipRelease
  */
-public class  Blocker {
+public class Blocker {
 
+    private static final double UP_LEFT = 1 - .3;
+    private static final double UP_RIGHT = 0 + .3;
+    private static final double DOWN_LEFT = 0 + .05;
+    private static final double DOWN_RIGHT = 1 - .05;
     public Servo servoLeft;
     public Servo servoRight;
     private HardwareMap hardwareMap;
-    private double upLeft = 0;
-    private double upRight = 0;
-    private double downLeft = 0;
-    private double downRight = 0;
-
     private Direction currentDirection;
 
     public Blocker(HardwareMap hardwareMap) {
@@ -39,12 +38,12 @@ public class  Blocker {
     public void move(Direction direction) {
         switch (direction) {
             case UP:
-                servoLeft.setPosition(upLeft);
-                servoRight.setPosition(upRight);
+                servoLeft.setPosition(UP_LEFT);
+                servoRight.setPosition(UP_RIGHT);
                 break;
             case DOWN:
-                servoLeft.setPosition(downLeft);
-                servoRight.setPosition(downRight);
+                servoLeft.setPosition(DOWN_LEFT);
+                servoRight.setPosition(DOWN_RIGHT);
                 break;
             default:
                 throw new IllegalArgumentException("Direction must be UP or DOWN!");
