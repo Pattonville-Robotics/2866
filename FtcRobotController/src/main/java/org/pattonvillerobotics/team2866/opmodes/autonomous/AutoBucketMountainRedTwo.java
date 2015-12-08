@@ -1,7 +1,8 @@
-package org.pattonvillerobotics.team2866.opmodes;
+package org.pattonvillerobotics.team2866.opmodes.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.pattonvillerobotics.team2866.opmodes.CommonAutonomous;
 import org.pattonvillerobotics.team2866.robotclasses.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
@@ -10,14 +11,19 @@ import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
 
 /**
- * Created by skeltonn on 11/20/15.
+ * Created by skaggsm on 10/17/15.
  * <p/>
- * TODO: Measure and write OpMode
+ * TODO: Walk through values
+ * TODO: Initialize servo values
  */
-@OpMode("Blue Park 3")
-public class AutoBucketParkBlueThree extends LinearOpMode {
+@OpMode("Red Mountain 2")
+public class AutoBucketMountainRedTwo extends LinearOpMode {
+
+    public static final String TAG = "TestAutonomous";
+
     @Override
     public void runOpMode() throws InterruptedException {
+
         Drive drive = new Drive(hardwareMap, this);
         ClimberDumper climberDumper = new ClimberDumper(hardwareMap);
         ClimbAssist climbAssist = new ClimbAssist(hardwareMap);
@@ -29,11 +35,18 @@ public class AutoBucketParkBlueThree extends LinearOpMode {
 
         waitForStart();
 
-        CommonAutonomous.leavePositionThree(drive);
-        drive.rotateDegrees(Direction.RIGHT, 45, 0.5); //Make sure this goes at a 45˚ angle!
+        CommonAutonomous.leavePositionTwo(drive);
+        drive.rotateDegrees(Direction.LEFT, 45, 0.5);
         CommonAutonomous.secondPositionTravel(drive);
-        drive.rotateDegrees(Direction.RIGHT, 45, 0.5);
+        drive.rotateDegrees(Direction.LEFT, 45, 0.5);
         CommonAutonomous.dumpClimber(drive, climberDumper);
+        CommonAutonomous.dumperReturn(drive);
+        drive.rotateDegrees(Direction.RIGHT, 45, 0.4);
+        CommonAutonomous.mountainTravel(drive);
+        drive.rotateDegrees(Direction.RIGHT, 90, 0.4);
+        CommonAutonomous.mountainAscend(drive);
+        //climbAssist.moveChain(1);
+        //climbAssist.moveChain(0);
         drive.stop();
     }
 }

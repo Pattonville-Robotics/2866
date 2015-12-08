@@ -1,7 +1,8 @@
-package org.pattonvillerobotics.team2866.opmodes;
+package org.pattonvillerobotics.team2866.opmodes.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.pattonvillerobotics.team2866.opmodes.CommonAutonomous;
 import org.pattonvillerobotics.team2866.robotclasses.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
@@ -14,8 +15,8 @@ import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
  * <p/>
  * TODO: Measure and write OpMode
  */
-@OpMode("Red Mountain 3")
-public class AutoBucketMountainRedThree extends LinearOpMode {
+@OpMode("Blue Mountain 3")
+public class AutoBucketMountainBlueThree extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -31,14 +32,14 @@ public class AutoBucketMountainRedThree extends LinearOpMode {
         waitForStart();
 
         CommonAutonomous.leavePositionThree(drive);
-        drive.rotateDegrees(Direction.LEFT, 45, 0.5); //Make sure this goes at a 45˚ angle!
+        drive.rotateDegrees(Direction.RIGHT, 45, 0.5); //Make sure this goes at a 45˚ angle!
         CommonAutonomous.secondPositionTravel(drive);
-        drive.rotateDegrees(Direction.LEFT, 45, 0.5);
+        drive.rotateDegrees(Direction.RIGHT, 45, 0.5);
         CommonAutonomous.dumpClimber(drive, climberDumper);
         CommonAutonomous.dumperReturn(drive);
-        drive.rotateDegrees(Direction.RIGHT, 45, 0.4);
+        drive.rotateDegrees(Direction.LEFT, 45, 0.4);
         CommonAutonomous.mountainTravel(drive);
-        drive.rotateDegrees(Direction.RIGHT, 90, 0.4);
+        drive.rotateDegrees(Direction.LEFT, 90, 0.4);
         CommonAutonomous.mountainAscend(drive);
         //climbAssist.moveChain(1);
         //climbAssist.moveChain(0);
