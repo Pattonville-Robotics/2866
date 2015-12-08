@@ -30,7 +30,7 @@ public class CommonAutonomous {
         double diff = (climberDumper.UP - .3) - climberDumper.DOWN;
 
         for (int i = 0; i < 100; i++) {
-            t
+
             double target = climberDumper.DOWN + (i * diff) / 100;
             climberDumper.servoDumper.setPosition(target);
             drive.sleep(15);
