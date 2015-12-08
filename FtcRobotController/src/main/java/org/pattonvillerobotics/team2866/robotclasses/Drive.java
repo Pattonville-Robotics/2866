@@ -21,6 +21,7 @@ public class Drive {
     public static final double WHEEL_BASE_CIRCUMFERENCE = 2 * Math.PI * WHEEL_BASE_RADIUS;
     public static final int DEGREES_PER_REVOLUTION = 360;
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
+    public static final int DELTA_ANGLE = 0;
     private static final String TAG = Drive.class.getSimpleName();
     private static int numInstantiations = 0;
     public DcMotor motorLeft;
@@ -83,8 +84,8 @@ public class Drive {
 
     @Deprecated
     public void moveStraight(double power) {
-        motorRight.setPower(power);
-        motorLeft.setPower(power);
+        motorRight.setPower(power + DELTA_ANGLE);
+        motorLeft.setPower(power - DELTA_ANGLE);
     }
 
     @Deprecated
