@@ -17,6 +17,10 @@ public class MRGyroHelper {
         this.linearOpMode = linearOpMode;
     }
 
+    public void preciseCalibration() throws InterruptedException {
+        this.calibrateAndWait();
+    }
+
     public void calibrateAndWait() throws InterruptedException {
         linearOpMode.telemetry.addData(TAG, "Starting calibration...");
         gyro.calibrate();
