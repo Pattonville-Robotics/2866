@@ -49,6 +49,7 @@ public class OfficialTeleOp extends LinearOpMode {
     private GamepadData gamepad2DataCurrent;
     private GamepadData gamepad1DataHistory;
     private GamepadData gamepad2DataHistory;
+    private int logLoopCount = 0;
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -77,10 +78,19 @@ public class OfficialTeleOp extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            //log();
+            log();
             updateGamepads();
             doLoop();
             waitForNextHardwareCycle();
+        }
+    }
+
+    private void log() {
+        logLoopCount %= 10;
+        if (logLoopCount == 0) {
+            //logServos();
+            //logMotors();
+            logSensors();
         }
     }
 
@@ -92,72 +102,19 @@ public class OfficialTeleOp extends LinearOpMode {
         this.gamepad2DataCurrent = new GamepadData(gamepad2);
     }
 
-    private void logServoData(Object msg) {
-        telemetry.addData("SERVODATA", msg);
-    }
-
-    private void logMotorData(Object msg) {
-        telemetry.addData("MOTORDATA", msg);
-    }
-
-    private void logSensorData(Object msg) {
-        telemetry.addData("SENSORDATA", msg);
-    }
-
-    private void logSensors() {
-        logSensor(mrGyro, "MR Gyro");
-    }
-
-    private void logServos() {
-        logServo(climberDumper.servoDumper, "Dumper Servo");
-        logServo(zipRelease.servoReleaseLeft, "Left Release Servo");
-        logServo(zipRelease.servoReleaseRight, "Right Release Servo");
-    }
-
-    private void logSensor(HardwareDevice sensor, String name) {
-        if (sensor instanceof ModernRoboticsI2cGyro)
-            logSensorData(String.format("%-20s Rotation (% 07d)", name + ":", ((ModernRoboticsI2cGyro) sensor).getIntegratedZValue()));
-        else
-            telemetry.addData("SENSORERROR", "Sensor not supported: " + sensor.getClass().getSimpleName());
-    }
-
-    private void logServo(Servo servo, String name) {
-        logServoData(String.format("%-20s Pos (% 04f)", name + ":", servo.getPosition()));
-    }
-
-    private void logMotor(DcMotor motor, String name) {
-        logMotorData(String.format("%-20s Pwr (% 04f) | Pos (% 07d) | Tgt (% 07d)", name + ":", motor.getPower(), motor.getCurrentPosition(), motor.getTargetPosition()));
-    }
-
-    private void logMotors() {
-        logMotor(drive.motorLeft, "Left Motor");
-        logMotor(drive.motorRight, "Right Motor");
-        logMotor(climbAssist.motorChain, "Chain Motor");
-        logMotor(climbAssist.motorLiftLeft, "Left Lift Motor");
-        logMotor(climbAssist.motorLiftRight, "Right Lift Motor");
-        logMotor(armController.motorArmLeft, "Left Arm Motor");
-        logMotor(armController.motorArmRight, "Right Arm Motor");
-    }
-
-    private void log() {
-        logServos();
-        logMotors();
-        logSensors();
-    }
-
     public void doLoop() {
         /*
 
         Gamepad 1 Functions:
             A: Move lift down
-            B:
+            B: Calibrate gyro
             X:
             Y: Move lift up
 
             Right stick:
             Left stick:
 
-            Right bumper: Chain forewards
+            Right bumper: Chain forwards
             Left bumper: Chain backwards
 
             Right trigger:
@@ -183,8 +140,8 @@ public class OfficialTeleOp extends LinearOpMode {
 
         // Treads
 
-        float right = gamepad1DataCurrent.right_stick_y;
-        float left = gamepad1DataCurrent.left_stick_y;
+        float right = -gamepad1DataCurrent.right_stick_y;
+        float left = -gamepad1DataCurrent.left_stick_y;
 
         // clip the right/left values so that the values never exceed +/- 1
         right = Range.clip(right, -1, 1);
@@ -192,14 +149,20 @@ public class OfficialTeleOp extends LinearOpMode {
 
         drive.moveFreely(left, right);
 
+        // Gyro calibration
+
+        if (gamepad1DataCurrent.b && !gamepad1DataHistory.b) {
+            mrGyro.calibrate();
+        }
+
         // Blocker
 
         if (gamepad1DataCurrent.left_trigger > .5 && !(gamepad1DataHistory.left_trigger > .5)) {
             blocker.move(Direction.UP);
-            telemetry.addData("Blocker", "UP");
+            //telemetry.addData("Blocker", "UP");
         } else if (gamepad1DataCurrent.right_trigger > .5 && !(gamepad1DataHistory.left_trigger > .5)) {
             blocker.move(Direction.DOWN);
-            telemetry.addData("Blocker", "DOWN");
+            //telemetry.addData("Blocker", "DOWN");
         }
 
         // Climb Assist
@@ -222,10 +185,10 @@ public class OfficialTeleOp extends LinearOpMode {
         // Arm
 
         if (gamepad2DataCurrent.y && !gamepad2DataCurrent.a) {
-            armController.moveArm(.25);
+            armController.moveArm(.75);
             //armController.advanceArm(Config.ARM_MOVEMENT_SPEED);
         } else if (gamepad2DataCurrent.a && !gamepad2DataCurrent.y) {
-            armController.moveArm(-.25);
+            armController.moveArm(-.75);
             //armController.advanceArm(-Config.ARM_MOVEMENT_SPEED);
         } else {
             armController.stopArm();
@@ -308,5 +271,52 @@ public class OfficialTeleOp extends LinearOpMode {
         } else {
             dumperTriggered = false;
         }*/
+    }
+
+    private void logSensors() {
+        logSensor(mrGyro, "MR Gyro");
+    }
+
+    private void logSensor(HardwareDevice sensor, String name) {
+        if (sensor instanceof ModernRoboticsI2cGyro)
+            logSensorData(String.format("%-20s Rotation (% 07d)", name + ":", ((ModernRoboticsI2cGyro) sensor).getIntegratedZValue()));
+        else
+            telemetry.addData("SENSORERROR", "Sensor not supported: " + sensor.getClass().getSimpleName());
+    }
+
+    private void logSensorData(Object msg) {
+        telemetry.addData("SENSORDATA", msg);
+    }
+
+    private void logServos() {
+        logServo(climberDumper.servoDumper, "Dumper Servo");
+        logServo(zipRelease.servoReleaseLeft, "Left Release Servo");
+        logServo(zipRelease.servoReleaseRight, "Right Release Servo");
+    }
+
+    private void logServo(Servo servo, String name) {
+        logServoData(String.format("%-20s Pos (% 04f)", name + ":", servo.getPosition()));
+    }
+
+    private void logServoData(Object msg) {
+        telemetry.addData("SERVODATA", msg);
+    }
+
+    private void logMotors() {
+        logMotor(drive.motorLeft, "Left Motor");
+        logMotor(drive.motorRight, "Right Motor");
+        logMotor(climbAssist.motorChain, "Chain Motor");
+        logMotor(climbAssist.motorLiftLeft, "Left Lift Motor");
+        logMotor(climbAssist.motorLiftRight, "Right Lift Motor");
+        logMotor(armController.motorArmLeft, "Left Arm Motor");
+        logMotor(armController.motorArmRight, "Right Arm Motor");
+    }
+
+    private void logMotor(DcMotor motor, String name) {
+        logMotorData(String.format("%-20s Pwr (% 04f) | Pos (% 07d) | Tgt (% 07d)", name + ":", motor.getPower(), motor.getCurrentPosition(), motor.getTargetPosition()));
+    }
+
+    private void logMotorData(Object msg) {
+        telemetry.addData("MOTORDATA", msg);
     }
 }
