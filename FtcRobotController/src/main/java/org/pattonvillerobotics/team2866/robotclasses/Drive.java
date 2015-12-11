@@ -61,14 +61,6 @@ public class Drive {
         }
     }
 
-    public void waitOneFullHardwareCycle() {
-        try {
-            this.linearOpMode.waitOneFullHardwareCycle();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-    }
-
     public void moveFreely(double left, double right) {
         motorLeft.setPower(left);
         motorRight.setPower(right);
@@ -90,11 +82,6 @@ public class Drive {
     public void rotateRight(double power) {
         motorRight.setPower(-power);
         motorLeft.setPower(power);
-    }
-
-    @Deprecated
-    public void stop() {
-        this.stopDriveMotors();
     }
 
     public void stopDriveMotors() {
@@ -122,20 +109,20 @@ public class Drive {
         int targetPositionLeft;
         int targetPositionRight;
 
+        int startPositionLeft = motorLeft.getCurrentPosition();
+        int startPositionRight = motorRight.getCurrentPosition();
+
         this.waitForNextHardwareCycle();
 
         switch (direction) {
             case FORWARDS: {
-                int startPositionLeft = motorLeft.getCurrentPosition();
-                int startPositionRight = motorRight.getCurrentPosition();
+
                 int deltaPosition = (int) Math.round(inchesToTicks(inches));
                 targetPositionLeft = startPositionLeft + deltaPosition;
                 targetPositionRight = startPositionRight + deltaPosition;
                 break;
             }
             case BACKWARDS: {
-                int startPositionLeft = motorLeft.getCurrentPosition();
-                int startPositionRight = motorRight.getCurrentPosition();
                 int deltaPosition = (int) Math.round(inchesToTicks(inches));
                 targetPositionLeft = startPositionLeft - deltaPosition;
                 targetPositionRight = startPositionRight - deltaPosition;
@@ -185,10 +172,11 @@ public class Drive {
         int targetPositionLeft;
         int targetPositionRight;
 
+        int startPositionLeft = motorLeft.getCurrentPosition();
+        int startPositionRight = motorLeft.getCurrentPosition();
+
         switch (direction) {
             case LEFT: {
-                int startPositionLeft = motorLeft.getCurrentPosition();
-                int startPositionRight = motorLeft.getCurrentPosition();
 
                 int deltaPositionLeft = (int) Math.round(degreesToTicks(degrees));
                 int deltaPositionRight = (int) Math.round(degreesToTicks(degrees));
@@ -198,8 +186,6 @@ public class Drive {
                 break;
             }
             case RIGHT: {
-                int startPositionLeft = motorLeft.getCurrentPosition();
-                int startPositionRight = motorLeft.getCurrentPosition();
 
                 int deltaPositionLeft = (int) Math.round(degreesToTicks(degrees));
                 int deltaPositionRight = (int) Math.round(degreesToTicks(degrees));
