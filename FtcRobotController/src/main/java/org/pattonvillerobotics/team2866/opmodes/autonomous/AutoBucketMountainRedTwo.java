@@ -33,6 +33,8 @@ public class AutoBucketMountainRedTwo extends LinearOpMode {
         zipRelease.moveRight(Direction.DOWN);
         climberDumper.move(Direction.DOWN);
 
+        telemetry.addData("TEST", this.getClass().getName());
+
         waitForStart();
 
         CommonAutonomous.leavePositionTwo(drive);

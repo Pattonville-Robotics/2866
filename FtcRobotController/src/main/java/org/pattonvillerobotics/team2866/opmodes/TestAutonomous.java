@@ -32,6 +32,8 @@ public class TestAutonomous extends LinearOpMode {
 
         waitForStart();
 
-        CommonAutonomous.dumpClimber(drive, climberDumper);
+        //CommonAutonomous.dumpClimber(drive, climberDumper);
+
+        drive.rotateDegrees(Direction.LEFT, 45, 0.5);
     }
 }
