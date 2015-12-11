@@ -37,6 +37,11 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 import org.atteo.classindex.ClassIndex;
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
+
 /**
  * Register Op Modes
  */
@@ -48,6 +53,7 @@ public class FtcOpModeRegister implements OpModeRegister {
      *
      * @param manager op mode manager
      */
+    @SuppressWarnings("unchecked")
     public void register(OpModeManager manager) {
 
     /*
@@ -57,16 +63,35 @@ public class FtcOpModeRegister implements OpModeRegister {
      *
      * If two or more op modes are registered with the same name, the app will display an error.
      */
+        List<Class<? extends com.qualcomm.robotcore.eventloop.opmode.OpMode>> opModes = new ArrayList<Class<? extends com.qualcomm.robotcore.eventloop.opmode.OpMode>>();
+
+
         for (Class<?> c : ClassIndex.getAnnotated(OpMode.class)) { // Some annotation wizardry at work here...
-            if (com.qualcomm.robotcore.eventloop.opmode.OpMode.class.isAssignableFrom(c))
-                manager.register(c.getAnnotation(OpMode.class).value(), c);
-            else {
+            if (com.qualcomm.robotcore.eventloop.opmode.OpMode.class.isAssignableFrom(c)) {
+                //manager.register(c.getAnnotation(OpMode.class).value(), c);
+                opModes.add((Class<? extends com.qualcomm.robotcore.eventloop.opmode.OpMode>) c);
+            } else {
                 try {
-                    manager.register(c.getAnnotation(OpMode.class).value(), c);
+                    //manager.register(c.getAnnotation(OpMode.class).value(), c);
+                    opModes.add((Class<? extends com.qualcomm.robotcore.eventloop.opmode.OpMode>) c);
                 } catch (Exception e) {
                     throw new ClassCastException("Could not register OpMode! \"" + c.getSimpleName() + "\" cannot be cast to OpMode. Please only annotate classes extending OpMode with the @OpMode annotation.");
                 }
             }
+        }
+
+        Collections.sort(opModes, new Comparator<Class<? extends com.qualcomm.robotcore.eventloop.opmode.OpMode>>() {
+            @Override
+            public int compare(Class<? extends com.qualcomm.robotcore.eventloop.opmode.OpMode> lhs, Class<? extends com.qualcomm.robotcore.eventloop.opmode.OpMode> rhs) {
+                String left = lhs.getAnnotation(OpMode.class).value();
+                String right = rhs.getAnnotation(OpMode.class).value();
+
+                return left.compareTo(right);
+            }
+        });
+
+        for (Class<? extends com.qualcomm.robotcore.eventloop.opmode.OpMode> klass : opModes) {
+            manager.register(klass.getAnnotation(OpMode.class).value(), klass);
         }
     }
 }
