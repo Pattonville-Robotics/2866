@@ -40,6 +40,6 @@ public class AutoBucketParkBlueTwo extends LinearOpMode {
         CommonAutonomous.secondPositionTravel(drive);
         drive.rotateDegrees(Direction.RIGHT, 45, 0.5);
         CommonAutonomous.dumpClimber(drive, climberDumper);
-        drive.stop();
+        drive.stopDriveMotors();
     }
 }

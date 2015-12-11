@@ -43,6 +43,6 @@ public class AutoBucketMountainRedThree extends LinearOpMode {
         CommonAutonomous.mountainAscend(drive);
         //climbAssist.moveChain(1);
         //climbAssist.moveChain(0);
-        drive.stop();
+        drive.stopDriveMotors();
     }
 }
