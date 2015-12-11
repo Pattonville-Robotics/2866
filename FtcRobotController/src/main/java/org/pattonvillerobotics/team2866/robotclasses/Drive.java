@@ -42,7 +42,7 @@ public class Drive {
         try {
             this.gyro.calibrateAndWait();
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
 
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
