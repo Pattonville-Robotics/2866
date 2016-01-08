@@ -3,12 +3,14 @@ package org.pattonvillerobotics.team2866.robotclasses;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
+
 /**
  * Created by skeltonn on 11/21/15.
  * TODO: Find servo values
  * TODO: Create a control method similar to ZipRelease
  */
-public class Blocker {
+public class Blocker implements Controllable {
 
     private static final double UP_LEFT = 1 - .3;
     private static final double UP_RIGHT = 0 + .3;
@@ -28,13 +30,6 @@ public class Blocker {
         this.currentDirection = Direction.DOWN;
     }
 
-    public void toggle() {
-        if (currentDirection == Direction.DOWN)
-            this.move(Direction.UP);
-        else
-            this.move(Direction.DOWN);
-    }
-
     public void move(Direction direction) {
         switch (direction) {
             case UP:
@@ -51,4 +46,27 @@ public class Blocker {
         }
     }
 
+    public void toggle() {
+        if (currentDirection == Direction.DOWN)
+            this.move(Direction.UP);
+        else
+            this.move(Direction.DOWN);
+    }
+
+    @SuppressWarnings("MagicNumber")
+    @Override
+    public boolean sendGamepadData(GamepadData gamepad1DataCurrent, GamepadData gamepad1DataHistory, GamepadData gamepad2DataCurrent, GamepadData gamepad2DataHistory) {
+
+        if (gamepad1DataCurrent.left_trigger > .5 && !(gamepad1DataHistory.left_trigger > .5)) {
+            this.move(Direction.UP);
+        } else if (gamepad1DataCurrent.right_trigger > .5 && !(gamepad1DataHistory.left_trigger > .5)) {
+            this.move(Direction.DOWN);
+        }
+        return true;
+    }
+
+    @Override
+    public GamepadFeature[] requestFeatures() {
+        return new GamepadFeature[]{GamepadFeature.TRIGGER_LEFT, GamepadFeature.TRIGGER_RIGHT};
+    }
 }

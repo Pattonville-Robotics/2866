@@ -5,13 +5,16 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.HardwareMap;
+import com.qualcomm.robotcore.util.Range;
+
+import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
 
 /**
  * Created by Nathan Skelton on 10/15/15.
  * Last edited by Mitchell Skaggs on 11/14/15
  * <p/>
  */
-public class Drive {
+public class Drive implements Controllable {
 
     public static final double WHEEL_RADIUS = 1.2906932;
     public static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS;
@@ -61,11 +64,6 @@ public class Drive {
         }
     }
 
-    public void moveFreely(double left, double right) {
-        motorLeft.setPower(left);
-        motorRight.setPower(right);
-    }
-
     @Deprecated
     public void moveStraight(double power) {
         motorRight.setPower(power + DELTA_ANGLE);
@@ -82,20 +80,6 @@ public class Drive {
     public void rotateRight(double power) {
         motorRight.setPower(-power);
         motorLeft.setPower(power);
-    }
-
-    public void stopDriveMotors() {
-        this.waitForNextHardwareCycle(); // So they can be applied simultaneously all the time
-        motorLeft.setPower(0);
-        motorRight.setPower(0);
-    }
-
-    public void waitForNextHardwareCycle() {
-        try {
-            this.linearOpMode.waitForNextHardwareCycle();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
     }
 
     public void moveInches(Direction direction, double inches, double power) {
@@ -158,10 +142,25 @@ public class Drive {
         this.stopDriveMotors();
     }
 
+    public void waitForNextHardwareCycle() {
+        try {
+            this.linearOpMode.waitForNextHardwareCycle();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     public static double inchesToTicks(double inches) {
         return inches / INCHES_PER_TICK;
     }
 
+    public void stopDriveMotors() {
+        this.waitForNextHardwareCycle(); // So they can be applied simultaneously all the time
+        motorLeft.setPower(0);
+        motorRight.setPower(0);
+    }
+
+    //TODO Design a better method. I think that this has more potential for accurate movement than the gyro, based on the accuracy of the straight-line movement
     @Deprecated
     private void rotateDegreesEncoder(Direction direction, int degrees, double power) {
         if (degrees <= 0)
@@ -321,5 +320,26 @@ public class Drive {
         this.stopDriveMotors();
 
         this.waitForNextHardwareCycle();
+    }
+
+    @Override
+    public boolean sendGamepadData(GamepadData gamepad1DataCurrent, GamepadData gamepad1DataHistory, GamepadData gamepad2DataCurrent, GamepadData gamepad2DataHistory) {
+        float right = -gamepad1DataCurrent.right_stick_y;
+        float left = -gamepad1DataCurrent.left_stick_y;
+        // clip the right/left values so that the values never exceed +/- 1
+        right = Range.clip(right, -1, 1);
+        left = Range.clip(left, -1, 1);
+        this.moveFreely(left, right);
+        return true;
+    }
+
+    public void moveFreely(double left, double right) {
+        motorLeft.setPower(left);
+        motorRight.setPower(right);
+    }
+
+    @Override
+    public GamepadFeature[] requestFeatures() {
+        return new GamepadFeature[]{GamepadFeature.STICK_RIGHT_X, GamepadFeature.STICK_RIGHT_Y};
     }
 }
