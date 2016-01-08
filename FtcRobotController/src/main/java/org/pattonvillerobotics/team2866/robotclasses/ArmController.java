@@ -3,12 +3,14 @@ package org.pattonvillerobotics.team2866.robotclasses;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
+
 /**
  * Created by James McMahon on 10/20/15.
  * <p/>
  * TODO Add encoders to the arm motors
  */
-public class ArmController {
+public class ArmController implements Controllable {
 
     public DcMotor motorArmRight;
     public DcMotor motorArmLeft;
@@ -27,16 +29,36 @@ public class ArmController {
         this.motorArmRight.setDirection(DcMotor.Direction.REVERSE);
     }
 
-    @Deprecated
-    public void moveArm(double power) {
-        motorArmRight.setPower(power);
-        motorArmLeft.setPower(power);
-    }
-
     public void advanceArm(int deltaTarget) {
         target += deltaTarget;
         motorArmRight.setTargetPosition(target);
         motorArmLeft.setTargetPosition(target);
+    }
+
+    @Override
+    public String toString() {
+
+        return "Right Arm Motor:" + motorArmRight.getPower() + "Left Arm Motor:" + motorArmLeft.getPower();
+    }
+
+    @Override
+    public boolean sendGamepadData(GamepadData gamepad1DataCurrent, GamepadData gamepad1DataHistory, GamepadData gamepad2DataCurrent, GamepadData gamepad2DataHistory) {
+        if (gamepad2DataCurrent.y && !gamepad2DataCurrent.a) {
+            this.moveArm(.75);
+            //armController.advanceArm(Config.ARM_MOVEMENT_SPEED);
+        } else if (gamepad2DataCurrent.a && !gamepad2DataCurrent.y) {
+            this.moveArm(-.75);
+            //armController.advanceArm(-Config.ARM_MOVEMENT_SPEED);
+        } else {
+            this.stopArm();
+        }
+        return true;
+    }
+
+    @Deprecated
+    public void moveArm(double power) {
+        motorArmRight.setPower(power);
+        motorArmLeft.setPower(power);
     }
 
     @Deprecated
@@ -48,8 +70,7 @@ public class ArmController {
     }
 
     @Override
-    public String toString() {
-
-        return "Right Arm Motor:" + motorArmRight.getPower() + "Left Arm Motor:" + motorArmLeft.getPower();
+    public GamepadFeature[] requestFeatures() {
+        return new GamepadFeature[]{GamepadFeature.BUTTON_A, GamepadFeature.BUTTON_Y};
     }
 }

@@ -3,13 +3,15 @@ package org.pattonvillerobotics.team2866.robotclasses;
 import com.qualcomm.hardware.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
+
 /**
  * Created by skaggsm on 11/14/15.
  */
-public class MRGyroHelper {
+public class MRGyroHelper implements Controllable {
 
     public static final String TAG = "GYROHELPER";
-    private ModernRoboticsI2cGyro gyro;
+    public ModernRoboticsI2cGyro gyro;
     private LinearOpMode linearOpMode;
 
     public MRGyroHelper(ModernRoboticsI2cGyro gyro, LinearOpMode linearOpMode) {
@@ -32,5 +34,22 @@ public class MRGyroHelper {
 
     public int getIntegratedZValue() {
         return gyro.getIntegratedZValue();
+    }
+
+    @Override
+    public boolean sendGamepadData(GamepadData gamepad1DataCurrent, GamepadData gamepad1DataHistory, GamepadData gamepad2DataCurrent, GamepadData gamepad2DataHistory) {
+        if (gamepad1DataCurrent.b && !gamepad1DataHistory.b) {
+            this.calibrate();
+        }
+        return true;
+    }
+
+    public void calibrate() {
+        this.gyro.calibrate();
+    }
+
+    @Override
+    public GamepadFeature[] requestFeatures() {
+        return new GamepadFeature[]{GamepadFeature.BUTTON_B};
     }
 }

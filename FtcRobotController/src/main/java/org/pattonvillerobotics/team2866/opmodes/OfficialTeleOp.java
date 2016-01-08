@@ -5,19 +5,26 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.Servo;
-import com.qualcomm.robotcore.util.Range;
 
 import org.pattonvillerobotics.team2866.robotclasses.ArmController;
 import org.pattonvillerobotics.team2866.robotclasses.Blocker;
 import org.pattonvillerobotics.team2866.robotclasses.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.Config;
+import org.pattonvillerobotics.team2866.robotclasses.Controllable;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
 import org.pattonvillerobotics.team2866.robotclasses.Drive;
 import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
 import org.pattonvillerobotics.team2866.robotclasses.MRGyroHelper;
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
+import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
+
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Created by Team 2866 on 10/6/15.
@@ -33,16 +40,14 @@ public class OfficialTeleOp extends LinearOpMode {
     private ArmController armController;
     private ZipRelease zipRelease;
     private ClimberDumper climberDumper;
-    private ModernRoboticsI2cGyro mrGyro;
     private MRGyroHelper mrGyroHelper;
     private Blocker blocker;
 
-    private boolean leftReleaseDown = true;
-    private boolean leftReleaseTriggered = false;
-    private boolean rightReleaseDown = true;
-    private boolean rightReleaseTriggered = false;
+    private List<Controllable> controllables;
 
-    private boolean dumperTriggered = false;
+    private boolean leftReleaseDown = true;
+    private boolean rightReleaseDown = true;
+
     private boolean dumperDown = true;
 
     private GamepadData gamepad1DataCurrent;
@@ -59,10 +64,13 @@ public class OfficialTeleOp extends LinearOpMode {
         armController = new ArmController(hardwareMap);
         zipRelease = new ZipRelease(hardwareMap);
         climberDumper = new ClimberDumper(hardwareMap);
-        mrGyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get(Config.SENSOR_GYRO);
+        ModernRoboticsI2cGyro mrGyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get(Config.SENSOR_GYRO);
         mrGyroHelper = new MRGyroHelper(mrGyro, this);
-
         blocker = new Blocker(hardwareMap);
+        controllables = new LinkedList<Controllable>();
+        controllables.addAll(Arrays.asList(drive, climbAssist, armController, zipRelease, climberDumper, blocker));
+
+        validateControllables();
 
         mrGyroHelper.calibrateAndWait();
 
@@ -83,6 +91,19 @@ public class OfficialTeleOp extends LinearOpMode {
             doLoop();
             waitForNextHardwareCycle();
         }
+    }
+
+    private void validateControllables() {
+        Collection<GamepadFeature> takenFeatures = new HashSet<GamepadFeature>();
+        Collection<GamepadFeature> duplicateFeatures = new HashSet<GamepadFeature>();
+        for (Controllable controllable : this.controllables) {
+            for (GamepadFeature feature : controllable.requestFeatures()) {
+                if (!takenFeatures.add(feature))
+                    duplicateFeatures.add(feature);
+            }
+        }
+        if (duplicateFeatures.size() != 0)
+            throw new IllegalStateException("These features were requested more than once: " + duplicateFeatures);
     }
 
     private void log() {
@@ -138,6 +159,12 @@ public class OfficialTeleOp extends LinearOpMode {
 
          */
 
+        //The NEW way!
+
+        for (Controllable controllable : this.controllables)
+            controllable.sendGamepadData(gamepad1DataCurrent, gamepad1DataHistory, gamepad2DataCurrent, gamepad2DataHistory);
+
+        /*
         // Treads
 
         float right = -gamepad1DataCurrent.right_stick_y;
@@ -152,7 +179,7 @@ public class OfficialTeleOp extends LinearOpMode {
         // Gyro calibration
 
         if (gamepad1DataCurrent.b && !gamepad1DataHistory.b) {
-            mrGyro.calibrate();
+            mrGyroHelper.calibrate();
         }
 
         // Blocker
@@ -166,7 +193,6 @@ public class OfficialTeleOp extends LinearOpMode {
         }
 
         // Climb Assist
-
         if (gamepad1DataCurrent.y && !gamepad1DataCurrent.a) {
             climbAssist.moveLift(Config.LIFT_MOVEMENT_SPEED);
         } else if (gamepad1DataCurrent.a && !gamepad1DataCurrent.y) {
@@ -182,8 +208,7 @@ public class OfficialTeleOp extends LinearOpMode {
             climbAssist.stopChain();
         }
 
-        // Arm
-
+        // Arm Controller
         if (gamepad2DataCurrent.y && !gamepad2DataCurrent.a) {
             armController.moveArm(.75);
             //armController.advanceArm(Config.ARM_MOVEMENT_SPEED);
@@ -205,22 +230,6 @@ public class OfficialTeleOp extends LinearOpMode {
                 leftReleaseDown = true;
             }
         }
-        /*
-        if (gamepad2DataCurrent.x) {
-            if (!leftReleaseTriggered) {
-                if (leftReleaseDown) {
-                    zipRelease.moveLeft(Direction.UP);
-                    leftReleaseDown = false;
-                } else {
-                    zipRelease.moveLeft(Direction.DOWN);
-                    leftReleaseDown = true;
-                }
-                leftReleaseTriggered = true;
-            }
-        } else {
-            leftReleaseTriggered = false;
-        }*/
-
         if (gamepad2DataCurrent.b && !gamepad2DataHistory.b) {
             if (rightReleaseDown) {
                 zipRelease.moveRight(Direction.UP);
@@ -229,24 +238,9 @@ public class OfficialTeleOp extends LinearOpMode {
                 zipRelease.moveRight(Direction.DOWN);
                 rightReleaseDown = true;
             }
-        }/*
-        if (gamepad2DataCurrent.b) {
-            if (!rightReleaseTriggered) {
-                if (rightReleaseDown) {
-                    zipRelease.moveRight(Direction.UP);
-                    rightReleaseDown = false;
-                } else {
-                    zipRelease.moveRight(Direction.DOWN);
-                    rightReleaseDown = true;
-                }
-                rightReleaseTriggered = true;
-            }
-        } else {
-            rightReleaseTriggered = false;
-        }*/
+        }
 
         // Climber Dumper
-
         if (gamepad1DataCurrent.x && !gamepad1DataHistory.x) {
             if (dumperDown) {
                 climberDumper.move(Direction.UP);
@@ -255,26 +249,11 @@ public class OfficialTeleOp extends LinearOpMode {
                 climberDumper.move(Direction.DOWN);
                 dumperDown = true;
             }
-        }
-        /*
-        if (gamepad1DataCurrent.x) {
-            if (!dumperTriggered) {
-                if (dumperDown) {
-                    climberDumper.move(Direction.UP);
-                    dumperDown = false;
-                } else {
-                    climberDumper.move(Direction.DOWN);
-                    dumperDown = true;
-                }
-                dumperTriggered = true;
-            }
-        } else {
-            dumperTriggered = false;
         }*/
     }
 
     private void logSensors() {
-        logSensor(mrGyro, "MR Gyro");
+        logSensor(mrGyroHelper.gyro, "MR Gyro");
     }
 
     private void logSensor(HardwareDevice sensor, String name) {
