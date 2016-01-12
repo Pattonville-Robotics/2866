@@ -1,8 +1,9 @@
-package org.pattonvillerobotics.team2866.robotclasses;
+package org.pattonvillerobotics.team2866.robotclasses.controllables;
 
 import com.qualcomm.hardware.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
 import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
 
 /**
@@ -50,6 +51,6 @@ public class MRGyroHelper implements Controllable {
 
     @Override
     public GamepadFeature[] requestFeatures() {
-        return new GamepadFeature[]{GamepadFeature.BUTTON_B};
+        return new GamepadFeature[]{GamepadFeature.GAMEPAD_1_BUTTON_B};
     }
 }

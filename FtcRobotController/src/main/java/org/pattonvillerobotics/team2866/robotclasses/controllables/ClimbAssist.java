@@ -1,8 +1,10 @@
-package org.pattonvillerobotics.team2866.robotclasses;
+package org.pattonvillerobotics.team2866.robotclasses.controllables;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.pattonvillerobotics.team2866.robotclasses.Config;
+import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
 import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
 
 /**
@@ -74,6 +76,6 @@ public class ClimbAssist implements Controllable {
 
     @Override
     public GamepadFeature[] requestFeatures() {
-        return new GamepadFeature[]{GamepadFeature.BUTTON_A, GamepadFeature.BUTTON_Y, GamepadFeature.BUMPER_RIGHT, GamepadFeature.BUMPER_LEFT};
+        return new GamepadFeature[]{GamepadFeature.GAMEPAD_1_BUTTON_A, GamepadFeature.GAMEPAD_1_BUTTON_Y, GamepadFeature.GAMEPAD_1_BUMPER_RIGHT, GamepadFeature.GAMEPAD_1_BUMPER_LEFT};
     }
 }

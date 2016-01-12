@@ -1,8 +1,11 @@
-package org.pattonvillerobotics.team2866.robotclasses;
+package org.pattonvillerobotics.team2866.robotclasses.controllables;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.pattonvillerobotics.team2866.robotclasses.Config;
+import org.pattonvillerobotics.team2866.robotclasses.Direction;
+import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
 import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
 
 /**
@@ -67,6 +70,6 @@ public class Blocker implements Controllable {
 
     @Override
     public GamepadFeature[] requestFeatures() {
-        return new GamepadFeature[]{GamepadFeature.TRIGGER_LEFT, GamepadFeature.TRIGGER_RIGHT};
+        return new GamepadFeature[]{GamepadFeature.GAMEPAD_1_TRIGGER_LEFT, GamepadFeature.GAMEPAD_1_TRIGGER_RIGHT};
     }
 }

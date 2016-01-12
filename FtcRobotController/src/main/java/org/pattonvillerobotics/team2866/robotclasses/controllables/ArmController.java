@@ -1,8 +1,10 @@
-package org.pattonvillerobotics.team2866.robotclasses;
+package org.pattonvillerobotics.team2866.robotclasses.controllables;
 
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
+import org.pattonvillerobotics.team2866.robotclasses.Config;
+import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
 import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
 
 /**
@@ -43,10 +45,10 @@ public class ArmController implements Controllable {
 
     @Override
     public boolean sendGamepadData(GamepadData gamepad1DataCurrent, GamepadData gamepad1DataHistory, GamepadData gamepad2DataCurrent, GamepadData gamepad2DataHistory) {
-        if (gamepad2DataCurrent.y && !gamepad2DataCurrent.a) {
+        if (gamepad1DataCurrent.dpad_up && !gamepad1DataCurrent.dpad_down) {
             this.moveArm(.75);
             //armController.advanceArm(Config.ARM_MOVEMENT_SPEED);
-        } else if (gamepad2DataCurrent.a && !gamepad2DataCurrent.y) {
+        } else if (!gamepad1DataCurrent.dpad_up && gamepad1DataCurrent.dpad_down) {
             this.moveArm(-.75);
             //armController.advanceArm(-Config.ARM_MOVEMENT_SPEED);
         } else {
@@ -71,6 +73,6 @@ public class ArmController implements Controllable {
 
     @Override
     public GamepadFeature[] requestFeatures() {
-        return new GamepadFeature[]{GamepadFeature.BUTTON_A, GamepadFeature.BUTTON_Y};
+        return new GamepadFeature[]{GamepadFeature.GAMEPAD_1_BUTTON_A, GamepadFeature.GAMEPAD_1_BUTTON_Y};
     }
 }

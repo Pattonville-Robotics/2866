@@ -1,8 +1,11 @@
-package org.pattonvillerobotics.team2866.robotclasses;
+package org.pattonvillerobotics.team2866.robotclasses.controllables;
 
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
+import org.pattonvillerobotics.team2866.robotclasses.Config;
+import org.pattonvillerobotics.team2866.robotclasses.Direction;
+import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
 import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
 
 /**
@@ -96,6 +99,6 @@ public class ZipRelease implements Controllable {
 
     @Override
     public GamepadFeature[] requestFeatures() {
-        return new GamepadFeature[]{GamepadFeature.BUTTON_X, GamepadFeature.BUTTON_B};
+        return new GamepadFeature[]{GamepadFeature.GAMEPAD_1_BUTTON_X, GamepadFeature.GAMEPAD_1_BUTTON_B};
     }
 }
