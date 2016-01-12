@@ -42,7 +42,7 @@ public class ZipRelease implements Controllable {
 
     @Override
     public boolean sendGamepadData(GamepadData gamepad1DataCurrent, GamepadData gamepad1DataHistory, GamepadData gamepad2DataCurrent, GamepadData gamepad2DataHistory) {
-        if (gamepad2DataCurrent.x && !gamepad2DataHistory.x) {
+        if (gamepad1DataCurrent.dpad_left && !gamepad1DataHistory.dpad_left) {
             if (leftReleaseDown) {
                 this.moveLeft(Direction.UP);
                 leftReleaseDown = false;
@@ -51,7 +51,7 @@ public class ZipRelease implements Controllable {
             }
             this.moveLeft(Direction.DOWN);
         }
-        if (gamepad2DataCurrent.b && !gamepad2DataHistory.b) {
+        if (gamepad1DataCurrent.dpad_right && !gamepad1DataHistory.dpad_right) {
             if (rightReleaseDown) {
                 this.moveRight(Direction.UP);
                 rightReleaseDown = false;
@@ -99,6 +99,6 @@ public class ZipRelease implements Controllable {
 
     @Override
     public GamepadFeature[] requestFeatures() {
-        return new GamepadFeature[]{GamepadFeature.GAMEPAD_1_BUTTON_X, GamepadFeature.GAMEPAD_1_BUTTON_B};
+        return new GamepadFeature[]{GamepadFeature.GAMEPAD_1_DPAD_LEFT, GamepadFeature.GAMEPAD_1_DPAD_RIGHT};
     }
 }
