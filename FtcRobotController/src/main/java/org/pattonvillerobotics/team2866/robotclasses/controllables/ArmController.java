@@ -46,10 +46,10 @@ public class ArmController implements Controllable {
     @Override
     public boolean sendGamepadData(GamepadData gamepad1DataCurrent, GamepadData gamepad1DataHistory, GamepadData gamepad2DataCurrent, GamepadData gamepad2DataHistory) {
         if (gamepad1DataCurrent.dpad_up && !gamepad1DataCurrent.dpad_down) {
-            this.moveArm(.75);
+            this.moveArm(Config.ARM_MOVEMENT_SPEED);
             //armController.advanceArm(Config.ARM_MOVEMENT_SPEED);
         } else if (!gamepad1DataCurrent.dpad_up && gamepad1DataCurrent.dpad_down) {
-            this.moveArm(-.75);
+            this.moveArm(-Config.ARM_MOVEMENT_SPEED);
             //armController.advanceArm(-Config.ARM_MOVEMENT_SPEED);
         } else {
             this.stopArm();
