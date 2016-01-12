@@ -73,6 +73,6 @@ public class ArmController implements Controllable {
 
     @Override
     public GamepadFeature[] requestFeatures() {
-        return new GamepadFeature[]{GamepadFeature.GAMEPAD_1_BUTTON_A, GamepadFeature.GAMEPAD_1_BUTTON_Y};
+        return new GamepadFeature[]{GamepadFeature.GAMEPAD_1_DPAD_UP, GamepadFeature.GAMEPAD_1_DPAD_DOWN};
     }
 }
