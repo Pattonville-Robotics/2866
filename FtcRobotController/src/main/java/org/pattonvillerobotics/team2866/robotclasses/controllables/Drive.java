@@ -1,4 +1,4 @@
-package org.pattonvillerobotics.team2866.robotclasses;
+package org.pattonvillerobotics.team2866.robotclasses.controllables;
 
 import com.qualcomm.hardware.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -7,6 +7,9 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
+import org.pattonvillerobotics.team2866.robotclasses.Config;
+import org.pattonvillerobotics.team2866.robotclasses.Direction;
+import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
 import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
 
 /**
@@ -340,6 +343,6 @@ public class Drive implements Controllable {
 
     @Override
     public GamepadFeature[] requestFeatures() {
-        return new GamepadFeature[]{GamepadFeature.STICK_RIGHT_X, GamepadFeature.STICK_RIGHT_Y};
+        return new GamepadFeature[]{GamepadFeature.GAMEPAD_1_STICK_RIGHT_X, GamepadFeature.GAMEPAD_1_STICK_RIGHT_Y};
     }
 }

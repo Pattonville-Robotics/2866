@@ -3,12 +3,12 @@ package org.pattonvillerobotics.team2866.opmodes.autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.pattonvillerobotics.team2866.opmodes.CommonAutonomous;
-import org.pattonvillerobotics.team2866.robotclasses.ClimbAssist;
-import org.pattonvillerobotics.team2866.robotclasses.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
-import org.pattonvillerobotics.team2866.robotclasses.Drive;
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
-import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimbAssist;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimberDumper;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.Drive;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.ZipRelease;
 
 /**
  * Created by skaggsm on 10/17/15.

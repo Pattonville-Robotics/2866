@@ -6,18 +6,18 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.Servo;
 
-import org.pattonvillerobotics.team2866.robotclasses.ArmController;
-import org.pattonvillerobotics.team2866.robotclasses.Blocker;
-import org.pattonvillerobotics.team2866.robotclasses.ClimbAssist;
-import org.pattonvillerobotics.team2866.robotclasses.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.Config;
-import org.pattonvillerobotics.team2866.robotclasses.Controllable;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
-import org.pattonvillerobotics.team2866.robotclasses.Drive;
 import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
-import org.pattonvillerobotics.team2866.robotclasses.MRGyroHelper;
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
-import org.pattonvillerobotics.team2866.robotclasses.ZipRelease;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.ArmController;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.Blocker;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimbAssist;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimberDumper;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.Controllable;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.Drive;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.MRGyroHelper;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.ZipRelease;
 import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
 
 import java.util.Arrays;

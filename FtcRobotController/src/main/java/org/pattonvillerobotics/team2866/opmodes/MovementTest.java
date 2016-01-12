@@ -3,8 +3,8 @@ package org.pattonvillerobotics.team2866.opmodes;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
-import org.pattonvillerobotics.team2866.robotclasses.Drive;
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.Drive;
 
 /**
  * Created by skaggsm on 11/19/15.

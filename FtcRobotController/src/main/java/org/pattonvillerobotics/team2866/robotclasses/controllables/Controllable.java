@@ -1,5 +1,6 @@
-package org.pattonvillerobotics.team2866.robotclasses;
+package org.pattonvillerobotics.team2866.robotclasses.controllables;
 
+import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
 import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
 
 /**

@@ -1,15 +1,15 @@
 package org.pattonvillerobotics.team2866.opmodes;
 
-import org.pattonvillerobotics.team2866.robotclasses.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
-import org.pattonvillerobotics.team2866.robotclasses.Drive;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimberDumper;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.Drive;
 
 /**
  * Created by stewartk02 on 11/14/15.
  * Start position
  * End position
  * Team color
- *
+ * <p/>
  * TODO: Add climbMountain(Drive drive, ClimbAssist climbAssist) and use it in OpModes
  * TODO: Use dumpClimber(Drive drive, ClimberDumbper climberDumper) in all OpModes
  */
