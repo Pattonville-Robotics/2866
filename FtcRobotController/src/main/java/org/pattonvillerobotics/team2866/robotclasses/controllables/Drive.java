@@ -19,7 +19,8 @@ import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
  */
 public class Drive implements Controllable {
 
-    public static final double WHEEL_RADIUS = 1.2906932;
+    @SuppressWarnings("MagicNumber")
+    public static final double WHEEL_RADIUS = 1.2906932 * (100 / 83d); // New tread adjustment
     public static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS;
     public static final double TICKS_PER_REVOLUTION = 1440;
     public static final double INCHES_PER_TICK = WHEEL_CIRCUMFERENCE / TICKS_PER_REVOLUTION;
@@ -33,17 +34,15 @@ public class Drive implements Controllable {
     public DcMotor motorLeft;
     public DcMotor motorRight;
     public MRGyroHelper gyro;
-    private HardwareMap hardwareMap;
     private LinearOpMode linearOpMode;
 
     public Drive(HardwareMap hardwareMap, LinearOpMode linearOpMode) {
-        this.hardwareMap = hardwareMap;
         this.linearOpMode = linearOpMode;
 
-        this.motorLeft = this.hardwareMap.dcMotor.get(Config.MOTOR_DRIVE_LEFT);
-        this.motorRight = this.hardwareMap.dcMotor.get(Config.MOTOR_DRIVE_RIGHT);
+        this.motorLeft = hardwareMap.dcMotor.get(Config.MOTOR_DRIVE_LEFT);
+        this.motorRight = hardwareMap.dcMotor.get(Config.MOTOR_DRIVE_RIGHT);
 
-        this.gyro = new MRGyroHelper((ModernRoboticsI2cGyro) this.hardwareMap.gyroSensor.get(Config.SENSOR_GYRO), this.linearOpMode);
+        this.gyro = new MRGyroHelper((ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get(Config.SENSOR_GYRO), this.linearOpMode);
 
         try {
             this.gyro.calibrateAndWait();

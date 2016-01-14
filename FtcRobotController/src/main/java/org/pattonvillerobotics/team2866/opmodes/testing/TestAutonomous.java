@@ -1,4 +1,4 @@
-package org.pattonvillerobotics.team2866.opmodes;
+package org.pattonvillerobotics.team2866.opmodes.testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
