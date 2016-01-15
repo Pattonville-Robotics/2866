@@ -20,7 +20,7 @@ import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
 public class Drive implements Controllable {
 
     @SuppressWarnings("MagicNumber")
-    public static final double WHEEL_RADIUS = 1.2906932 * (100 / 83d); // New tread adjustment
+    public static final double WHEEL_RADIUS = 110 / 100d; // New tread adjustment
     public static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS;
     public static final double TICKS_PER_REVOLUTION = 1440;
     public static final double INCHES_PER_TICK = WHEEL_CIRCUMFERENCE / TICKS_PER_REVOLUTION;
@@ -233,11 +233,13 @@ public class Drive implements Controllable {
     }
 
     private void rotateDegreesGyro(Direction direction, int degrees, double power) {
+        /*
         try {
             this.gyro.calibrateAndWait();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        */
 
         this.waitForNextHardwareCycle();
 

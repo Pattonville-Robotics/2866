@@ -1,13 +1,15 @@
 package org.pattonvillerobotics.team2866.opmodes.testing;
 
-import android.app.Application;
-import android.content.Context;
+import android.annotation.TargetApi;
+import android.os.Build;
+import android.os.Environment;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 
-import java.io.FileNotFoundException;
+import java.io.BufferedOutputStream;
+import java.io.File;
 import java.io.FileOutputStream;
 
 /**
@@ -15,21 +17,25 @@ import java.io.FileOutputStream;
  */
 @OpMode("RPM Test")
 public class RPMTest extends LinearOpMode {
+    public static final String TAG = RPMTest.class.getName();
+
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void runOpMode() throws InterruptedException {
+        telemetry.setTag(TAG);
+        telemetry.addData("RPMTest", "Starting write");
         try {
-            FileOutputStream outputStream = getApplicationUsingReflection().openFileOutput("test.txt", Context.MODE_APPEND);
-            outputStream.write("test".getBytes());
-            outputStream.close();
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOCUMENTS).getPath() + "/test.txt");
+            file.createNewFile();
+            FileOutputStream outputStream = new FileOutputStream(file);
+            BufferedOutputStream bufferedOutputStream = new BufferedOutputStream(outputStream);
+            bufferedOutputStream.write("test".getBytes());
+            bufferedOutputStream.flush();
+            bufferedOutputStream.close();
         } catch (Exception e) {
-            e.printStackTrace();
+            telemetry.addData("RPMTest", "Failed to write file!");
+            throw new AssertionError(e);
         }
-    }
-
-    public static Application getApplicationUsingReflection() throws Exception {
-        return (Application) Class.forName("android.app.ActivityThread")
-                .getMethod("currentApplication").invoke(null, (Object[]) null);
+        telemetry.addData("RPMTest", "Finished write");
     }
 }
