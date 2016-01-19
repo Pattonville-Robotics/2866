@@ -19,8 +19,16 @@ public class MovementTest extends LinearOpMode {
         Drive drive = new Drive(this.hardwareMap, this);
         waitForStart();
 
-        telemetry.addData(TAG, "Moving 100 inches...");
-        drive.moveInches(Direction.FORWARDS, 100, 1);
-        telemetry.addData(TAG, "Finished moving.");
+        final boolean distanceMode = false;
+        //noinspection ConstantConditions
+        if (distanceMode) {
+            telemetry.addData(TAG, "Moving 100 inches...");
+            drive.moveInches(Direction.FORWARDS, 100, 1);
+            telemetry.addData(TAG, "Finished moving.");
+        } else {
+            telemetry.addData(TAG, "Rotating 4 times (1440 deg)...");
+            drive.rotateDegreesGyro(Direction.RIGHT, 360, 1);
+            telemetry.addData(TAG, "Finished rotation.");
+        }
     }
 }
