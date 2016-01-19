@@ -29,6 +29,8 @@ public class Drive implements Controllable {
     public static final int DEGREES_PER_REVOLUTION = 360;
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
     public static final int DELTA_ANGLE = 0;
+    @SuppressWarnings("MagicNumber")
+    public static final double GYRO_DEGREE_COEFFICIENT = (370 / 360);
     private static final String TAG = Drive.class.getSimpleName();
     private static int numInstantiations = 0;
     public DcMotor motorLeft;
@@ -164,7 +166,7 @@ public class Drive implements Controllable {
 
     //TODO Design a better method. I think that this has more potential for accurate movement than the gyro, based on the accuracy of the straight-line movement
     @Deprecated
-    private void rotateDegreesEncoder(Direction direction, int degrees, double power) {
+    public void rotateDegreesEncoder(Direction direction, int degrees, double power) {
         if (degrees <= 0)
             throw new IllegalArgumentException("Degrees must be positive!");
         if (power <= 0)
@@ -173,26 +175,33 @@ public class Drive implements Controllable {
         int targetPositionLeft;
         int targetPositionRight;
 
+        double powerLeft;
+        double powerRight;
+
         int startPositionLeft = motorLeft.getCurrentPosition();
-        int startPositionRight = motorLeft.getCurrentPosition();
+        int startPositionRight = motorRight.getCurrentPosition();
 
         switch (direction) {
             case LEFT: {
-
-                int deltaPositionLeft = (int) Math.round(degreesToTicks(degrees));
-                int deltaPositionRight = (int) Math.round(degreesToTicks(degrees));
-
-                targetPositionLeft = startPositionLeft - deltaPositionLeft;
-                targetPositionRight = startPositionRight + deltaPositionRight;
-                break;
-            }
-            case RIGHT: {
-
-                int deltaPositionLeft = (int) Math.round(degreesToTicks(degrees));
+                int deltaPositionLeft = (int) Math.round(degreesToTicks(-degrees));
                 int deltaPositionRight = (int) Math.round(degreesToTicks(degrees));
 
                 targetPositionLeft = startPositionLeft + deltaPositionLeft;
-                targetPositionRight = startPositionRight - deltaPositionRight;
+                targetPositionRight = startPositionRight + deltaPositionRight;
+
+                powerLeft = -power;
+                powerRight = power;
+                break;
+            }
+            case RIGHT: {
+                int deltaPositionLeft = (int) Math.round(degreesToTicks(degrees));
+                int deltaPositionRight = (int) Math.round(degreesToTicks(-degrees));
+
+                targetPositionLeft = startPositionLeft + deltaPositionLeft;
+                targetPositionRight = startPositionRight + deltaPositionRight;
+
+                powerLeft = power;
+                powerRight = -power;
                 break;
             }
             default:
@@ -211,8 +220,8 @@ public class Drive implements Controllable {
 
         this.waitForNextHardwareCycle();
 
-        motorLeft.setPower(power);
-        motorRight.setPower(power);
+        motorLeft.setPower(powerLeft);
+        motorRight.setPower(powerRight);
 
         this.waitForNextHardwareCycle();
 
@@ -232,7 +241,8 @@ public class Drive implements Controllable {
         //this.rotateDegreesPID(direction, degrees, power);
     }
 
-    private void rotateDegreesGyro(Direction direction, int degrees, double power) {
+    public void rotateDegreesGyro(Direction direction, int degrees, double power) {
+        degrees *= GYRO_DEGREE_COEFFICIENT;
         /*
         try {
             this.gyro.calibrateAndWait();

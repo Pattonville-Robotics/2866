@@ -30,6 +30,7 @@ public class MRGyroHelper implements Controllable {
         while (gyro.isCalibrating()) {
             linearOpMode.waitForNextHardwareCycle();
         }
+        Thread.sleep(3000);
         linearOpMode.telemetry.addData(TAG, "Calibration complete!");
     }
 
