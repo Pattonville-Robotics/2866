@@ -26,7 +26,6 @@ public class ClimberDumper implements Controllable {
     public ClimberDumper(HardwareMap hardwareMap) {
         this.hardwareMap = hardwareMap;
         this.servoDumper = this.hardwareMap.servo.get(Config.SERVO_DUMPER);
-
     }
 
     @Override
