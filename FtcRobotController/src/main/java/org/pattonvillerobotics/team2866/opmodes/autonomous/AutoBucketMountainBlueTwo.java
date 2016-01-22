@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.pattonvillerobotics.team2866.opmodes.CommonAutonomous;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.Blocker;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.Drive;
@@ -25,6 +26,7 @@ public class AutoBucketMountainBlueTwo extends LinearOpMode {
         ClimberDumper climberDumper = new ClimberDumper(hardwareMap);
         ClimbAssist climbAssist = new ClimbAssist(hardwareMap);
         ZipRelease zipRelease = new ZipRelease(hardwareMap);
+        Blocker blocker = new Blocker(hardwareMap);
 
         zipRelease.moveLeft(Direction.DOWN);
         zipRelease.moveRight(Direction.DOWN);
@@ -34,7 +36,7 @@ public class AutoBucketMountainBlueTwo extends LinearOpMode {
 
         CommonAutonomous.leavePositionTwo(drive);
         drive.rotateDegrees(Direction.RIGHT, 45, 0.5);
-        CommonAutonomous.secondPositionTravel(drive);
+        CommonAutonomous.secondPositionTravel(drive, blocker);
         drive.rotateDegrees(Direction.RIGHT, 45, 0.5);
         CommonAutonomous.dumpClimber(drive, climberDumper);
         CommonAutonomous.dumperReturn(drive);

@@ -1,6 +1,7 @@
 package org.pattonvillerobotics.team2866.opmodes;
 
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.Blocker;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.Drive;
 
@@ -17,7 +18,7 @@ public class CommonAutonomous {
 
     public static void dumpClimber(Drive drive, ClimberDumper climberDumper) {
 
-        drive.moveInches(Direction.BACKWARDS, 24, 1);
+        drive.moveInches(Direction.BACKWARDS, 23, 1);
 /*
         climberDumper.move(Direction.MID);
         drive.sleep(1000);
@@ -27,11 +28,11 @@ public class CommonAutonomous {
 */
 
 
-        double diff = (climberDumper.UP - .3) - climberDumper.DOWN;
+        double diff = (ClimberDumper.UP - .3) - ClimberDumper.DOWN;
 
         for (int i = 0; i < 100; i++) {
 
-            double target = climberDumper.DOWN + (i * diff) / 100;
+            double target = ClimberDumper.DOWN + (i * diff) / 100;
             climberDumper.servoDumper.setPosition(target);
             drive.sleep(15);
         }
@@ -40,8 +41,15 @@ public class CommonAutonomous {
 
     }
 
-    public static void secondPositionTravel(Drive drive) {
+    public static void secondPositionTravel(Drive drive, Blocker blocker) throws InterruptedException {
         drive.moveInches(Direction.BACKWARDS, 68, 1);
+
+        drive.moveInches(Direction.BACKWARDS, 20, 1);
+        drive.moveInches(Direction.FORWARDS, 20, 1);
+
+        blocker.move(Direction.UP);
+        Thread.sleep(1000);
+        blocker.move(Direction.DOWN);
     }
 
     public static void thirdPositionTravel(Drive drive) {

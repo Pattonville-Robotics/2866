@@ -6,6 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.pattonvillerobotics.team2866.opmodes.CommonAutonomous;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.Blocker;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.Drive;
@@ -23,15 +24,17 @@ public class AutoBucketParkRedTwo extends LinearOpMode {
         Drive drive = new Drive(hardwareMap, this);
         ClimberDumper climberDumper = new ClimberDumper(hardwareMap);
         ClimbAssist climbAssist = new ClimbAssist(hardwareMap);
+        Blocker blocker = new Blocker(hardwareMap);
 
         waitForStart();
 
         CommonAutonomous.leavePositionTwo(drive);
-        drive.rotateDegrees(Direction.LEFT, 45, 0.5); //Make sure this goes at a 45˚ angle!
-        CommonAutonomous.secondPositionTravel(drive);
-        drive.rotateDegrees(Direction.LEFT, 45, 0.5);
+        drive.rotateDegrees(Direction.LEFT, 45, 0.75); //Make sure this goes at a 45˚ angle!
+        CommonAutonomous.secondPositionTravel(drive, blocker);
+        drive.rotateDegrees(Direction.LEFT, 45, 0.75);
         CommonAutonomous.dumpClimber(drive, climberDumper);
         drive.stopDriveMotors();
 
+        this.stop();
     }
 }
