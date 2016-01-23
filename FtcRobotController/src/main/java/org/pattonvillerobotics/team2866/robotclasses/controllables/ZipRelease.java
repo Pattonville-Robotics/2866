@@ -17,9 +17,9 @@ public class ZipRelease implements Controllable {
     private static final double LEFT_DOWN = 1;
     private static final double RIGHT_UP = 1;
     private static final double RIGHT_DOWN = 0;
-    public Servo servoReleaseLeft;
-    public Servo servoReleaseRight;
-    private HardwareMap hardwareMap;
+    public final Servo servoReleaseLeft;
+    public final Servo servoReleaseRight;
+    private final HardwareMap hardwareMap;
 
     private Direction servoLeft;
     private Direction servoRight;

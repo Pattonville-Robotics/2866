@@ -14,9 +14,9 @@ import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
  */
 public class ArmController implements Controllable {
 
-    public DcMotor motorArmRight;
-    public DcMotor motorArmLeft;
-    private HardwareMap hardwareMap;
+    public final DcMotor motorArmRight;
+    public final DcMotor motorArmLeft;
+    private final HardwareMap hardwareMap;
     private int target = 0;
 
     public ArmController(HardwareMap hardwareMap) {

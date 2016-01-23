@@ -37,10 +37,10 @@ public class Drive implements Controllable {
     public static final double GYRO_DEGREE_Y_INTERCEPT_RIGHT_TURN = 5;
     private static final String TAG = Drive.class.getSimpleName();
     private static int numInstantiations = 0;
-    public DcMotor motorLeft;
-    public DcMotor motorRight;
-    public MRGyroHelper gyro;
-    private LinearOpMode linearOpMode;
+    public final DcMotor motorLeft;
+    public final DcMotor motorRight;
+    public final MRGyroHelper gyro;
+    private final LinearOpMode linearOpMode;
 
     public Drive(HardwareMap hardwareMap, LinearOpMode linearOpMode) {
         this.linearOpMode = linearOpMode;

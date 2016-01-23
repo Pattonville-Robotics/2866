@@ -12,10 +12,10 @@ import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
  */
 public class ClimbAssist implements Controllable {
 
-    public DcMotor motorLiftLeft;
-    public DcMotor motorLiftRight;
-    public DcMotor motorChain;
-    private HardwareMap hardwareMap;
+    public final DcMotor motorLiftLeft;
+    public final DcMotor motorLiftRight;
+    public final DcMotor motorChain;
+    private final HardwareMap hardwareMap;
 
     public ClimbAssist(HardwareMap hardwareMap) {
 

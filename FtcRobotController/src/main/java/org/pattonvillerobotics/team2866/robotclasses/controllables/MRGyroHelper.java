@@ -12,8 +12,8 @@ import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
 public class MRGyroHelper implements Controllable {
 
     public static final String TAG = "GYROHELPER";
-    public ModernRoboticsI2cGyro gyro;
-    private LinearOpMode linearOpMode;
+    public final ModernRoboticsI2cGyro gyro;
+    private final LinearOpMode linearOpMode;
 
     public MRGyroHelper(ModernRoboticsI2cGyro gyro, LinearOpMode linearOpMode) {
         this.gyro = gyro;

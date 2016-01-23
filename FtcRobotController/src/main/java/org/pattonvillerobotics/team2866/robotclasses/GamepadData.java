@@ -77,4 +77,27 @@ public class GamepadData implements Serializable {
                 this.left_trigger == ((GamepadData) other).left_trigger &&
                 this.right_trigger == ((GamepadData) other).right_trigger;
     }
+
+    @Override
+    public int hashCode() {
+        int result = (left_stick_x != +0.0f ? Float.floatToIntBits(left_stick_x) : 0);
+        result = 31 * result + (left_stick_y != +0.0f ? Float.floatToIntBits(left_stick_y) : 0);
+        result = 31 * result + (right_stick_x != +0.0f ? Float.floatToIntBits(right_stick_x) : 0);
+        result = 31 * result + (right_stick_y != +0.0f ? Float.floatToIntBits(right_stick_y) : 0);
+        result = 31 * result + (dpad_up ? 1 : 0);
+        result = 31 * result + (dpad_down ? 1 : 0);
+        result = 31 * result + (dpad_left ? 1 : 0);
+        result = 31 * result + (dpad_right ? 1 : 0);
+        result = 31 * result + (a ? 1 : 0);
+        result = 31 * result + (b ? 1 : 0);
+        result = 31 * result + (x ? 1 : 0);
+        result = 31 * result + (y ? 1 : 0);
+        result = 31 * result + (left_bumper ? 1 : 0);
+        result = 31 * result + (right_bumper ? 1 : 0);
+        result = 31 * result + (left_stick_button ? 1 : 0);
+        result = 31 * result + (right_stick_button ? 1 : 0);
+        result = 31 * result + (left_trigger != +0.0f ? Float.floatToIntBits(left_trigger) : 0);
+        result = 31 * result + (right_trigger != +0.0f ? Float.floatToIntBits(right_trigger) : 0);
+        return result;
+    }
 }
