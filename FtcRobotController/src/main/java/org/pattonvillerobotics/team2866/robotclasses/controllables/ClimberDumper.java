@@ -14,14 +14,13 @@ import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
  */
 public class ClimberDumper implements Controllable {
 
-    public static final double UP = 0.6;
+    public static final double UP = 0.3;
     public static final double MID = 0.75;
     public static final double DOWN = 1;
 
-    public Servo servoDumper;
+    public final Servo servoDumper;
+    private final HardwareMap hardwareMap;
     private boolean dumperDown;
-
-    private HardwareMap hardwareMap;
 
     public ClimberDumper(HardwareMap hardwareMap) {
         this.hardwareMap = hardwareMap;

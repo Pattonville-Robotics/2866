@@ -19,10 +19,10 @@ public class Blocker implements Controllable {
     private static final double UP_RIGHT = 0 + .3;
     private static final double DOWN_LEFT = 0 + .05;
     private static final double DOWN_RIGHT = 1 - .05;
-    public Servo servoLeft;
-    public Servo servoRight;
-    private HardwareMap hardwareMap;
-    private Direction currentDirection;
+    public final Servo servoLeft;
+    public final Servo servoRight;
+    private final HardwareMap hardwareMap;
+    private final Direction currentDirection;
 
     public Blocker(HardwareMap hardwareMap) {
 
