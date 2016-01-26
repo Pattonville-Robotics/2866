@@ -295,7 +295,7 @@ public class Drive implements Controllable {
         }
 
         while (this.linearOpMode.opModeIsActive() && Math.abs(gyro.getIntegratedZValue() - target) > Config.GYRO_TURN_TOLERANCE) {
-            Log.e(TAG, "Current degree error readout: " + Math.abs(gyro.getIntegratedZValue() - target));
+            Log.e(TAG, "Current degree drift: " + gyro.getCurrentDrift());
             //this.waitOneFullHardwareCycle();
             this.waitForNextHardwareCycle();
         }

@@ -12,7 +12,7 @@ import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
 public class MRGyroHelper implements Controllable {
 
     public static final String TAG = "GYROHELPER";
-    private static final float DEGREE_DRIFT_PER_SECOND = -2 / 3f;
+    private static final float DEGREE_DRIFT_PER_SECOND = -5f;
     public final ModernRoboticsI2cGyro gyro;
     private final LinearOpMode linearOpMode;
     private long lastCalibrationTime = System.nanoTime();
