@@ -18,7 +18,7 @@ public class CommonAutonomous {
 
     public static void dumpClimber(Drive drive, ClimberDumper climberDumper) {
 
-        drive.moveInches(Direction.BACKWARDS, 23, 1);
+        drive.moveInches(Direction.BACKWARDS, 26, 1);
 /*
         climberDumper.move(Direction.MID);
         drive.sleep(1000);
@@ -46,6 +46,7 @@ public class CommonAutonomous {
 
         drive.moveInches(Direction.BACKWARDS, 20, 1);
         blocker.move(Direction.UP);
+        drive.sleep(100);
         drive.moveInches(Direction.FORWARDS, 20, 1);
         blocker.move(Direction.DOWN);
     }
