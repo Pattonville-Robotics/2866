@@ -42,7 +42,7 @@ public class MRGyroHelper implements Controllable {
     }
 
     public int getCurrentDrift() {
-        return Math.round((System.nanoTime() - lastCalibrationTime) / 1000000f);
+        return Math.round((System.nanoTime() - lastCalibrationTime) / 1000000000f);
     }
 
     @Override
