@@ -7,10 +7,8 @@ import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.pattonvillerobotics.team2866.robotclasses.Config;
-import org.pattonvillerobotics.team2866.robotclasses.Direction;
 import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
-import org.pattonvillerobotics.team2866.robotclasses.controllables.ArmController;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.Blocker;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimberDumper;
@@ -37,7 +35,7 @@ public class OfficialTeleOp extends LinearOpMode {
 
     private Drive drive;
     private ClimbAssist climbAssist;
-    private ArmController armController;
+    //private ArmController armController;
     private ZipRelease zipRelease;
     private ClimberDumper climberDumper;
     private MRGyroHelper mrGyroHelper;
@@ -61,14 +59,14 @@ public class OfficialTeleOp extends LinearOpMode {
 
         drive = new Drive(hardwareMap, this);
         climbAssist = new ClimbAssist(hardwareMap);
-        armController = new ArmController(hardwareMap);
+        //armController = new ArmController(hardwareMap);
         zipRelease = new ZipRelease(hardwareMap);
         climberDumper = new ClimberDumper(hardwareMap);
         ModernRoboticsI2cGyro mrGyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get(Config.SENSOR_GYRO);
         mrGyroHelper = new MRGyroHelper(mrGyro, this);
         blocker = new Blocker(hardwareMap);
         controllables = new LinkedList<Controllable>();
-        controllables.addAll(Arrays.asList(drive, climbAssist, armController, zipRelease, climberDumper, blocker));
+        controllables.addAll(Arrays.asList(drive, climbAssist, zipRelease, climberDumper, blocker));
 
         validateControllables();
 
@@ -78,10 +76,6 @@ public class OfficialTeleOp extends LinearOpMode {
         gamepad1.setJoystickDeadzone(0.05f);
         //noinspection MagicNumber
         gamepad2.setJoystickDeadzone(0.05f);
-
-        zipRelease.moveLeft(Direction.DOWN);
-        zipRelease.moveRight(Direction.DOWN);
-        climberDumper.move(Direction.DOWN);
 
         waitForStart();
 
@@ -287,8 +281,8 @@ public class OfficialTeleOp extends LinearOpMode {
         logMotor(climbAssist.motorChain, "Chain Motor");
         logMotor(climbAssist.motorLiftLeft, "Left Lift Motor");
         logMotor(climbAssist.motorLiftRight, "Right Lift Motor");
-        logMotor(armController.motorArmLeft, "Left Arm Motor");
-        logMotor(armController.motorArmRight, "Right Arm Motor");
+        //logMotor(armController.motorArmLeft, "Left Arm Motor");
+        //logMotor(armController.motorArmRight, "Right Arm Motor");
     }
 
     private void logMotor(DcMotor motor, String name) {

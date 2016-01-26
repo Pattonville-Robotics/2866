@@ -28,10 +28,45 @@ public class ZipRelease implements Controllable {
     private boolean rightReleaseDown;
 
     public ZipRelease(HardwareMap hardwareMap) {
-
         this.hardwareMap = hardwareMap;
         this.servoReleaseLeft = hardwareMap.servo.get(Config.SERVO_RELEASE_LEFT);
         this.servoReleaseRight = hardwareMap.servo.get(Config.SERVO_RELEASE_RIGHT);
+
+        this.moveLeft(Direction.DOWN);
+        this.moveRight(Direction.DOWN);
+    }
+
+    public void moveLeft(Direction direction) {
+
+        switch (direction) {
+            case UP:
+                servoReleaseLeft.setPosition(LEFT_UP);
+                servoLeft = Direction.UP;
+                break;
+
+            case DOWN:
+                servoReleaseLeft.setPosition(LEFT_DOWN);
+                servoLeft = Direction.DOWN;
+                break;
+            default:
+                throw new IllegalArgumentException("Direction must be UP or DOWN!");
+        }
+    }
+
+    public void moveRight(Direction direction) {
+        switch (direction) {
+            case UP:
+                servoReleaseRight.setPosition(RIGHT_UP);
+                servoRight = Direction.UP;
+                break;
+
+            case DOWN:
+                servoReleaseRight.setPosition(RIGHT_DOWN);
+                servoRight = Direction.DOWN;
+                break;
+            default:
+                throw new IllegalArgumentException("Direction must be UP or DOWN!");
+        }
     }
 
     public String toString() {
@@ -61,40 +96,6 @@ public class ZipRelease implements Controllable {
             }
         }
         return true;
-    }
-
-    public void moveLeft(Direction direction) {
-
-        switch (direction) {
-            case UP:
-                servoReleaseLeft.setPosition(LEFT_UP);
-                servoLeft = Direction.UP;
-                break;
-
-            case DOWN:
-                servoReleaseLeft.setPosition(LEFT_DOWN);
-                servoLeft = Direction.DOWN;
-                break;
-            default:
-                throw new IllegalArgumentException("Direction must be UP or DOWN!");
-        }
-    }
-
-    public void moveRight(Direction direction) {
-        switch (direction) {
-
-            case UP:
-                servoReleaseRight.setPosition(RIGHT_UP);
-                servoRight = Direction.UP;
-                break;
-
-            case DOWN:
-                servoReleaseRight.setPosition(RIGHT_DOWN);
-                servoRight = Direction.DOWN;
-                break;
-            default:
-                throw new IllegalArgumentException("Direction must be UP or DOWN!");
-        }
     }
 
     @Override

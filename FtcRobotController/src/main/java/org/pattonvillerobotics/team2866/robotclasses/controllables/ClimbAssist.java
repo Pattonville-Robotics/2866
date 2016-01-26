@@ -65,7 +65,6 @@ public class ClimbAssist implements Controllable {
     }
 
     public void moveChain(double power) {
-
         motorChain.setPower(power);
     }
 

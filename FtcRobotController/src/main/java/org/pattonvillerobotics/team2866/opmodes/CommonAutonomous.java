@@ -42,13 +42,11 @@ public class CommonAutonomous {
     }
 
     public static void secondPositionTravel(Drive drive, Blocker blocker) throws InterruptedException {
-        drive.moveInches(Direction.BACKWARDS, 68, 1);
+        drive.moveInches(Direction.BACKWARDS, 70, 1);
 
         drive.moveInches(Direction.BACKWARDS, 20, 1);
-        drive.moveInches(Direction.FORWARDS, 20, 1);
-
         blocker.move(Direction.UP);
-        Thread.sleep(1000);
+        drive.moveInches(Direction.FORWARDS, 20, 1);
         blocker.move(Direction.DOWN);
     }
 
