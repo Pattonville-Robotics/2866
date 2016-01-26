@@ -9,8 +9,8 @@ public final class Config {
     public static final String MOTOR_DRIVE_LEFT = "motor_drive_left";
     public static final String MOTOR_DRIVE_RIGHT = "motor_drive_right";
 
-    public static final String MOTOR_ARM_LEFT = "motor_arm_left";
-    public static final String MOTOR_ARM_RIGHT = "motor_arm_right";
+    //public static final String MOTOR_ARM_LEFT = "motor_arm_left";
+    //public static final String MOTOR_ARM_RIGHT = "motor_arm_right";
 
     public static final String MOTOR_LIFT_LEFT = "motor_lift_left";
     public static final String MOTOR_LIFT_RIGHT = "motor_lift_right";
@@ -18,7 +18,6 @@ public final class Config {
     public static final String MOTOR_CHAIN = "motor_chain";
 
     public static final String SERVO_DUMPER = "servo_dumper";
-    public static final String SERVO_SHIELD = "servo_shield";
 
     public static final String SERVO_RELEASE_LEFT = "servo_release_left";
     public static final String SERVO_RELEASE_RIGHT = "servo_release_right";
@@ -29,11 +28,10 @@ public final class Config {
     public static final String SERVO_BLOCKER_RIGHT = "servo_blocker_right";
 
     public static final int ARM_MOVEMENT_SPEED = 1;
-    public static final double CHAIN_MOVEMENT_SPEED = .25;
-    public static final double LIFT_MOVEMENT_SPEED = .25;
+    public static final double CHAIN_MOVEMENT_SPEED = .75;
+    public static final double LIFT_MOVEMENT_SPEED = .75;
     public static final int ENCODER_MOVEMENT_TOLERANCE = 12;
     public static final int GYRO_TURN_TOLERANCE = 6;
-    public static final int GYRO_TRIM = 0;
 
 
 }

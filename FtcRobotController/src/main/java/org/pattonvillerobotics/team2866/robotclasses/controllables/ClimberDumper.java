@@ -14,7 +14,7 @@ import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
  */
 public class ClimberDumper implements Controllable {
 
-    public static final double UP = 0.3;
+    public static final double UP = 0.4;
     public static final double MID = 0.75;
     public static final double DOWN = 1;
 
@@ -25,20 +25,7 @@ public class ClimberDumper implements Controllable {
     public ClimberDumper(HardwareMap hardwareMap) {
         this.hardwareMap = hardwareMap;
         this.servoDumper = this.hardwareMap.servo.get(Config.SERVO_DUMPER);
-    }
-
-    @Override
-    public boolean sendGamepadData(GamepadData gamepad1DataCurrent, GamepadData gamepad1DataHistory, GamepadData gamepad2DataCurrent, GamepadData gamepad2DataHistory) {
-        if (gamepad1DataCurrent.x && !gamepad1DataHistory.x) {
-            if (dumperDown) {
-                this.move(Direction.UP);
-                dumperDown = false;
-            } else {
-                this.move(Direction.DOWN);
-                dumperDown = true;
-            }
-        }
-        return true;
+        this.move(Direction.DOWN);
     }
 
     public void move(Direction direction) {
@@ -53,6 +40,20 @@ public class ClimberDumper implements Controllable {
                 servoDumper.setPosition(DOWN);
                 break;
         }
+    }
+
+    @Override
+    public boolean sendGamepadData(GamepadData gamepad1DataCurrent, GamepadData gamepad1DataHistory, GamepadData gamepad2DataCurrent, GamepadData gamepad2DataHistory) {
+        if (gamepad1DataCurrent.x && !gamepad1DataHistory.x) {
+            if (dumperDown) {
+                this.move(Direction.UP);
+                dumperDown = false;
+            } else {
+                this.move(Direction.DOWN);
+                dumperDown = true;
+            }
+        }
+        return true;
     }
 
     @Override

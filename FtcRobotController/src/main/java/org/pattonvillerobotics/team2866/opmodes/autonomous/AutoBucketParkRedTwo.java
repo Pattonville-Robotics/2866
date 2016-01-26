@@ -34,7 +34,5 @@ public class AutoBucketParkRedTwo extends LinearOpMode {
         drive.rotateDegrees(Direction.LEFT, 45, 0.75);
         CommonAutonomous.dumpClimber(drive, climberDumper);
         drive.stopDriveMotors();
-
-        this.stop();
     }
 }

@@ -31,10 +31,6 @@ public class Drive implements Controllable {
     public static final int DEGREES_PER_REVOLUTION = 360;
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
     public static final int DELTA_ANGLE = 0;
-    @SuppressWarnings("MagicNumber")
-    public static final double GYRO_DEGREE_COEFFICIENT = (360 / 360d);
-    public static final double GYRO_DEGREE_Y_INTERCEPT_LEFT_TURN = 0;
-    public static final double GYRO_DEGREE_Y_INTERCEPT_RIGHT_TURN = 5;
     private static final String TAG = Drive.class.getSimpleName();
     private static int numInstantiations = 0;
     public final DcMotor motorLeft;
@@ -168,6 +164,14 @@ public class Drive implements Controllable {
         motorRight.setPower(0);
     }
 
+    public void waitOneFullHardwareCycle() {
+        try {
+            this.linearOpMode.waitOneFullHardwareCycle();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
     //TODO Design a better method. I think that this has more potential for accurate movement than the gyro, based on the accuracy of the straight-line movement
     @Deprecated
     public void rotateDegreesEncoder(Direction direction, int degrees, double power) {
@@ -241,14 +245,13 @@ public class Drive implements Controllable {
     }
 
     public void rotateDegrees(Direction direction, double degrees, double power) throws InterruptedException {
-        gyro.calibrateAndWait();
+        //gyro.calibrateAndWait();
         this.rotateDegreesGyro(direction, degrees, power);
         //this.rotateDegreesPID(direction, degrees, power);
     }
 
     public void rotateDegreesGyro(Direction direction, double degrees, double power) {
         double adjustedDegrees = degrees;
-        adjustedDegrees *= GYRO_DEGREE_COEFFICIENT;
         /*
         try {
             this.gyro.calibrateAndWait();
@@ -293,8 +296,10 @@ public class Drive implements Controllable {
 
         while (this.linearOpMode.opModeIsActive() && Math.abs(gyro.getIntegratedZValue() - target) > Config.GYRO_TURN_TOLERANCE) {
             Log.e(TAG, "Current degree error readout: " + Math.abs(gyro.getIntegratedZValue() - target));
+            //this.waitOneFullHardwareCycle();
             this.waitForNextHardwareCycle();
         }
+        Log.e(TAG, "Last degree error readout: " + Math.abs(gyro.getIntegratedZValue() - target));
 
         this.stopDriveMotors();
 
