@@ -31,6 +31,7 @@ public class Drive implements Controllable {
     public static final int DEGREES_PER_REVOLUTION = 360;
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
     public static final int DELTA_ANGLE = 0;
+    public static final double POWER_SCALE = .02;
     private static final String TAG = Drive.class.getSimpleName();
     private static int numInstantiations = 0;
     public final DcMotor motorLeft;
@@ -104,7 +105,6 @@ public class Drive implements Controllable {
 
         switch (direction) {
             case FORWARDS: {
-
                 int deltaPosition = (int) Math.round(inchesToTicks(inches));
                 targetPositionLeft = startPositionLeft + deltaPosition;
                 targetPositionRight = startPositionRight + deltaPosition;
@@ -137,11 +137,20 @@ public class Drive implements Controllable {
 
         this.waitForNextHardwareCycle();
 
+        int targetAngle = gyro.getIntegratedZValue();
+
         this.linearOpMode.telemetry.addData(TAG, "Started encoder move...");
         while (this.linearOpMode.opModeIsActive() && Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
             this.waitForNextHardwareCycle();
+            int deltaAngle = Math.round(Range.clip(gyro.getIntegratedZValue() - targetAngle, -20f, 20f));
+            Log.e("deltaAngle", "=" + deltaAngle);
+
+            motorLeft.setPower(Range.clip(power - deltaAngle * POWER_SCALE, -1, 1));
+            motorRight.setPower(Range.clip(power + deltaAngle * POWER_SCALE, -1, 1));
         }
         linearOpMode.telemetry.addData(TAG, "Finished encoder move...");
+
+        this.waitForNextHardwareCycle();
 
         this.stopDriveMotors();
     }
@@ -160,6 +169,8 @@ public class Drive implements Controllable {
 
     public void stopDriveMotors() {
         this.waitForNextHardwareCycle(); // So they can be applied simultaneously all the time
+        motorLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        motorRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         motorLeft.setPower(0);
         motorRight.setPower(0);
     }
@@ -251,7 +262,6 @@ public class Drive implements Controllable {
     }
 
     public void rotateDegreesGyro(Direction direction, double degrees, double power) {
-        double adjustedDegrees = degrees;
         /*
         try {
             this.gyro.calibrateAndWait();
@@ -260,9 +270,7 @@ public class Drive implements Controllable {
         }
         */
 
-        long startTime = System.nanoTime();
         this.waitForNextHardwareCycle();
-        Log.e("Time", System.nanoTime() - startTime + "ns");
 
         motorLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         motorRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
@@ -271,22 +279,20 @@ public class Drive implements Controllable {
 
         int target = gyro.getIntegratedZValue();
 
-        this.waitForNextHardwareCycle();
+        double motorLeftPower, motorRightPower;
         switch (direction) {
             case LEFT: {
-                //adjustedDegrees += GYRO_DEGREE_Y_INTERCEPT_LEFT_TURN;
-                motorLeft.setPower(-power);
-                motorRight.setPower(power);
+                motorLeftPower = -power;
+                motorRightPower = power;
 
-                target += adjustedDegrees;// + Config.GYRO_TRIM;
+                target += degrees;
                 break;
             }
             case RIGHT: {
-                //adjustedDegrees += GYRO_DEGREE_Y_INTERCEPT_RIGHT_TURN;
-                motorLeft.setPower(power);
-                motorRight.setPower(-power);
+                motorLeftPower = power;
+                motorRightPower = -power;
 
-                target -= adjustedDegrees;// - Config.GYRO_TRIM;
+                target -= degrees;
                 break;
             }
             default: {
@@ -294,16 +300,31 @@ public class Drive implements Controllable {
             }
         }
 
-        while (this.linearOpMode.opModeIsActive() && Math.abs(gyro.getIntegratedZValue() - target) > Config.GYRO_TURN_TOLERANCE) {
+        this.waitForNextHardwareCycle();
+
+        motorLeft.setPower(motorLeftPower);
+        motorRight.setPower(motorRightPower);
+
+        double currentError = Math.abs(gyro.getIntegratedZValue() - target);
+
+        while (this.linearOpMode.opModeIsActive() && currentError > Config.GYRO_TURN_TOLERANCE) {
+            currentError = Math.abs(gyro.getIntegratedZValue() - target);
+
+            motorLeft.setPower(motorLeftPower * errorFunction(currentError));
+            motorRight.setPower(motorRightPower * errorFunction(currentError));
+
             Log.e(TAG, "Current degree drift: " + gyro.getCurrentDrift());
-            //this.waitOneFullHardwareCycle();
             this.waitForNextHardwareCycle();
         }
-        Log.e(TAG, "Last degree error readout: " + Math.abs(gyro.getIntegratedZValue() - target));
+        Log.e(TAG, "Last degree error readout: " + currentError);
 
         this.stopDriveMotors();
 
         this.waitForNextHardwareCycle();
+    }
+
+    private double errorFunction(double error) {
+        return 2 * Math.atan(error / 5) / Math.PI;
     }
 
     private void rotateDegreesPID(Direction direction, int degrees, final double power) {

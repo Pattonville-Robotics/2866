@@ -27,7 +27,7 @@ public class MovementTest extends LinearOpMode {
             telemetry.addData(TAG, "Finished moving.");
         } else {
             telemetry.addData(TAG, "Rotating 4 times (1440 deg)...");
-            drive.rotateDegrees(Direction.RIGHT, 360, 1);
+            drive.rotateDegrees(Direction.RIGHT, 1440, 1);
             telemetry.addData(TAG, "Finished rotation.");
         }
     }

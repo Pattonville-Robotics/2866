@@ -18,7 +18,7 @@ public class CommonAutonomous {
 
     public static void dumpClimber(Drive drive, ClimberDumper climberDumper) {
 
-        drive.moveInches(Direction.BACKWARDS, 25, 1);
+        drive.moveInches(Direction.BACKWARDS, 25, .75);
 /*
         climberDumper.move(Direction.MID);
         drive.sleep(1000);
@@ -42,19 +42,19 @@ public class CommonAutonomous {
     }
 
     public static void secondPositionTravel(Drive drive, Blocker blocker) throws InterruptedException {
-        drive.moveInches(Direction.BACKWARDS, 90, 1);
+        drive.moveInches(Direction.BACKWARDS, 90, .75);
         blocker.move(Direction.UP);
         drive.sleep(100);
-        drive.moveInches(Direction.FORWARDS, 20, 1);
+        drive.moveInches(Direction.FORWARDS, 20, .75);
         blocker.move(Direction.DOWN);
     }
 
     public static void thirdPositionTravel(Drive drive) {
-        drive.moveInches(Direction.BACKWARDS, 34, 1);
+        drive.moveInches(Direction.BACKWARDS, 34, .75);
     }
 
     public static void mountainTravel(Drive drive) {
-        drive.moveInches(Direction.FORWARDS, 35, 1);
+        drive.moveInches(Direction.FORWARDS, 35, .75);
     }
 
     public static void mountainAscend(Drive drive) {
@@ -62,18 +62,18 @@ public class CommonAutonomous {
     }
 
     public static void dumperReturn(Drive drive) {
-        drive.moveInches(Direction.FORWARDS, 28, 1);
+        drive.moveInches(Direction.FORWARDS, 28, .75);
     }
 
     public static void leavePositionTwo(Drive drive) {
-        drive.moveInches(Direction.BACKWARDS, 27, 1);
+        drive.moveInches(Direction.BACKWARDS, 27, .75);
     }
 
     public static void leavePositionThree(Drive drive) {
-        drive.moveInches(Direction.BACKWARDS, 50, 1);
+        drive.moveInches(Direction.BACKWARDS, 50, .75);
     }
 
     public static void leavePositionOne(Drive drive) {
-        drive.moveInches(Direction.BACKWARDS, 97, 1);
+        drive.moveInches(Direction.BACKWARDS, 97, .75);
     }
 }

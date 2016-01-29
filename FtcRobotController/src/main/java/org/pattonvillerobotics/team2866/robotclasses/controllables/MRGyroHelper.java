@@ -23,7 +23,7 @@ public class MRGyroHelper implements Controllable {
     }
 
     public void preciseCalibration() throws InterruptedException {
-        this.calibrateAndWait();
+
     }
 
     public void calibrateAndWait() throws InterruptedException {
