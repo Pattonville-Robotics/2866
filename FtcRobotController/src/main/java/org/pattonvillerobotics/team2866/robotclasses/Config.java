@@ -27,6 +27,10 @@ public final class Config {
     public static final String SERVO_BLOCKER_LEFT = "servo_blocker_left";
     public static final String SERVO_BLOCKER_RIGHT = "servo_blocker_right";
 
+    public static final String SERVO_SUPERBLOCKER_LEFT = "servo_superblocker_left";
+    public static final String SERVO_SUPERBLOCKER_RIGHT = "servo_superblocker_right";
+    public static final String SERVO_SUPERBLOCKER_MAIN = "servo_superblocker_main";
+
     public static final int ARM_MOVEMENT_SPEED = 1;
     public static final double CHAIN_MOVEMENT_SPEED = .75;
     public static final double LIFT_MOVEMENT_SPEED = .75;

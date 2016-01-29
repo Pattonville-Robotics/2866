@@ -13,6 +13,7 @@ import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
  * TODO: Find servo values
  * TODO: Create a control method similar to ZipRelease
  */
+@Deprecated
 public class Blocker implements Controllable {
 
     private static final double UP_LEFT = 1 - .3;
