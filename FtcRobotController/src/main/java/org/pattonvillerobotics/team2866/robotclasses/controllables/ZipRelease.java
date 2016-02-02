@@ -5,13 +5,11 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.pattonvillerobotics.team2866.robotclasses.Config;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
-import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
-import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
 
 /**
  * Created by James McMahon on 10/22/15.
  */
-public class ZipRelease implements Controllable {
+public class ZipRelease {
 
     private static final double LEFT_UP = 0;
     private static final double LEFT_DOWN = 1;
@@ -32,8 +30,8 @@ public class ZipRelease implements Controllable {
         this.servoReleaseLeft = hardwareMap.servo.get(Config.SERVO_RELEASE_LEFT);
         this.servoReleaseRight = hardwareMap.servo.get(Config.SERVO_RELEASE_RIGHT);
 
-        this.moveLeft(Direction.DOWN);
-        this.moveRight(Direction.DOWN);
+        this.moveLeft(Direction.UP);
+        this.moveRight(Direction.UP);
     }
 
     public void moveLeft(Direction direction) {
@@ -73,33 +71,5 @@ public class ZipRelease implements Controllable {
 
         return "Left Release: " + servoLeft + "\n" +
                 "Right Release: " + servoRight;
-    }
-
-    @Override
-    public boolean sendGamepadData(GamepadData gamepad1DataCurrent, GamepadData gamepad1DataHistory, GamepadData gamepad2DataCurrent, GamepadData gamepad2DataHistory) {
-        if (gamepad1DataCurrent.dpad_left && !gamepad1DataHistory.dpad_left) {
-            if (leftReleaseDown) {
-                this.moveLeft(Direction.UP);
-                leftReleaseDown = false;
-            } else {
-                leftReleaseDown = true;
-            }
-            this.moveLeft(Direction.DOWN);
-        }
-        if (gamepad1DataCurrent.dpad_right && !gamepad1DataHistory.dpad_right) {
-            if (rightReleaseDown) {
-                this.moveRight(Direction.UP);
-                rightReleaseDown = false;
-            } else {
-                this.moveRight(Direction.DOWN);
-                rightReleaseDown = true;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public GamepadFeature[] requestFeatures() {
-        return new GamepadFeature[]{GamepadFeature.GAMEPAD_1_DPAD_LEFT, GamepadFeature.GAMEPAD_1_DPAD_RIGHT};
     }
 }

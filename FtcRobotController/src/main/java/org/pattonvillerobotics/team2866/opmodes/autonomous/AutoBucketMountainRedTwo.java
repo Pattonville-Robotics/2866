@@ -5,10 +5,10 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import org.pattonvillerobotics.team2866.opmodes.CommonAutonomous;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
-import org.pattonvillerobotics.team2866.robotclasses.controllables.Blocker;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.Drive;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.SuperBlocker;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ZipRelease;
 
 /**
@@ -29,13 +29,7 @@ public class AutoBucketMountainRedTwo extends LinearOpMode {
         ClimberDumper climberDumper = new ClimberDumper(hardwareMap);
         ClimbAssist climbAssist = new ClimbAssist(hardwareMap);
         ZipRelease zipRelease = new ZipRelease(hardwareMap);
-        Blocker blocker = new Blocker(hardwareMap);
-
-        zipRelease.moveLeft(Direction.DOWN);
-        zipRelease.moveRight(Direction.DOWN);
-        climberDumper.move(Direction.DOWN);
-
-        telemetry.addData("TEST", this.getClass().getName());
+        SuperBlocker blocker = new SuperBlocker(hardwareMap);
 
         waitForStart();
 

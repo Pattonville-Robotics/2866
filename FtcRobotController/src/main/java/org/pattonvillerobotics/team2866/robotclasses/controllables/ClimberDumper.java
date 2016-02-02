@@ -5,14 +5,12 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.pattonvillerobotics.team2866.robotclasses.Config;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
-import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
-import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
 
 /**
  * Created by Nathan Skelton on 10/25/15.
  * <p/>
  */
-public class ClimberDumper implements Controllable {
+public class ClimberDumper {
 
     public static final double UP = 0.4;
     public static final double MID = 0.75;
@@ -40,24 +38,5 @@ public class ClimberDumper implements Controllable {
                 servoDumper.setPosition(DOWN);
                 break;
         }
-    }
-
-    @Override
-    public boolean sendGamepadData(GamepadData gamepad1DataCurrent, GamepadData gamepad1DataHistory, GamepadData gamepad2DataCurrent, GamepadData gamepad2DataHistory) {
-        if (gamepad1DataCurrent.x && !gamepad1DataHistory.x) {
-            if (dumperDown) {
-                this.move(Direction.UP);
-                dumperDown = false;
-            } else {
-                this.move(Direction.DOWN);
-                dumperDown = true;
-            }
-        }
-        return true;
-    }
-
-    @Override
-    public GamepadFeature[] requestFeatures() {
-        return new GamepadFeature[]{GamepadFeature.GAMEPAD_1_BUTTON_X};
     }
 }

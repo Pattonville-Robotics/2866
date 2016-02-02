@@ -8,6 +8,7 @@ import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.Drive;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.SuperBlocker;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ZipRelease;
 
 /**
@@ -24,10 +25,7 @@ public class AutoBucketMountainBlueOne extends LinearOpMode {
         ClimberDumper climberDumper = new ClimberDumper(hardwareMap);
         ClimbAssist climbAssist = new ClimbAssist(hardwareMap);
         ZipRelease zipRelease = new ZipRelease(hardwareMap);
-
-        zipRelease.moveLeft(Direction.DOWN);
-        zipRelease.moveRight(Direction.DOWN);
-        climberDumper.move(Direction.DOWN);
+        SuperBlocker blocker = new SuperBlocker(hardwareMap);
 
         waitForStart();
 

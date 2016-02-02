@@ -7,26 +7,17 @@ import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.pattonvillerobotics.team2866.robotclasses.Config;
-import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
+import org.pattonvillerobotics.team2866.robotclasses.Direction;
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
-import org.pattonvillerobotics.team2866.robotclasses.controllables.Blocker;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimberDumper;
-import org.pattonvillerobotics.team2866.robotclasses.controllables.Controllable;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.Drive;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.MRGyroHelper;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.SuperBlocker;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ZipRelease;
-import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
-
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.HashSet;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Created by Team 2866 on 10/6/15.
- * TODO: Implement Blocker into a toggle similar to the climber dumper
  */
 @OpMode("Official TeleOp")
 public class OfficialTeleOp extends LinearOpMode {
@@ -35,23 +26,11 @@ public class OfficialTeleOp extends LinearOpMode {
 
     private Drive drive;
     private ClimbAssist climbAssist;
-    //private ArmController armController;
     private ZipRelease zipRelease;
     private ClimberDumper climberDumper;
     private MRGyroHelper mrGyroHelper;
-    private Blocker blocker;
+    private SuperBlocker superBlocker;
 
-    private List<Controllable> controllables;
-
-    private boolean leftReleaseDown = true;
-    private boolean rightReleaseDown = true;
-
-    private boolean dumperDown = true;
-
-    private GamepadData gamepad1DataCurrent;
-    private GamepadData gamepad2DataCurrent;
-    private GamepadData gamepad1DataHistory;
-    private GamepadData gamepad2DataHistory;
     private int logLoopCount = 0;
 
     @Override
@@ -59,16 +38,11 @@ public class OfficialTeleOp extends LinearOpMode {
 
         drive = new Drive(hardwareMap, this);
         climbAssist = new ClimbAssist(hardwareMap);
-        //armController = new ArmController(hardwareMap);
         zipRelease = new ZipRelease(hardwareMap);
         climberDumper = new ClimberDumper(hardwareMap);
         ModernRoboticsI2cGyro mrGyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get(Config.SENSOR_GYRO);
         mrGyroHelper = new MRGyroHelper(mrGyro, this);
-        blocker = new Blocker(hardwareMap);
-        controllables = new LinkedList<Controllable>();
-        controllables.addAll(Arrays.asList(drive, climbAssist, zipRelease, climberDumper, blocker));
-
-        validateControllables();
+        superBlocker = new SuperBlocker(hardwareMap);
 
         mrGyroHelper.calibrateAndWait();
 
@@ -77,49 +51,115 @@ public class OfficialTeleOp extends LinearOpMode {
         //noinspection MagicNumber
         gamepad2.setJoystickDeadzone(0.05f);
 
+        zipRelease.moveLeft(Direction.UP);
+        zipRelease.moveRight(Direction.UP);
+
+        climberDumper.move(Direction.DOWN);
+        //superBlocker.moveVertical(Direction.DOWN);
+
+        boolean leftTrigger = false;
+        boolean rightTrigger = false;
+        boolean climberDumper = false;
+
+        Direction[] positions = {Direction.DOWN, Direction.MID, Direction.UP};
+        int currentPosition = 1;
+        int currentVerticalPosition = 0;
+
         waitForStart();
 
         while (opModeIsActive()) {
             log();
-            updateGamepads();
-            doLoop();
+
+            // Gamepad 1
+
+            drive.moveFreely(gamepad1.left_stick_y, gamepad1.right_stick_y);
+
+            if (gamepad1.a) {
+                climbAssist.moveLift(.5);
+            } else if (gamepad1.y) {
+                climbAssist.moveLift(-.5);
+            } else {
+                climbAssist.stopLift();
+            }
+
+            if (gamepad1.dpad_up) {
+                if (currentVerticalPosition == 2) {
+                    currentVerticalPosition = 0;
+                } else {
+                    currentVerticalPosition += 1;
+                }
+
+                superBlocker.moveVertical(positions[currentVerticalPosition]);
+            } else if (gamepad1.dpad_down) {
+                if (currentVerticalPosition == 0) {
+                    currentVerticalPosition = 2;
+                } else {
+                    currentVerticalPosition -= 1;
+                }
+
+                superBlocker.moveVertical(positions[currentVerticalPosition]);
+            }
+
+            if (gamepad1.left_bumper) {
+                if (currentPosition == 0) {
+                    currentPosition = 2;
+                } else {
+                    currentPosition -= 1;
+                }
+
+                superBlocker.setPosition(positions[currentPosition]);
+            } else if (gamepad1.right_bumper) {
+                if (currentPosition == 2) {
+                    currentPosition = 0;
+                } else {
+                    currentPosition += 1;
+                }
+
+                superBlocker.setPosition(positions[currentPosition]);
+            }
+
+
+            // Gamepad 2
+
+            if (gamepad2.b) {
+                if (climberDumper) {
+                    this.climberDumper.move(Direction.DOWN);
+                    climberDumper = false;
+                } else {
+                    this.climberDumper.move(Direction.UP);
+                    climberDumper = true;
+                }
+            }
+
+            if (gamepad2.dpad_left) {
+                if (leftTrigger) {
+                    zipRelease.moveLeft(Direction.UP);
+                    leftTrigger = false;
+                } else {
+                    zipRelease.moveLeft(Direction.DOWN);
+                    leftTrigger = true;
+                }
+            }
+
+            if (gamepad2.dpad_right) {
+                if (rightTrigger) {
+                    zipRelease.moveRight(Direction.UP);
+                    rightTrigger = false;
+                } else {
+                    zipRelease.moveRight(Direction.DOWN);
+                    rightTrigger = true;
+                }
+            }
+
             waitForNextHardwareCycle();
         }
-    }
-
-    private void validateControllables() {
-        Collection<GamepadFeature> takenFeatures = new HashSet<GamepadFeature>();
-        Collection<GamepadFeature> duplicateFeatures = new HashSet<GamepadFeature>();
-        for (Controllable controllable : this.controllables) {
-            for (GamepadFeature feature : controllable.requestFeatures()) {
-                if (!takenFeatures.add(feature))
-                    duplicateFeatures.add(feature);
-            }
-        }
-        if (duplicateFeatures.size() != 0)
-            throw new IllegalStateException("These features were requested more than once: " + duplicateFeatures);
     }
 
     private void log() {
         logLoopCount %= 10;
         if (logLoopCount == 0) {
-            //logServos();
-            //logMotors();
             logSensors();
         }
-    }
-
-    private void updateGamepads() {
-        this.gamepad1DataHistory = this.gamepad1DataCurrent;
-        this.gamepad2DataHistory = this.gamepad2DataCurrent;
-
-        this.gamepad1DataCurrent = new GamepadData(gamepad1);
-        this.gamepad2DataCurrent = new GamepadData(gamepad2);
-    }
-
-    public void doLoop() {
-        for (Controllable controllable : this.controllables)
-            controllable.sendGamepadData(gamepad1DataCurrent, gamepad1DataHistory, gamepad2DataCurrent, gamepad2DataHistory);
     }
 
     private void logSensors() {
@@ -157,8 +197,6 @@ public class OfficialTeleOp extends LinearOpMode {
         logMotor(climbAssist.motorChain, "Chain Motor");
         logMotor(climbAssist.motorLiftLeft, "Left Lift Motor");
         logMotor(climbAssist.motorLiftRight, "Right Lift Motor");
-        //logMotor(armController.motorArmLeft, "Left Arm Motor");
-        //logMotor(armController.motorArmRight, "Right Arm Motor");
     }
 
     private void logMotor(DcMotor motor, String name) {
