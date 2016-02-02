@@ -4,13 +4,11 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.pattonvillerobotics.team2866.robotclasses.Config;
-import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
-import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
 
 /**
  * Created by Nathan Skelton on 10/19/15.
  */
-public class ClimbAssist implements Controllable {
+public class ClimbAssist {
 
     public final DcMotor motorLiftLeft;
     public final DcMotor motorLiftRight;
@@ -33,25 +31,6 @@ public class ClimbAssist implements Controllable {
         return "Lift Motors: " + motorLiftLeft.getPower() + "\n" + "Chain Motor: " + motorChain.getPower();
     }
 
-    @Override
-    public boolean sendGamepadData(GamepadData gamepad1DataCurrent, GamepadData gamepad1DataHistory, GamepadData gamepad2DataCurrent, GamepadData gamepad2DataHistory) {
-        if (gamepad1DataCurrent.y && !gamepad1DataCurrent.a) {
-            this.moveLift(Config.LIFT_MOVEMENT_SPEED);
-        } else if (gamepad1DataCurrent.a && !gamepad1DataCurrent.y) {
-            this.moveLift(-Config.LIFT_MOVEMENT_SPEED);
-        } else {
-            this.stopLift();
-        }
-        if (gamepad1DataCurrent.right_bumper && !gamepad1DataCurrent.left_bumper) {
-            this.moveChain(Config.CHAIN_MOVEMENT_SPEED);
-        } else if (gamepad1DataCurrent.left_bumper && !gamepad1DataCurrent.right_bumper) {
-            this.moveChain(-Config.CHAIN_MOVEMENT_SPEED);
-        } else {
-            this.stopChain();
-        }
-        return true;
-    }
-
     public void moveLift(double power) {
 
         motorLiftLeft.setPower(power);
@@ -71,10 +50,5 @@ public class ClimbAssist implements Controllable {
     public void stopChain() {
 
         motorChain.setPower(0);
-    }
-
-    @Override
-    public GamepadFeature[] requestFeatures() {
-        return new GamepadFeature[]{GamepadFeature.GAMEPAD_1_BUTTON_A, GamepadFeature.GAMEPAD_1_BUTTON_Y, GamepadFeature.GAMEPAD_1_BUMPER_RIGHT, GamepadFeature.GAMEPAD_1_BUMPER_LEFT};
     }
 }

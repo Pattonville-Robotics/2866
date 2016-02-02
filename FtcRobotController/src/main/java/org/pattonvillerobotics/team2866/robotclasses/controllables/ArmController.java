@@ -3,17 +3,13 @@ package org.pattonvillerobotics.team2866.robotclasses.controllables;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
-import org.pattonvillerobotics.team2866.robotclasses.Config;
-import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
-import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
-
 /**
  * Created by James McMahon on 10/20/15.
  * <p/>
  * TODO Add encoders to the arm motors
  */
 @Deprecated
-public class ArmController implements Controllable {
+public class ArmController {
 
     public final DcMotor motorArmRight;
     public final DcMotor motorArmLeft;
@@ -44,20 +40,6 @@ public class ArmController implements Controllable {
         return "Right Arm Motor:" + motorArmRight.getPower() + "Left Arm Motor:" + motorArmLeft.getPower();
     }
 
-    @Override
-    public boolean sendGamepadData(GamepadData gamepad1DataCurrent, GamepadData gamepad1DataHistory, GamepadData gamepad2DataCurrent, GamepadData gamepad2DataHistory) {
-        if (gamepad1DataCurrent.dpad_up && !gamepad1DataCurrent.dpad_down) {
-            this.moveArm(Config.ARM_MOVEMENT_SPEED);
-            //armController.advanceArm(Config.ARM_MOVEMENT_SPEED);
-        } else if (!gamepad1DataCurrent.dpad_up && gamepad1DataCurrent.dpad_down) {
-            this.moveArm(-Config.ARM_MOVEMENT_SPEED);
-            //armController.advanceArm(-Config.ARM_MOVEMENT_SPEED);
-        } else {
-            this.stopArm();
-        }
-        return true;
-    }
-
     @Deprecated
     public void moveArm(double power) {
         motorArmRight.setPower(power);
@@ -70,10 +52,5 @@ public class ArmController implements Controllable {
 
         motorArmRight.setPower(0);
         motorArmLeft.setPower(0);
-    }
-
-    @Override
-    public GamepadFeature[] requestFeatures() {
-        return new GamepadFeature[]{GamepadFeature.GAMEPAD_1_DPAD_UP, GamepadFeature.GAMEPAD_1_DPAD_DOWN};
     }
 }

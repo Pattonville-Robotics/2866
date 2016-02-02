@@ -3,13 +3,10 @@ package org.pattonvillerobotics.team2866.robotclasses.controllables;
 import com.qualcomm.hardware.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
-import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
-
 /**
  * Created by skaggsm on 11/14/15.
  */
-public class MRGyroHelper implements Controllable {
+public class MRGyroHelper {
 
     public static final String TAG = "GYROHELPER";
     private static final float DEGREE_DRIFT_PER_SECOND = -5f;
@@ -20,10 +17,6 @@ public class MRGyroHelper implements Controllable {
     public MRGyroHelper(ModernRoboticsI2cGyro gyro, LinearOpMode linearOpMode) {
         this.gyro = gyro;
         this.linearOpMode = linearOpMode;
-    }
-
-    public void preciseCalibration() throws InterruptedException {
-
     }
 
     public void calibrateAndWait() throws InterruptedException {
@@ -43,22 +36,5 @@ public class MRGyroHelper implements Controllable {
 
     public int getCurrentDrift() {
         return Math.round(DEGREE_DRIFT_PER_SECOND * (System.nanoTime() - lastCalibrationTime) / 1000000000f);
-    }
-
-    @Override
-    public boolean sendGamepadData(GamepadData gamepad1DataCurrent, GamepadData gamepad1DataHistory, GamepadData gamepad2DataCurrent, GamepadData gamepad2DataHistory) {
-        if (gamepad1DataCurrent.b && !gamepad1DataHistory.b) {
-            this.calibrate();
-        }
-        return true;
-    }
-
-    public void calibrate() {
-        this.gyro.calibrate();
-    }
-
-    @Override
-    public GamepadFeature[] requestFeatures() {
-        return new GamepadFeature[]{GamepadFeature.GAMEPAD_1_BUTTON_B};
     }
 }

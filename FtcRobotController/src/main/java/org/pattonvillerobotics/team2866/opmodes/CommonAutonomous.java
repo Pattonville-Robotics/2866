@@ -1,32 +1,15 @@
 package org.pattonvillerobotics.team2866.opmodes;
 
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
-import org.pattonvillerobotics.team2866.robotclasses.controllables.Blocker;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.Drive;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.SuperBlocker;
 
-/**
- * Created by stewartk02 on 11/14/15.
- * Start position
- * End position
- * Team color
- * <p/>
- * TODO: Add climbMountain(Drive drive, ClimbAssist climbAssist) and use it in OpModes
- * TODO: Use dumpClimber(Drive drive, ClimberDumbper climberDumper) in all OpModes
- */
 public class CommonAutonomous {
 
     public static void dumpClimber(Drive drive, ClimberDumper climberDumper) {
 
         drive.moveInches(Direction.BACKWARDS, 25, .75);
-/*
-        climberDumper.move(Direction.MID);
-        drive.sleep(1000);
-        climberDumper.move(Direction.UP);
-        drive.sleep(1000);
-        climberDumper.move(Direction.DOWN);
-*/
-
 
         double diff = (ClimberDumper.UP - .3) - ClimberDumper.DOWN;
 
@@ -41,12 +24,12 @@ public class CommonAutonomous {
 
     }
 
-    public static void secondPositionTravel(Drive drive, Blocker blocker) throws InterruptedException {
+    public static void secondPositionTravel(Drive drive, SuperBlocker blocker) throws InterruptedException {
         drive.moveInches(Direction.BACKWARDS, 90, .75);
-        blocker.move(Direction.UP);
+        blocker.moveVertical(Direction.UP);
         drive.sleep(100);
         drive.moveInches(Direction.FORWARDS, 20, .75);
-        blocker.move(Direction.DOWN);
+        blocker.moveVertical(Direction.DOWN);
     }
 
     public static void thirdPositionTravel(Drive drive) {

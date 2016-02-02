@@ -11,15 +11,13 @@ import com.qualcomm.robotcore.util.Range;
 
 import org.pattonvillerobotics.team2866.robotclasses.Config;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
-import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
-import org.pattonvillerobotics.team2866.robotclasses.controller.GamepadFeature;
 
 /**
  * Created by Nathan Skelton on 10/15/15.
  * Last edited by Mitchell Skaggs on 11/14/15
  * <p/>
  */
-public class Drive implements Controllable {
+public class Drive {
 
     @SuppressWarnings("MagicNumber")
     public static final double WHEEL_RADIUS = 110 / 100d; // New tread adjustment
@@ -61,30 +59,20 @@ public class Drive implements Controllable {
         numInstantiations++;
     }
 
+    public static double inchesToTicks(double inches) {
+        return inches / INCHES_PER_TICK;
+    }
+
+    public static double degreesToTicks(double degrees) {
+        return inchesToTicks(degrees * INCHES_PER_DEGREE);
+    }
+
     public void sleep(long milliseconds) {
         try {
             this.linearOpMode.sleep(milliseconds);
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-    }
-
-    @Deprecated
-    public void moveStraight(double power) {
-        motorRight.setPower(power + DELTA_ANGLE);
-        motorLeft.setPower(power - DELTA_ANGLE);
-    }
-
-    @Deprecated
-    public void rotateLeft(double power) {
-        motorRight.setPower(power);
-        motorLeft.setPower(-power);
-    }
-
-    @Deprecated
-    public void rotateRight(double power) {
-        motorRight.setPower(-power);
-        motorLeft.setPower(power);
     }
 
     public void moveInches(Direction direction, double inches, double power) {
@@ -161,10 +149,6 @@ public class Drive implements Controllable {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static double inchesToTicks(double inches) {
-        return inches / INCHES_PER_TICK;
     }
 
     public void stopDriveMotors() {
@@ -251,24 +235,7 @@ public class Drive implements Controllable {
         linearOpMode.telemetry.addData(TAG, "Finished encoder rotate...");
     }
 
-    public static double degreesToTicks(double degrees) {
-        return inchesToTicks(degrees * INCHES_PER_DEGREE);
-    }
-
-    public void rotateDegrees(Direction direction, double degrees, double power) throws InterruptedException {
-        //gyro.calibrateAndWait();
-        this.rotateDegreesGyro(direction, degrees, power);
-        //this.rotateDegreesPID(direction, degrees, power);
-    }
-
-    public void rotateDegreesGyro(Direction direction, double degrees, double power) {
-        /*
-        try {
-            this.gyro.calibrateAndWait();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
-        */
+    public void rotateDegrees(Direction direction, double degrees, double power) {
 
         this.waitForNextHardwareCycle();
 
@@ -373,24 +340,8 @@ public class Drive implements Controllable {
         this.waitForNextHardwareCycle();
     }
 
-    @Override
-    public boolean sendGamepadData(GamepadData gamepad1DataCurrent, GamepadData gamepad1DataHistory, GamepadData gamepad2DataCurrent, GamepadData gamepad2DataHistory) {
-        float right = -gamepad1DataCurrent.right_stick_y;
-        float left = -gamepad1DataCurrent.left_stick_y;
-        // clip the right/left values so that the values never exceed +/- 1
-        right = Range.clip(right, -1, 1);
-        left = Range.clip(left, -1, 1);
-        this.moveFreely(left, right);
-        return true;
-    }
-
     public void moveFreely(double left, double right) {
         motorLeft.setPower(left);
         motorRight.setPower(right);
-    }
-
-    @Override
-    public GamepadFeature[] requestFeatures() {
-        return new GamepadFeature[]{GamepadFeature.GAMEPAD_1_STICK_RIGHT_X, GamepadFeature.GAMEPAD_1_STICK_RIGHT_Y};
     }
 }
