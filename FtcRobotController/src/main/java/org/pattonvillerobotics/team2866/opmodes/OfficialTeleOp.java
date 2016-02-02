@@ -51,12 +51,6 @@ public class OfficialTeleOp extends LinearOpMode {
         //noinspection MagicNumber
         gamepad2.setJoystickDeadzone(0.05f);
 
-        zipRelease.moveLeft(Direction.UP);
-        zipRelease.moveRight(Direction.UP);
-
-        climberDumper.move(Direction.DOWN);
-        //superBlocker.moveVertical(Direction.DOWN);
-
         boolean leftTrigger = false;
         boolean rightTrigger = false;
         boolean climberDumper = false;
