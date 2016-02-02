@@ -8,6 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
 
 import org.pattonvillerobotics.team2866.robotclasses.Config;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
+import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
 import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimberDumper;
@@ -23,14 +24,22 @@ import org.pattonvillerobotics.team2866.robotclasses.controllables.ZipRelease;
 public class OfficialTeleOp extends LinearOpMode {
 
     public static final String TAG = "OfficialTeleOp";
-
+    public static final Direction[] SUPERBLOCKER_POSITION_ORDER = {Direction.DOWN, Direction.MID, Direction.UP};
     private Drive drive;
     private ClimbAssist climbAssist;
     private ZipRelease zipRelease;
     private ClimberDumper climberDumper;
     private MRGyroHelper mrGyroHelper;
     private SuperBlocker superBlocker;
-
+    private boolean leftTriggerActivated = false;
+    private boolean rightTriggerActivated = false;
+    private boolean climberDumperActivated = false;
+    private int superBlockerCurrentPosition = 1;
+    private int superBlockerCurrentVerticalPosition = 0;
+    private GamepadData gamepad1DataCurrent;
+    private GamepadData gamepad2DataCurrent;
+    private GamepadData gamepad1DataHistory;
+    private GamepadData gamepad2DataHistory;
     private int logLoopCount = 0;
 
     @Override
@@ -46,107 +55,103 @@ public class OfficialTeleOp extends LinearOpMode {
 
         mrGyroHelper.calibrateAndWait();
 
-        //noinspection MagicNumber
-        gamepad1.setJoystickDeadzone(0.05f);
-        //noinspection MagicNumber
-        gamepad2.setJoystickDeadzone(0.05f);
-
-        boolean leftTrigger = false;
-        boolean rightTrigger = false;
-        boolean climberDumper = false;
-
-        Direction[] positions = {Direction.DOWN, Direction.MID, Direction.UP};
-        int currentPosition = 1;
-        int currentVerticalPosition = 0;
+        gamepad1.setJoystickDeadzone(Config.JOYSTICK_DEADZONE);
+        gamepad2.setJoystickDeadzone(Config.JOYSTICK_DEADZONE);
 
         waitForStart();
 
+        updateGamepads(); // To fix an edge case where a toggle button is pressed before the second initialization, causing a null pointer on the missing gamepad history objects.
+
         while (opModeIsActive()) {
             log();
+            updateGamepads();
 
             // Gamepad 1
 
-            drive.moveFreely(gamepad1.left_stick_y, gamepad1.right_stick_y);
+            drive.moveFreely(gamepad1DataCurrent.left_stick_y, gamepad1DataCurrent.right_stick_y);
 
-            if (gamepad1.a) {
-                climbAssist.moveLift(.5);
-            } else if (gamepad1.y) {
-                climbAssist.moveLift(-.5);
+            if (gamepad1DataCurrent.a) {
+                climbAssist.moveLift(Config.LIFT_MOVEMENT_SPEED);
+            } else if (gamepad1DataCurrent.y) {
+                climbAssist.moveLift(-Config.LIFT_MOVEMENT_SPEED);
             } else {
                 climbAssist.stopLift();
             }
 
-            if (gamepad1.dpad_up) {
-                if (currentVerticalPosition == 2) {
-                    currentVerticalPosition = 0;
-                } else {
-                    currentVerticalPosition += 1;
-                }
+            if (gamepad1DataCurrent.dpad_up && !gamepad1DataHistory.dpad_up) {
 
-                superBlocker.moveVertical(positions[currentVerticalPosition]);
-            } else if (gamepad1.dpad_down) {
-                if (currentVerticalPosition == 0) {
-                    currentVerticalPosition = 2;
-                } else {
-                    currentVerticalPosition -= 1;
-                }
+                superBlockerCurrentVerticalPosition++;
+                superBlockerCurrentVerticalPosition %= SUPERBLOCKER_POSITION_ORDER.length;
 
-                superBlocker.moveVertical(positions[currentVerticalPosition]);
+                superBlocker.moveVertical(SUPERBLOCKER_POSITION_ORDER[superBlockerCurrentVerticalPosition]);
+            } else if (gamepad1DataCurrent.dpad_down && !gamepad1DataHistory.dpad_down) {
+
+                superBlockerCurrentVerticalPosition--;
+                superBlockerCurrentVerticalPosition = (superBlockerCurrentVerticalPosition + SUPERBLOCKER_POSITION_ORDER.length) % SUPERBLOCKER_POSITION_ORDER.length; // To make sure no negative numbers2
+
+                superBlocker.moveVertical(SUPERBLOCKER_POSITION_ORDER[superBlockerCurrentVerticalPosition]);
             }
 
-            if (gamepad1.left_bumper) {
-                if (currentPosition == 0) {
-                    currentPosition = 2;
+            if (gamepad1DataCurrent.left_bumper && !gamepad1DataHistory.left_bumper) {
+                if (superBlockerCurrentPosition == 0) {
+                    superBlockerCurrentPosition = 2;
                 } else {
-                    currentPosition -= 1;
+                    superBlockerCurrentPosition -= 1;
                 }
 
-                superBlocker.setPosition(positions[currentPosition]);
-            } else if (gamepad1.right_bumper) {
-                if (currentPosition == 2) {
-                    currentPosition = 0;
+                superBlocker.setPosition(SUPERBLOCKER_POSITION_ORDER[superBlockerCurrentPosition]);
+            } else if (gamepad1DataCurrent.right_bumper && !gamepad1DataHistory.right_bumper) {
+                if (superBlockerCurrentPosition == 2) {
+                    superBlockerCurrentPosition = 0;
                 } else {
-                    currentPosition += 1;
+                    superBlockerCurrentPosition += 1;
                 }
 
-                superBlocker.setPosition(positions[currentPosition]);
+                superBlocker.setPosition(SUPERBLOCKER_POSITION_ORDER[superBlockerCurrentPosition]);
             }
-
 
             // Gamepad 2
 
-            if (gamepad2.b) {
-                if (climberDumper) {
+            if (gamepad2DataCurrent.b && !gamepad2DataHistory.b) {
+                if (climberDumperActivated) {
                     this.climberDumper.move(Direction.DOWN);
-                    climberDumper = false;
+                    climberDumperActivated = false;
                 } else {
                     this.climberDumper.move(Direction.UP);
-                    climberDumper = true;
+                    climberDumperActivated = true;
                 }
             }
 
-            if (gamepad2.dpad_left) {
-                if (leftTrigger) {
+            if (gamepad2DataCurrent.dpad_left && !gamepad2DataHistory.dpad_left) {
+                if (leftTriggerActivated) {
                     zipRelease.moveLeft(Direction.UP);
-                    leftTrigger = false;
+                    leftTriggerActivated = false;
                 } else {
                     zipRelease.moveLeft(Direction.DOWN);
-                    leftTrigger = true;
+                    leftTriggerActivated = true;
                 }
             }
 
-            if (gamepad2.dpad_right) {
-                if (rightTrigger) {
+            if (gamepad2DataCurrent.dpad_right && !gamepad2DataHistory.dpad_right) {
+                if (rightTriggerActivated) {
                     zipRelease.moveRight(Direction.UP);
-                    rightTrigger = false;
+                    rightTriggerActivated = false;
                 } else {
                     zipRelease.moveRight(Direction.DOWN);
-                    rightTrigger = true;
+                    rightTriggerActivated = true;
                 }
             }
 
             waitForNextHardwareCycle();
         }
+    }
+
+    private void updateGamepads() {
+        this.gamepad1DataHistory = this.gamepad1DataCurrent;
+        this.gamepad2DataHistory = this.gamepad2DataCurrent;
+
+        this.gamepad1DataCurrent = new GamepadData(gamepad1);
+        this.gamepad2DataCurrent = new GamepadData(gamepad2);
     }
 
     private void log() {
