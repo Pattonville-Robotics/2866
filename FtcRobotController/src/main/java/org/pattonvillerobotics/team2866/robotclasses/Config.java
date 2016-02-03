@@ -33,5 +33,5 @@ public final class Config {
     public static final double LIFT_MOVEMENT_SPEED = .75;
     public static final int ENCODER_MOVEMENT_TOLERANCE = 12;
     public static final int GYRO_TURN_TOLERANCE = 6;
-    public static final float JOYSTICK_DEADZONE = .025f;
+    public static final float JOYSTICK_DEAD_ZONE = .025f;
 }

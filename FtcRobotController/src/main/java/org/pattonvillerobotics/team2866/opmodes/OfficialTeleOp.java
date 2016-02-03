@@ -55,8 +55,8 @@ public class OfficialTeleOp extends LinearOpMode {
 
         mrGyroHelper.calibrateAndWait();
 
-        gamepad1.setJoystickDeadzone(Config.JOYSTICK_DEADZONE);
-        gamepad2.setJoystickDeadzone(Config.JOYSTICK_DEADZONE);
+        gamepad1.setJoystickDeadzone(Config.JOYSTICK_DEAD_ZONE);
+        gamepad2.setJoystickDeadzone(Config.JOYSTICK_DEAD_ZONE);
 
         waitForStart();
 
@@ -68,7 +68,7 @@ public class OfficialTeleOp extends LinearOpMode {
 
             // Gamepad 1
 
-            drive.moveFreely(gamepad1DataCurrent.left_stick_y, gamepad1DataCurrent.right_stick_y);
+            drive.moveFreely(gamepad1DataCurrent.right_stick_y, gamepad1DataCurrent.left_stick_y);
 
             if (gamepad1DataCurrent.a) {
                 climbAssist.moveLift(Config.LIFT_MOVEMENT_SPEED);
@@ -87,7 +87,7 @@ public class OfficialTeleOp extends LinearOpMode {
             } else if (gamepad1DataCurrent.dpad_down && !gamepad1DataHistory.dpad_down) {
 
                 superBlockerCurrentVerticalPosition--;
-                superBlockerCurrentVerticalPosition = (superBlockerCurrentVerticalPosition + SUPERBLOCKER_POSITION_ORDER.length) % SUPERBLOCKER_POSITION_ORDER.length; // To make sure no negative numbers2
+                superBlockerCurrentVerticalPosition = (superBlockerCurrentVerticalPosition + SUPERBLOCKER_POSITION_ORDER.length) % SUPERBLOCKER_POSITION_ORDER.length; // To make sure no negative numbers
 
                 superBlocker.moveVertical(SUPERBLOCKER_POSITION_ORDER[superBlockerCurrentVerticalPosition]);
             }

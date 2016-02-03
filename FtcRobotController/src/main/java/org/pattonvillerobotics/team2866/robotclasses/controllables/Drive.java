@@ -12,6 +12,8 @@ import com.qualcomm.robotcore.util.Range;
 import org.pattonvillerobotics.team2866.robotclasses.Config;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
 
+import java.util.LinkedList;
+
 /**
  * Created by Nathan Skelton on 10/15/15.
  * Last edited by Mitchell Skaggs on 11/14/15
@@ -20,17 +22,17 @@ import org.pattonvillerobotics.team2866.robotclasses.Direction;
 public class Drive {
 
     @SuppressWarnings("MagicNumber")
-    public static final double WHEEL_RADIUS = 110 / 100d; // New tread adjustment
-    public static final double WHEEL_CIRCUMFERENCE = 2 * Math.PI * WHEEL_RADIUS;
+    public static final double WHEEL_DIAMETER = 220 / 100d; // New tread adjustment
+    public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     public static final double TICKS_PER_REVOLUTION = 1440;
     public static final double INCHES_PER_TICK = WHEEL_CIRCUMFERENCE / TICKS_PER_REVOLUTION;
-    public static final double WHEEL_BASE_RADIUS = 8.5;
-    public static final double WHEEL_BASE_CIRCUMFERENCE = 2 * Math.PI * WHEEL_BASE_RADIUS;
+    public static final double WHEEL_BASE_DIAMETER = 22;
+    public static final double WHEEL_BASE_CIRCUMFERENCE = Math.PI * WHEEL_BASE_DIAMETER;
     public static final int DEGREES_PER_REVOLUTION = 360;
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
-    public static final int DELTA_ANGLE = 0;
-    public static final double POWER_SCALE = .02;
-    private static final String TAG = Drive.class.getSimpleName();
+    public static final double POWER_SCALE = .002;
+    public static final int MOTOR_HISTORY_LENGTH = 1000;
+    private static final String TAG = "Drive";
     private static int numInstantiations = 0;
     public final DcMotor motorLeft;
     public final DcMotor motorRight;
@@ -59,19 +61,11 @@ public class Drive {
         numInstantiations++;
     }
 
-    public static double inchesToTicks(double inches) {
-        return inches / INCHES_PER_TICK;
-    }
-
-    public static double degreesToTicks(double degrees) {
-        return inchesToTicks(degrees * INCHES_PER_DEGREE);
-    }
-
     public void sleep(long milliseconds) {
         try {
             this.linearOpMode.sleep(milliseconds);
         } catch (InterruptedException e) {
-            e.printStackTrace();
+            throw new RuntimeException(e);
         }
     }
 
@@ -125,18 +119,36 @@ public class Drive {
 
         this.waitForNextHardwareCycle();
 
-        int targetAngle = gyro.getIntegratedZValue();
+        //int targetAngle = gyro.getIntegratedZValue();
 
-        this.linearOpMode.telemetry.addData(TAG, "Started encoder move...");
+        LinkedList<Integer> leftMotorPositionHistory = new LinkedList<Integer>();
+        LinkedList<Integer> rightMotorPositionHistory = new LinkedList<Integer>();
+
+        Log.e(TAG, "Started encoder move...");
         while (this.linearOpMode.opModeIsActive() && Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
-            this.waitForNextHardwareCycle();
-            int deltaAngle = Math.round(Range.clip(gyro.getIntegratedZValue() - targetAngle, -20f, 20f));
-            Log.e("deltaAngle", "=" + deltaAngle);
+            leftMotorPositionHistory.addFirst(motorLeft.getCurrentPosition());
+            rightMotorPositionHistory.addFirst(motorRight.getCurrentPosition());
 
-            motorLeft.setPower(Range.clip(power - deltaAngle * POWER_SCALE, -1, 1));
-            motorRight.setPower(Range.clip(power + deltaAngle * POWER_SCALE, -1, 1));
+            while (leftMotorPositionHistory.size() > MOTOR_HISTORY_LENGTH)
+                leftMotorPositionHistory.removeLast();
+            while (rightMotorPositionHistory.size() > MOTOR_HISTORY_LENGTH)
+                rightMotorPositionHistory.removeLast();
+
+            this.waitForNextHardwareCycle();
+
+            int speedLeft = Math.abs(leftMotorPositionHistory.getFirst() - leftMotorPositionHistory.getLast());
+            int speedRight = Math.abs(rightMotorPositionHistory.getFirst() - rightMotorPositionHistory.getLast());
+
+            //double deltaAngle = Math.round(Range.clip(gyro.getIntegratedZValue() - targetAngle, -20f, 20f));
+            //Log.e("deltaAngle", "=" + deltaAngle);
+
+            double deltaAngle = (speedLeft - speedRight);
+            Log.e(TAG, "DeltaAngle = " + deltaAngle + " Size left " + leftMotorPositionHistory.size() + " Size right " + rightMotorPositionHistory.size());
+
+            motorLeft.setPower(Range.clip(power - deltaAngle * POWER_SCALE, 0, 1));
+            motorRight.setPower(Range.clip(power + deltaAngle * POWER_SCALE, 0, 1));
         }
-        linearOpMode.telemetry.addData(TAG, "Finished encoder move...");
+        Log.e(TAG, "Finished encoder move...");
 
         this.waitForNextHardwareCycle();
 
@@ -149,6 +161,10 @@ public class Drive {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public static double inchesToTicks(double inches) {
+        return inches / INCHES_PER_TICK;
     }
 
     public void stopDriveMotors() {
@@ -169,7 +185,7 @@ public class Drive {
 
     //TODO Design a better method. I think that this has more potential for accurate movement than the gyro, based on the accuracy of the straight-line movement
     @Deprecated
-    public void rotateDegreesEncoder(Direction direction, int degrees, double power) {
+    public void rotateDegreesEncoder(Direction direction, double degrees, double power) {
         if (degrees <= 0)
             throw new IllegalArgumentException("Degrees must be positive!");
         if (power <= 0)
@@ -192,7 +208,7 @@ public class Drive {
                 targetPositionLeft = startPositionLeft + deltaPositionLeft;
                 targetPositionRight = startPositionRight + deltaPositionRight;
 
-                powerLeft = -power;
+                powerLeft = power;
                 powerRight = power;
                 break;
             }
@@ -204,7 +220,7 @@ public class Drive {
                 targetPositionRight = startPositionRight + deltaPositionRight;
 
                 powerLeft = power;
-                powerRight = -power;
+                powerRight = power;
                 break;
             }
             default:
@@ -228,14 +244,28 @@ public class Drive {
 
         this.waitForNextHardwareCycle();
 
-        linearOpMode.telemetry.addData(TAG, "Started encoder rotate...");
-        while (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
+        Log.e(TAG, "Started encoder rotate...");
+        int currentError = (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft)) / 2;
+        while (currentError > Config.ENCODER_MOVEMENT_TOLERANCE) {
             this.waitForNextHardwareCycle();
+            Log.e("Encoder", "Current Error: " + currentError);
+            currentError = (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft)) / 2;
         }
-        linearOpMode.telemetry.addData(TAG, "Finished encoder rotate...");
+        Log.e(TAG, "Finished encoder rotate...");
+
+        this.stopDriveMotors();
+    }
+
+    public static double degreesToTicks(double degrees) {
+        return inchesToTicks(degrees * INCHES_PER_DEGREE);
     }
 
     public void rotateDegrees(Direction direction, double degrees, double power) {
+        //this.rotateDegreesEncoder(direction, degrees, power);
+        this.rotateDegreesGyro(direction, degrees, power);
+    }
+
+    public void rotateDegreesGyro(Direction direction, double degrees, double power) {
 
         this.waitForNextHardwareCycle();
 
