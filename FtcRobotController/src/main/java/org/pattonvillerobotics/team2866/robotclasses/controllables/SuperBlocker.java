@@ -15,8 +15,8 @@ public class SuperBlocker {
     public final Servo servoRight;
     public final Servo servoVertical;
     private final double verticalUP = 1;
-    private final double verticalMID = .7;
-    private final double verticalDOWN = .6;
+    private final double verticalMID = .75;
+    private final double verticalDOWN = .65;
     private final double leftUP = .33;
     private final double leftMID = .43;
     private final double leftDOWN = .6;
@@ -37,10 +37,7 @@ public class SuperBlocker {
         this.servoVertical = hardwareMap.servo.get(Config.SERVO_SUPERBLOCKER_VERTICAL);
 
         moveVertical(Direction.MID);
-
         setPosition(Direction.DOWN);
-        verticalPostiiton = Direction.DOWN;
-        horizontalPosition = Direction.MID;
     }
 
 
