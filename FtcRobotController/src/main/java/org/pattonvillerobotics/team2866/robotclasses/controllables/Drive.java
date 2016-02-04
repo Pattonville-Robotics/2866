@@ -70,8 +70,7 @@ public class Drive {
     }
 
     public void moveInches(Direction direction, double inches, double power) {
-        //if (Math.signum(motorLeft.getCurrentPosition()) != Math.signum(motorRight.getCurrentPosition()))
-        //    throw new AssertionError("robit is kill");
+
         if (power > 1 || power < 0)
             throw new IllegalArgumentException("Power must be positive!");
         if (inches <= 0)
@@ -114,39 +113,16 @@ public class Drive {
 
         this.waitForNextHardwareCycle();
 
-        motorLeft.setPower(power);
-        motorRight.setPower(power);
+        motorLeft.setPower(leftPowerAdjust(power));
+        motorRight.setPower(rightPowerAdjust(power));
 
         this.waitForNextHardwareCycle();
 
-        //int targetAngle = gyro.getIntegratedZValue();
-
-        LinkedList<Integer> leftMotorPositionHistory = new LinkedList<Integer>();
-        LinkedList<Integer> rightMotorPositionHistory = new LinkedList<Integer>();
-
         Log.e(TAG, "Started encoder move...");
-        while (this.linearOpMode.opModeIsActive() && Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
-            leftMotorPositionHistory.addFirst(motorLeft.getCurrentPosition());
-            rightMotorPositionHistory.addFirst(motorRight.getCurrentPosition());
-
-            while (leftMotorPositionHistory.size() > MOTOR_HISTORY_LENGTH)
-                leftMotorPositionHistory.removeLast();
-            while (rightMotorPositionHistory.size() > MOTOR_HISTORY_LENGTH)
-                rightMotorPositionHistory.removeLast();
+        while (this.linearOpMode.opModeIsActive() &&
+                Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
 
             this.waitForNextHardwareCycle();
-
-            int speedLeft = Math.abs(leftMotorPositionHistory.getFirst() - leftMotorPositionHistory.getLast());
-            int speedRight = Math.abs(rightMotorPositionHistory.getFirst() - rightMotorPositionHistory.getLast());
-
-            //double deltaAngle = Math.round(Range.clip(gyro.getIntegratedZValue() - targetAngle, -20f, 20f));
-            //Log.e("deltaAngle", "=" + deltaAngle);
-
-            double deltaAngle = (speedLeft - speedRight);
-            Log.e(TAG, "DeltaAngle = " + deltaAngle + " Size left " + leftMotorPositionHistory.size() + " Size right " + rightMotorPositionHistory.size());
-
-            motorLeft.setPower(Range.clip(power - deltaAngle * POWER_SCALE, 0, 1));
-            motorRight.setPower(Range.clip(power + deltaAngle * POWER_SCALE, 0, 1));
         }
         Log.e(TAG, "Finished encoder move...");
 
@@ -168,7 +144,7 @@ public class Drive {
     }
 
     public void stopDriveMotors() {
-        this.waitForNextHardwareCycle(); // So they can be applied simultaneously all the time
+        this.waitForNextHardwareCycle();
         motorLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         motorRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         motorLeft.setPower(0);
@@ -183,8 +159,6 @@ public class Drive {
         }
     }
 
-    //TODO Design a better method. I think that this has more potential for accurate movement than the gyro, based on the accuracy of the straight-line movement
-    @Deprecated
     public void rotateDegreesEncoder(Direction direction, double degrees, double power) {
         if (degrees <= 0)
             throw new IllegalArgumentException("Degrees must be positive!");
@@ -239,8 +213,8 @@ public class Drive {
 
         this.waitForNextHardwareCycle();
 
-        motorLeft.setPower(powerLeft);
-        motorRight.setPower(powerRight);
+        motorLeft.setPower(leftPowerAdjust(powerLeft));
+        motorRight.setPower(rightPowerAdjust(powerRight));
 
         this.waitForNextHardwareCycle();
 
@@ -299,16 +273,16 @@ public class Drive {
 
         this.waitForNextHardwareCycle();
 
-        motorLeft.setPower(motorLeftPower);
-        motorRight.setPower(motorRightPower);
+        motorLeft.setPower(leftPowerAdjust(motorLeftPower));
+        motorRight.setPower(rightPowerAdjust(motorRightPower));
 
         double currentError = Math.abs(gyro.getIntegratedZValue() - target);
 
         while (this.linearOpMode.opModeIsActive() && currentError > Config.GYRO_TURN_TOLERANCE) {
             currentError = Math.abs(gyro.getIntegratedZValue() - target);
 
-            motorLeft.setPower(motorLeftPower * errorFunction(currentError));
-            motorRight.setPower(motorRightPower * errorFunction(currentError));
+            motorLeft.setPower(leftPowerAdjust(motorLeftPower * errorFunction(currentError)));
+            motorRight.setPower(rightPowerAdjust(motorRightPower * errorFunction(currentError)));
 
             Log.e(TAG, "Current degree drift: " + gyro.getCurrentDrift());
             this.waitForNextHardwareCycle();
@@ -373,5 +347,14 @@ public class Drive {
     public void moveFreely(double left, double right) {
         motorLeft.setPower(left);
         motorRight.setPower(right);
+    }
+
+
+    private double leftPowerAdjust(double power) {
+        return power * 1.2;
+    }
+
+    private double rightPowerAdjust(double power) {
+        return power * .8;
     }
 }
