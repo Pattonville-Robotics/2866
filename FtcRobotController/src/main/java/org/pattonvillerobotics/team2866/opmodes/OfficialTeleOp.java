@@ -24,22 +24,27 @@ import org.pattonvillerobotics.team2866.robotclasses.controllables.ZipRelease;
 public class OfficialTeleOp extends LinearOpMode {
 
     public static final String TAG = "OfficialTeleOp";
-    public static final Direction[] SUPERBLOCKER_POSITION_ORDER = {Direction.DOWN, Direction.MID, Direction.UP};
+    public static final Direction[] SUPERBLOCKER_POSITION_ORDER = {Direction.DOWN, Direction.MID, Direction.UP, Direction.MID};
     private Drive drive;
     private ClimbAssist climbAssist;
     private ZipRelease zipRelease;
     private ClimberDumper climberDumper;
     private MRGyroHelper mrGyroHelper;
     private SuperBlocker superBlocker;
+
     private boolean leftTriggerActivated = false;
     private boolean rightTriggerActivated = false;
     private boolean climberDumperActivated = false;
+    private boolean climbModeActivated = false;
+
     private int superBlockerCurrentPosition = 1;
     private int superBlockerCurrentVerticalPosition = 0;
+
     private GamepadData gamepad1DataCurrent;
     private GamepadData gamepad2DataCurrent;
     private GamepadData gamepad1DataHistory;
     private GamepadData gamepad2DataHistory;
+
     private int logLoopCount = 0;
 
     @Override
@@ -60,7 +65,7 @@ public class OfficialTeleOp extends LinearOpMode {
 
         waitForStart();
 
-        updateGamepads(); // To fix an edge case where a toggle button is pressed before the second initialization, causing a null pointer on the missing gamepad history objects.
+        updateGamepads();
 
         while (opModeIsActive()) {
             log();
@@ -68,7 +73,18 @@ public class OfficialTeleOp extends LinearOpMode {
 
             // Gamepad 1
 
-            drive.moveFreely(gamepad1DataCurrent.right_stick_y, gamepad1DataCurrent.left_stick_y);
+            if (gamepad1DataCurrent.x && !gamepad1DataHistory.x) {
+
+                climbModeActivated = !climbModeActivated;
+            }
+
+            if (climbModeActivated) {
+
+                drive.moveFreely(gamepad1DataCurrent.left_stick_x, gamepad1DataCurrent.left_stick_x);
+                climbAssist.moveChain(scaleChainPower(gamepad1DataCurrent.left_stick_x));
+            } else {
+                drive.moveFreely(gamepad1DataCurrent.right_stick_y, gamepad1DataCurrent.left_stick_y);
+            }
 
             if (gamepad1DataCurrent.a) {
                 climbAssist.moveLift(Config.LIFT_MOVEMENT_SPEED);
@@ -87,7 +103,9 @@ public class OfficialTeleOp extends LinearOpMode {
             } else if (gamepad1DataCurrent.dpad_down && !gamepad1DataHistory.dpad_down) {
 
                 superBlockerCurrentVerticalPosition--;
-                superBlockerCurrentVerticalPosition = (superBlockerCurrentVerticalPosition + SUPERBLOCKER_POSITION_ORDER.length) % SUPERBLOCKER_POSITION_ORDER.length; // To make sure no negative numbers
+                superBlockerCurrentVerticalPosition = (superBlockerCurrentVerticalPosition
+                        + SUPERBLOCKER_POSITION_ORDER.length) % SUPERBLOCKER_POSITION_ORDER.length;
+                        // To make sure no negative numbers
 
                 superBlocker.moveVertical(SUPERBLOCKER_POSITION_ORDER[superBlockerCurrentVerticalPosition]);
             }
@@ -152,6 +170,11 @@ public class OfficialTeleOp extends LinearOpMode {
 
         this.gamepad1DataCurrent = new GamepadData(gamepad1);
         this.gamepad2DataCurrent = new GamepadData(gamepad2);
+    }
+
+    private double scaleChainPower(double power) {
+
+        return power * .5;
     }
 
     private void log() {
