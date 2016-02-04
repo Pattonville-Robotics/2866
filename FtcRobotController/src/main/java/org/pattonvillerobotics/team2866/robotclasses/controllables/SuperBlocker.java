@@ -17,12 +17,14 @@ public class SuperBlocker {
     private final double verticalUP = 1;
     private final double verticalMID = .75;
     private final double verticalDOWN = .65;
-    private final double leftUP = .33;
+
+    private final double leftDOWN = .33;
     private final double leftMID = .43;
-    private final double leftDOWN = .6;
-    private final double rightUP = .6;
+    private final double leftUP = .6;
+
+    private final double rightDOWN = .6;
     private final double rightMID = .52;
-    private final double rightDOWN = .35;
+    private final double rightUP = .35;
     private final HardwareMap hardwareMap;
 
     private Direction verticalPostiiton;
