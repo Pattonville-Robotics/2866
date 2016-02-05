@@ -7,12 +7,9 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.HardwareMap;
-import com.qualcomm.robotcore.util.Range;
 
 import org.pattonvillerobotics.team2866.robotclasses.Config;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
-
-import java.util.LinkedList;
 
 /**
  * Created by Nathan Skelton on 10/15/15.
@@ -26,12 +23,11 @@ public class Drive {
     public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     public static final double TICKS_PER_REVOLUTION = 1440;
     public static final double INCHES_PER_TICK = WHEEL_CIRCUMFERENCE / TICKS_PER_REVOLUTION;
-    public static final double WHEEL_BASE_DIAMETER = 22;
+    public static final double WHEEL_BASE_DIAMETER = 21;
     public static final double WHEEL_BASE_CIRCUMFERENCE = Math.PI * WHEEL_BASE_DIAMETER;
     public static final int DEGREES_PER_REVOLUTION = 360;
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
     public static final double POWER_SCALE = .002;
-    public static final int MOTOR_HISTORY_LENGTH = 1000;
     private static final String TAG = "Drive";
     private static int numInstantiations = 0;
     public final DcMotor motorLeft;
@@ -143,10 +139,19 @@ public class Drive {
         return inches / INCHES_PER_TICK;
     }
 
+    private double leftPowerAdjust(double power) {
+        return power * 1.225;
+    }
+
+    private double rightPowerAdjust(double power) {
+        return power * .775;
+    }
+
     public void stopDriveMotors() {
         this.waitForNextHardwareCycle();
         motorLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         motorRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        this.waitForNextHardwareCycle();
         motorLeft.setPower(0);
         motorRight.setPower(0);
     }
@@ -157,6 +162,11 @@ public class Drive {
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+    }
+
+    public void rotateDegrees(Direction direction, double degrees, double power) {
+        this.rotateDegreesEncoder(direction, degrees, power);
+        //this.rotateDegreesGyro(direction, degrees, power);
     }
 
     public void rotateDegreesEncoder(Direction direction, double degrees, double power) {
@@ -219,24 +229,21 @@ public class Drive {
         this.waitForNextHardwareCycle();
 
         Log.e(TAG, "Started encoder rotate...");
-        int currentError = (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft)) / 2;
+        int currentError = direction == Direction.LEFT ? Math.abs(motorRight.getCurrentPosition() - targetPositionRight) : Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft);//(Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft)) / 2;
         while (currentError > Config.ENCODER_MOVEMENT_TOLERANCE) {
             this.waitForNextHardwareCycle();
             Log.e("Encoder", "Current Error: " + currentError);
-            currentError = (Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft)) / 2;
+            currentError = direction == Direction.LEFT ? Math.abs(motorRight.getCurrentPosition() - targetPositionRight) : Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft);//(Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft)) / 2;
         }
         Log.e(TAG, "Finished encoder rotate...");
+
+        waitForNextHardwareCycle();
 
         this.stopDriveMotors();
     }
 
     public static double degreesToTicks(double degrees) {
         return inchesToTicks(degrees * INCHES_PER_DEGREE);
-    }
-
-    public void rotateDegrees(Direction direction, double degrees, double power) {
-        //this.rotateDegreesEncoder(direction, degrees, power);
-        this.rotateDegreesGyro(direction, degrees, power);
     }
 
     public void rotateDegreesGyro(Direction direction, double degrees, double power) {
@@ -347,14 +354,5 @@ public class Drive {
     public void moveFreely(double left, double right) {
         motorLeft.setPower(left);
         motorRight.setPower(right);
-    }
-
-
-    private double leftPowerAdjust(double power) {
-        return power * 1.2;
-    }
-
-    private double rightPowerAdjust(double power) {
-        return power * .8;
     }
 }
