@@ -11,10 +11,7 @@ import org.pattonvillerobotics.team2866.robotclasses.Direction;
  */
 public class SuperBlocker {
 
-    public final Servo servoLeft;
-    public final Servo servoRight;
-    public final Servo servoVertical;
-    private static final double VERTICAL_UP = .6;
+    private static final double VERTICAL_UP = .9;
     private static final double VERTICAL_MID = .325;
     private static final double VERTICAL_DOWN = .2;
 
@@ -25,6 +22,10 @@ public class SuperBlocker {
     private static final double RIGHT_DOWN = .65;
     private static final double RIGHT_MID = .57;
     private static final double RIGHT_UP = .35;
+
+    public final Servo servoLeft;
+    public final Servo servoRight;
+    public final Servo servoVertical;
     private final HardwareMap hardwareMap;
 
     private Direction verticalPostiiton;
@@ -43,30 +44,26 @@ public class SuperBlocker {
 
 
     public void moveVertical(Direction direction) {
+        verticalPostiiton = direction;
         switch (direction) {
             case UP:
-
-                setPosition(Direction.MID);
                 servoVertical.setPosition(VERTICAL_UP);
+                setPosition(Direction.MID);
                 break;
             case MID:
-
                 servoVertical.setPosition(VERTICAL_MID);
                 break;
             case DOWN:
-
-                setPosition(Direction.MID);
                 servoVertical.setPosition(VERTICAL_DOWN);
+                setPosition(Direction.MID);
                 break;
             default:
                 throw new IllegalArgumentException("Direction must be UP, DOWN, MID!");
 
         }
-        verticalPostiiton = direction;
     }
 
     public void setPosition(Direction direction) {
-
         if (verticalPostiiton == Direction.MID) {
             switch (direction) {
                 case UP:
