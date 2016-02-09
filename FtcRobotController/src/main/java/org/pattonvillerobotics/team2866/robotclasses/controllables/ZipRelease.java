@@ -12,8 +12,8 @@ import org.pattonvillerobotics.team2866.robotclasses.Direction;
 public class ZipRelease {
 
     private static final double LEFT_UP = 0;
-    private static final double LEFT_DOWN = 1;
-    private static final double RIGHT_UP = 1;
+    private static final double LEFT_DOWN = .8;
+    private static final double RIGHT_UP = .8;
     private static final double RIGHT_DOWN = 0;
     public final Servo servoReleaseLeft;
     public final Servo servoReleaseRight;

@@ -19,7 +19,7 @@ import org.pattonvillerobotics.team2866.robotclasses.Direction;
 public class Drive {
 
     @SuppressWarnings("MagicNumber")
-    public static final double WHEEL_DIAMETER = 220 / 100d; // New tread adjustment
+    public static final double WHEEL_DIAMETER = 250 / 100d; // New tread adjustment
     public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     public static final double TICKS_PER_REVOLUTION = 1440;
     public static final double INCHES_PER_TICK = WHEEL_CIRCUMFERENCE / TICKS_PER_REVOLUTION;
@@ -28,6 +28,8 @@ public class Drive {
     public static final int DEGREES_PER_REVOLUTION = 360;
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
     public static final double POWER_SCALE = .002;
+    public static final int LEFT_TURN_TRIM = -10;
+    public static final int RIGHT_TURN_TRIM = 0;
     private static final String TAG = "Drive";
     private static int numInstantiations = 0;
     public final DcMotor motorLeft;
@@ -116,7 +118,7 @@ public class Drive {
 
         Log.e(TAG, "Started encoder move...");
         while (this.linearOpMode.opModeIsActive() &&
-                Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
+                Math.abs(motorRight.getCurrentPosition() - targetPositionRight) > Config.ENCODER_MOVEMENT_TOLERANCE) {
 
             this.waitForNextHardwareCycle();
         }
@@ -140,11 +142,11 @@ public class Drive {
     }
 
     private double leftPowerAdjust(double power) {
-        return power * 1.225;
+        return power * 0.90;
     }
 
     private double rightPowerAdjust(double power) {
-        return power * .775;
+        return power * 1.10 ;
     }
 
     public void stopDriveMotors() {
@@ -229,11 +231,11 @@ public class Drive {
         this.waitForNextHardwareCycle();
 
         Log.e(TAG, "Started encoder rotate...");
-        int currentError = direction == Direction.LEFT ? Math.abs(motorRight.getCurrentPosition() - targetPositionRight) : Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft);//(Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft)) / 2;
+        int currentError = direction == Direction.LEFT ? Math.abs(motorRight.getCurrentPosition() - targetPositionRight - LEFT_TURN_TRIM) : Math.abs(motorRight.getCurrentPosition() - targetPositionRight - RIGHT_TURN_TRIM);//(Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft)) / 2;
         while (currentError > Config.ENCODER_MOVEMENT_TOLERANCE) {
             this.waitForNextHardwareCycle();
             Log.e("Encoder", "Current Error: " + currentError);
-            currentError = direction == Direction.LEFT ? Math.abs(motorRight.getCurrentPosition() - targetPositionRight) : Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft);//(Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft)) / 2;
+            currentError = direction == Direction.LEFT ? Math.abs(motorRight.getCurrentPosition() - targetPositionRight - LEFT_TURN_TRIM) : Math.abs(motorRight.getCurrentPosition() - targetPositionRight - RIGHT_TURN_TRIM);//(Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft)) / 2;
         }
         Log.e(TAG, "Finished encoder rotate...");
 

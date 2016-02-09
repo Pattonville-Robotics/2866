@@ -80,15 +80,15 @@ public class OfficialTeleOp extends LinearOpMode {
 
             if (climbModeActivated) {
 
-                drive.moveFreely(gamepad1DataCurrent.left_stick_x, gamepad1DataCurrent.left_stick_x);
-                climbAssist.moveChain(scaleChainPower(gamepad1DataCurrent.left_stick_x));
+                drive.moveFreely(gamepad1DataCurrent.left_stick_y, gamepad1DataCurrent.left_stick_y);
+                climbAssist.moveChain(scaleChainPower(gamepad1DataCurrent.left_stick_y));
             } else {
                 drive.moveFreely(gamepad1DataCurrent.right_stick_y, gamepad1DataCurrent.left_stick_y);
             }
 
-            if (gamepad1DataCurrent.a) {
+            if (gamepad1DataCurrent.y) {
                 climbAssist.moveLift(Config.LIFT_MOVEMENT_SPEED);
-            } else if (gamepad1DataCurrent.y) {
+            } else if (gamepad1DataCurrent.a) {
                 climbAssist.moveLift(-Config.LIFT_MOVEMENT_SPEED);
             } else {
                 climbAssist.stopLift();

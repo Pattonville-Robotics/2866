@@ -33,6 +33,9 @@ public class AutoBucketMountainRedTwo extends LinearOpMode {
 
         waitForStart();
 
+        blocker.moveVertical(Direction.MID);
+        blocker.setPosition(Direction.UP);
+
         CommonAutonomous.leavePositionTwo(drive);
         drive.rotateDegrees(Direction.LEFT, 45, 0.5);
         CommonAutonomous.secondPositionTravel(drive, blocker);
