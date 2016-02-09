@@ -14,17 +14,17 @@ public class SuperBlocker {
     public final Servo servoLeft;
     public final Servo servoRight;
     public final Servo servoVertical;
-    private final double verticalUP = 1;
-    private final double verticalMID = .75;
-    private final double verticalDOWN = .65;
+    private static final double VERTICAL_UP = .6;
+    private static final double VERTICAL_MID = .325;
+    private static final double VERTICAL_DOWN = .2;
 
-    private final double leftDOWN = .33;
-    private final double leftMID = .43;
-    private final double leftUP = .6;
+    private static final double LEFT_DOWN = .31;
+    private static final double LEFT_MID = .38;
+    private static final double LEFT_UP = .58;
 
-    private final double rightDOWN = .6;
-    private final double rightMID = .52;
-    private final double rightUP = .35;
+    private static final double RIGHT_DOWN = .65;
+    private static final double RIGHT_MID = .57;
+    private static final double RIGHT_UP = .35;
     private final HardwareMap hardwareMap;
 
     private Direction verticalPostiiton;
@@ -38,8 +38,7 @@ public class SuperBlocker {
         this.servoRight = hardwareMap.servo.get(Config.SERVO_SUPERBLOCKER_RIGHT);
         this.servoVertical = hardwareMap.servo.get(Config.SERVO_SUPERBLOCKER_VERTICAL);
 
-        moveVertical(Direction.MID);
-        setPosition(Direction.DOWN);
+        moveVertical(Direction.DOWN);
     }
 
 
@@ -48,16 +47,16 @@ public class SuperBlocker {
             case UP:
 
                 setPosition(Direction.MID);
-                servoVertical.setPosition(verticalUP);
+                servoVertical.setPosition(VERTICAL_UP);
                 break;
             case MID:
 
-                servoVertical.setPosition(verticalMID);
+                servoVertical.setPosition(VERTICAL_MID);
                 break;
             case DOWN:
 
                 setPosition(Direction.MID);
-                servoVertical.setPosition(verticalDOWN);
+                servoVertical.setPosition(VERTICAL_DOWN);
                 break;
             default:
                 throw new IllegalArgumentException("Direction must be UP, DOWN, MID!");
@@ -72,26 +71,26 @@ public class SuperBlocker {
             switch (direction) {
                 case UP:
 
-                    servoLeft.setPosition(leftUP);
-                    servoRight.setPosition(rightUP);
+                    servoLeft.setPosition(LEFT_DOWN);
+                    servoRight.setPosition(RIGHT_DOWN);
                     break;
                 case MID:
 
-                    servoLeft.setPosition(leftMID);
-                    servoRight.setPosition(rightMID);
+                    servoLeft.setPosition(LEFT_MID);
+                    servoRight.setPosition(RIGHT_MID);
                     break;
                 case DOWN:
 
-                    servoLeft.setPosition(leftDOWN);
-                    servoRight.setPosition(rightDOWN);
+                    servoLeft.setPosition(LEFT_UP);
+                    servoRight.setPosition(RIGHT_UP);
                     break;
                 default:
                     throw new IllegalArgumentException("Direction must be UP, DOWN, MID!");
             }
             horizontalPosition = direction;
         } else {
-            servoLeft.setPosition(leftMID);
-            servoRight.setPosition(rightMID);
+            servoLeft.setPosition(LEFT_MID);
+            servoRight.setPosition(RIGHT_MID);
             horizontalPosition = Direction.MID;
         }
     }

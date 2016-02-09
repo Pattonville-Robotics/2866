@@ -30,6 +30,9 @@ public class AutoBucketParkRedTwo extends LinearOpMode {
 
         waitForStart();
 
+        blocker.moveVertical(Direction.MID);
+        blocker.setPosition(Direction.UP);
+
         CommonAutonomous.leavePositionTwo(drive);
         drive.rotateDegrees(Direction.LEFT, 45, 0.75); //Make sure this goes at a 45˚ angle!
         CommonAutonomous.secondPositionTravel(drive, blocker);

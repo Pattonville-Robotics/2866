@@ -9,7 +9,7 @@ public class CommonAutonomous {
 
     public static void dumpClimber(Drive drive, ClimberDumper climberDumper) {
 
-        drive.moveInches(Direction.BACKWARDS, 20, .75);
+        drive.moveInches(Direction.BACKWARDS, 28, .75);
 
         double diff = (ClimberDumper.UP - .3) - ClimberDumper.DOWN;
 
@@ -17,7 +17,7 @@ public class CommonAutonomous {
 
             double target = ClimberDumper.DOWN + (i * diff) / 100;
             climberDumper.servoDumper.setPosition(target);
-            drive.sleep(20);
+            drive.sleep(15);
         }
         drive.sleep(1000);
         climberDumper.move(Direction.DOWN);
@@ -27,8 +27,8 @@ public class CommonAutonomous {
     public static void secondPositionTravel(Drive drive, SuperBlocker blocker) throws InterruptedException {
         drive.moveInches(Direction.BACKWARDS, 80, .75);
         blocker.moveVertical(Direction.UP);
-        drive.sleep(500);
-        drive.moveInches(Direction.FORWARDS, 10, .75);
+        drive.sleep(1000);
+        drive.moveInches(Direction.FORWARDS, 15, .75);
         blocker.moveVertical(Direction.DOWN);
     }
 
