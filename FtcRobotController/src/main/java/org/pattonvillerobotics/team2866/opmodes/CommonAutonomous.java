@@ -28,7 +28,7 @@ public class CommonAutonomous {
         drive.moveInches(Direction.BACKWARDS, 80, .75);
         blocker.moveVertical(Direction.UP);
         drive.sleep(1000);
-        drive.moveInches(Direction.FORWARDS, 15, .75);
+        drive.moveInches(Direction.FORWARDS, 10, .75);
         blocker.moveVertical(Direction.DOWN);
     }
 
