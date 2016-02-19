@@ -30,6 +30,11 @@ public class Drive {
     public static final int DEGREES_PER_REVOLUTION = 360;
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
     public static final double POWER_SCALE = .005;
+
+    private static final double GYRO_POWER_SCALE = 0.02;    // 2 percent power per degree of error
+    private static final double GYRO_I = 0.0;    // Integral factor
+    private static final double GYRO_D = 0.0;    // Derivative factor
+
     private static final String TAG = "Drive";
     private static int numInstantiations = 0;
     public final DcMotor motorLeft;
@@ -117,19 +122,54 @@ public class Drive {
         this.waitForNextHardwareCycle();
 
         DescriptiveStatistics statisticalSummary = new DescriptiveStatistics();
+        final boolean useGyro = false;
+        int target_angle = gyro.getIntegratedZValue();
+        int delta_angle;
+        double p_value;
+        double i_value;
+        double d_value;
+        double total_adjust;
+        int previous_error = 0;
+        int total_error = 0;
 
         Log.e(TAG, "Started encoder move...");
         while (this.linearOpMode.opModeIsActive() && Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
             this.waitForNextHardwareCycle();
-            int distanceLeft = targetPositionLeft - motorLeft.getCurrentPosition();
-            int distanceRight = targetPositionRight - motorRight.getCurrentPosition();
-            double error = (distanceLeft - distanceRight) * POWER_SCALE;
 
-            motorLeft.setPower(Range.clip(leftPowerAdjust(power + error), 0, 1));
-            motorRight.setPower(Range.clip(rightPowerAdjust(power - error), 0, 1));
+            //noinspection ConstantConditions
+            if (useGyro) {
+                delta_angle = gyro.getIntegratedZValue() - target_angle;
 
-            Log.e(TAG, "Left: " + distanceLeft + " Right: " + distanceRight + " Error: " + error);
-            statisticalSummary.addValue(error);
+                total_error += delta_angle;
+
+                p_value = delta_angle * GYRO_POWER_SCALE;
+                i_value = total_error * GYRO_I;
+                d_value = (delta_angle - previous_error) * GYRO_D;
+
+                total_adjust = p_value + i_value + d_value;
+
+                if (delta_angle > 10) {
+                    delta_angle = 10;
+                }
+                if (delta_angle < -10) {
+                    delta_angle = -10;
+                }
+
+                motorLeft.setPower(Range.clip(power - total_adjust, 0, 1));
+                motorRight.setPower(Range.clip(power + total_adjust, 0, 1));
+
+                previous_error = delta_angle;
+            } else {
+                int distanceLeft = targetPositionLeft - motorLeft.getCurrentPosition();
+                int distanceRight = targetPositionRight - motorRight.getCurrentPosition();
+                double error = (distanceLeft - distanceRight) * POWER_SCALE;
+
+                motorLeft.setPower(Range.clip(leftPowerAdjust(power + error), 0, 1));
+                motorRight.setPower(Range.clip(rightPowerAdjust(power - error), 0, 1));
+
+                Log.e(TAG, "Left: " + distanceLeft + " Right: " + distanceRight + " Error: " + error);
+                statisticalSummary.addValue(error);
+            }
         }
         Log.e(TAG, "Finished encoder move...\n" + statisticalSummary.toString());
 

@@ -8,20 +8,20 @@ import org.pattonvillerobotics.team2866.robotclasses.controllables.SuperBlocker;
 public class CommonAutonomous {
 
     public static void dumpClimber(Drive drive, ClimberDumper climberDumper) {
-
         drive.moveInches(Direction.BACKWARDS, 28, .75);
+        smoothClimberMovement(drive, climberDumper);
+    }
 
+    public static void smoothClimberMovement(Drive drive, ClimberDumper climberDumper) {
         double diff = (ClimberDumper.UP - .3) - ClimberDumper.DOWN;
 
         for (int i = 0; i < 100; i++) {
-
             double target = ClimberDumper.DOWN + (i * diff) / 100;
             climberDumper.servoDumper.setPosition(target);
             drive.sleep(15);
         }
         drive.sleep(1000);
         climberDumper.move(Direction.DOWN);
-
     }
 
     public static void secondPositionTravel(Drive drive, SuperBlocker blocker) throws InterruptedException {
