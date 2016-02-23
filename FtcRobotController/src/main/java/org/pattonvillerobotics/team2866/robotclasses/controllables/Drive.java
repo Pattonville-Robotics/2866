@@ -31,8 +31,8 @@ public class Drive {
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
     public static final double POWER_SCALE = .005;
 
-    private static final double GYRO_POWER_SCALE = 0.02;    // 2 percent power per degree of error
-    private static final double GYRO_I = 0.0;    // Integral factor
+    private static final double GYRO_POWER_SCALE = 0.05;    // 2 percent power per degree of error
+    private static final double GYRO_I = 0.00001;    // Integral factor
     private static final double GYRO_D = 0.0;    // Derivative factor
 
     private static final String TAG = "Drive";
@@ -124,13 +124,16 @@ public class Drive {
         DescriptiveStatistics statisticalSummary = new DescriptiveStatistics();
         final boolean useGyro = false;
         int target_angle = gyro.getIntegratedZValue();
-        int delta_angle;
-        double p_value;
-        double i_value;
-        double d_value;
-        double total_adjust;
+        int angleDelta;
+        double powerAdjustment;
         int previous_error = 0;
-        int total_error = 0;
+        int totalError = 0;
+
+        //try {
+        //    gyro.calibrateAndWait();
+        //} catch (InterruptedException e) {
+        //    throw new RuntimeException(e);
+        //}
 
         Log.e(TAG, "Started encoder move...");
         while (this.linearOpMode.opModeIsActive() && Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
@@ -138,27 +141,29 @@ public class Drive {
 
             //noinspection ConstantConditions
             if (useGyro) {
-                delta_angle = gyro.getIntegratedZValue() - target_angle;
+                angleDelta = gyro.getIntegratedZValue() - target_angle;
 
-                total_error += delta_angle;
+                totalError += angleDelta;
 
-                p_value = delta_angle * GYRO_POWER_SCALE;
-                i_value = total_error * GYRO_I;
-                d_value = (delta_angle - previous_error) * GYRO_D;
+                double pError = angleDelta * GYRO_POWER_SCALE;
+                double iError = totalError * GYRO_I;
+                double dError = (angleDelta - previous_error) * GYRO_D;
 
-                total_adjust = p_value + i_value + d_value;
+                powerAdjustment = pError + iError + dError;
 
-                if (delta_angle > 10) {
-                    delta_angle = 10;
+                if (angleDelta > 10) {
+                    angleDelta = 10;
                 }
-                if (delta_angle < -10) {
-                    delta_angle = -10;
+                if (angleDelta < -10) {
+                    angleDelta = -10;
                 }
 
-                motorLeft.setPower(Range.clip(power - total_adjust, 0, 1));
-                motorRight.setPower(Range.clip(power + total_adjust, 0, 1));
+                motorLeft.setPower(Range.clip(power - powerAdjustment, 0, 1));
+                motorRight.setPower(Range.clip(power + powerAdjustment, 0, 1));
 
-                previous_error = delta_angle;
+                previous_error = angleDelta;
+
+                Log.i(TAG, "Int. Z Value: " + gyro.getIntegratedZValue() + " Total Error: " + totalError + " Derivative Error: " + (angleDelta - previous_error));
             } else {
                 int distanceLeft = targetPositionLeft - motorLeft.getCurrentPosition();
                 int distanceRight = targetPositionRight - motorRight.getCurrentPosition();
@@ -216,6 +221,11 @@ public class Drive {
     }
 
     public void rotateDegrees(Direction direction, double degrees, double power) {
+        try {
+            gyro.calibrateAndWait();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
         this.rotateDegreesEncoder(direction, degrees, power);
         //this.rotateDegreesGyro(direction, degrees, power);
     }
