@@ -24,7 +24,7 @@ public class Drive {
     public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     public static final double TICKS_PER_REVOLUTION = 1440;
     public static final double INCHES_PER_TICK = WHEEL_CIRCUMFERENCE / TICKS_PER_REVOLUTION;
-    public static final double WHEEL_BASE_DIAMETER = 22.05;
+    public static final double WHEEL_BASE_DIAMETER = 21.6;
     public static final double WHEEL_BASE_CIRCUMFERENCE = Math.PI * WHEEL_BASE_DIAMETER;
     public static final int DEGREES_PER_REVOLUTION = 360;
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
@@ -63,14 +63,6 @@ public class Drive {
         numInstantiations++;
     }
 
-    public static double inchesToTicks(double inches) {
-        return inches / INCHES_PER_TICK;
-    }
-
-    public static double degreesToTicks(double degrees) {
-        return inchesToTicks(degrees * INCHES_PER_DEGREE);
-    }
-
     public void sleep(long milliseconds) {
         try {
             this.linearOpMode.sleep(milliseconds);
@@ -91,6 +83,8 @@ public class Drive {
 
         int startPositionLeft = motorLeft.getCurrentPosition();
         int startPositionRight = motorRight.getCurrentPosition();
+
+        Log.i(TAG, "Straight Move... Left motor start: " + startPositionLeft + " Right motor start: " + startPositionRight);
 
         this.waitOneFullHardwareCycle();
 
@@ -144,9 +138,10 @@ public class Drive {
         //    throw new RuntimeException(e);
         //}
 
-        Log.e(TAG, "Started encoder move...");
+        Log.i(TAG, "Started encoder move...");
         while (this.linearOpMode.opModeIsActive() && Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
             this.waitOneFullHardwareCycle();
+            Log.i(TAG, "Current distance left: " + (motorLeft.getCurrentPosition() - targetPositionLeft));
             /*
 
             //noinspection ConstantConditions
@@ -187,7 +182,7 @@ public class Drive {
             }
             */
         }
-        Log.e(TAG, "Finished encoder move...");
+        Log.i(TAG, "Finished encoder move...");
 
         this.waitOneFullHardwareCycle();
 
@@ -202,8 +197,12 @@ public class Drive {
         }
     }
 
+    public static double inchesToTicks(double inches) {
+        return inches / INCHES_PER_TICK;
+    }
+
     private double leftPowerAdjust(double power) {
-        return Range.clip(power * 1,0,1);
+        return Range.clip(power * 1, 0, 1);
     }
 
     private double rightPowerAdjust(double power) {
@@ -247,6 +246,8 @@ public class Drive {
         int startPositionLeft = motorLeft.getCurrentPosition();
         int startPositionRight = motorRight.getCurrentPosition();
 
+        Log.i(TAG, "Rotation... Left motor start: " + startPositionLeft + " Right motor start: " + startPositionRight);
+
         switch (direction) {
             case LEFT: {
                 int deltaPositionLeft = (int) Math.round(degreesToTicks(-degrees));
@@ -274,6 +275,8 @@ public class Drive {
                 throw new IllegalArgumentException("Direction must be LEFT or RIGHT!");
         }
 
+        Log.i(TAG, "Rotation target left: " + targetPositionLeft + " Rotation target right: " + targetPositionRight);
+
         this.waitOneFullHardwareCycle();
 
         motorLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
@@ -291,18 +294,25 @@ public class Drive {
 
         this.waitOneFullHardwareCycle();
 
-        Log.e(TAG, "Started encoder rotate...");
+        Log.i(TAG, "Started encoder rotate...");
         int currentError = (direction == Direction.LEFT) ? Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) : Math.abs(motorRight.getCurrentPosition() - targetPositionRight);
+
         while (currentError > Config.ENCODER_MOVEMENT_TOLERANCE) {
             this.waitOneFullHardwareCycle();
-            Log.e("Encoder", "Current Error: " + currentError);
+            Log.i(TAG, "Current Error: " + currentError);
+
             currentError = direction == Direction.LEFT ? Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) : Math.abs(motorRight.getCurrentPosition() - targetPositionRight);
+
         }
-        Log.e(TAG, "Finished encoder rotate...");
+        Log.i(TAG, "Finished encoder rotate...");
 
         waitOneFullHardwareCycle();
 
         this.stopDriveMotors();
+    }
+
+    public static double degreesToTicks(double degrees) {
+        return inchesToTicks(degrees * INCHES_PER_DEGREE);
     }
 
     public void rotateDegreesGyro(Direction direction, double degrees, double power) {
