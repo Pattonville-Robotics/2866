@@ -21,7 +21,7 @@ import org.pattonvillerobotics.team2866.robotclasses.Direction;
 public class Drive {
 
     @SuppressWarnings("MagicNumber")
-    public static final double WHEEL_DIAMETER = 250 / 100d; // New tread adjustment
+    public static final double WHEEL_DIAMETER = 220 / 100d; // New tread adjustment
     public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     public static final double TICKS_PER_REVOLUTION = 1440;
     public static final double INCHES_PER_TICK = WHEEL_CIRCUMFERENCE / TICKS_PER_REVOLUTION;
@@ -116,11 +116,12 @@ public class Drive {
 
         this.waitForNextHardwareCycle();
 
-        motorLeft.setPower(power);
-        motorRight.setPower(power);
+        motorLeft.setPower(leftPowerAdjust(power));
+        motorRight.setPower(rightPowerAdjust(power));
 
         this.waitForNextHardwareCycle();
 
+        /*
         DescriptiveStatistics statisticalSummary = new DescriptiveStatistics();
         final boolean useGyro = false;
         int target_angle = gyro.getIntegratedZValue();
@@ -128,6 +129,7 @@ public class Drive {
         double powerAdjustment;
         int previous_error = 0;
         int totalError = 0;
+        */
 
         //try {
         //    gyro.calibrateAndWait();
@@ -138,6 +140,7 @@ public class Drive {
         Log.e(TAG, "Started encoder move...");
         while (this.linearOpMode.opModeIsActive() && Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
             this.waitForNextHardwareCycle();
+            /*
 
             //noinspection ConstantConditions
             if (useGyro) {
@@ -165,18 +168,19 @@ public class Drive {
 
                 Log.i(TAG, "Int. Z Value: " + gyro.getIntegratedZValue() + " Total Error: " + totalError + " Derivative Error: " + (angleDelta - previous_error));
             } else {
-                int distanceLeft = targetPositionLeft - motorLeft.getCurrentPosition();
-                int distanceRight = targetPositionRight - motorRight.getCurrentPosition();
-                double error = (distanceLeft - distanceRight) * POWER_SCALE;
+                //int distanceLeft = targetPositionLeft - motorLeft.getCurrentPosition();
+                //int distanceRight = targetPositionRight - motorRight.getCurrentPosition();
+                //double error = (distanceLeft - distanceRight) * POWER_SCALE;
 
-                motorLeft.setPower(Range.clip(leftPowerAdjust(power + error), 0, 1));
-                motorRight.setPower(Range.clip(rightPowerAdjust(power - error), 0, 1));
+                //motorLeft.setPower(Range.clip(leftPowerAdjust(power), 0, 1));
+                //motorRight.setPower(Range.clip(rightPowerAdjust(power), 0, 1));
 
-                Log.e(TAG, "Left: " + distanceLeft + " Right: " + distanceRight + " Error: " + error);
-                statisticalSummary.addValue(error);
+                //Log.e(TAG, "Left: " + distanceLeft + " Right: " + distanceRight + " Error: " + error);
+                //statisticalSummary.addValue(error);
             }
+            */
         }
-        Log.e(TAG, "Finished encoder move...\n" + statisticalSummary.toString());
+        Log.e(TAG, "Finished encoder move...");
 
         this.waitForNextHardwareCycle();
 
@@ -196,17 +200,17 @@ public class Drive {
     }
 
     private double leftPowerAdjust(double power) {
-        return power;// * 0.90;
+        return Range.clip(power * 1,0,1);
     }
 
     private double rightPowerAdjust(double power) {
-        return power * .7;// * 1.10 ;
+        return Range.clip(power * 1,0,1);
     }
 
     public void stopDriveMotors() {
-        this.waitForNextHardwareCycle();
-        motorLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        motorRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        //this.waitForNextHardwareCycle();
+        //motorLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
+        //motorRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         this.waitForNextHardwareCycle();
         motorLeft.setPower(0);
         motorRight.setPower(0);
@@ -221,11 +225,6 @@ public class Drive {
     }
 
     public void rotateDegrees(Direction direction, double degrees, double power) {
-        try {
-            gyro.calibrateAndWait();
-        } catch (InterruptedException e) {
-            throw new RuntimeException(e);
-        }
         this.rotateDegreesEncoder(direction, degrees, power);
         //this.rotateDegreesGyro(direction, degrees, power);
     }
@@ -290,11 +289,11 @@ public class Drive {
         this.waitForNextHardwareCycle();
 
         Log.e(TAG, "Started encoder rotate...");
-        int currentError = (direction == Direction.LEFT) ? Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) : Math.abs(motorRight.getCurrentPosition() - targetPositionRight);//(Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft)) / 2;
+        int currentError = (direction == Direction.LEFT) ? Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) : Math.abs(motorRight.getCurrentPosition() - targetPositionRight);
         while (currentError > Config.ENCODER_MOVEMENT_TOLERANCE) {
             this.waitForNextHardwareCycle();
             Log.e("Encoder", "Current Error: " + currentError);
-            currentError = direction == Direction.LEFT ? Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) : Math.abs(motorRight.getCurrentPosition() - targetPositionRight);//(Math.abs(motorRight.getCurrentPosition() - targetPositionRight) + Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft)) / 2;
+            currentError = direction == Direction.LEFT ? Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) : Math.abs(motorRight.getCurrentPosition() - targetPositionRight);
         }
         Log.e(TAG, "Finished encoder rotate...");
 
