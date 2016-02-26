@@ -9,7 +9,6 @@ import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.util.Range;
 
-import org.apache.commons.math3.stat.descriptive.DescriptiveStatistics;
 import org.pattonvillerobotics.team2866.robotclasses.Config;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
 
@@ -25,7 +24,7 @@ public class Drive {
     public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     public static final double TICKS_PER_REVOLUTION = 1440;
     public static final double INCHES_PER_TICK = WHEEL_CIRCUMFERENCE / TICKS_PER_REVOLUTION;
-    public static final double WHEEL_BASE_DIAMETER = 21;
+    public static final double WHEEL_BASE_DIAMETER = 22.05;
     public static final double WHEEL_BASE_CIRCUMFERENCE = Math.PI * WHEEL_BASE_DIAMETER;
     public static final int DEGREES_PER_REVOLUTION = 360;
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
@@ -64,6 +63,14 @@ public class Drive {
         numInstantiations++;
     }
 
+    public static double inchesToTicks(double inches) {
+        return inches / INCHES_PER_TICK;
+    }
+
+    public static double degreesToTicks(double degrees) {
+        return inchesToTicks(degrees * INCHES_PER_DEGREE);
+    }
+
     public void sleep(long milliseconds) {
         try {
             this.linearOpMode.sleep(milliseconds);
@@ -85,7 +92,7 @@ public class Drive {
         int startPositionLeft = motorLeft.getCurrentPosition();
         int startPositionRight = motorRight.getCurrentPosition();
 
-        this.waitForNextHardwareCycle();
+        this.waitOneFullHardwareCycle();
 
         switch (direction) {
             case FORWARDS: {
@@ -104,22 +111,22 @@ public class Drive {
                 throw new IllegalArgumentException("Direction must be FORWARDS or BACKWARDS!");
         }
 
-        this.waitForNextHardwareCycle();
+        this.waitOneFullHardwareCycle();
 
         motorLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         motorRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-        this.waitForNextHardwareCycle();
+        this.waitOneFullHardwareCycle();
 
         motorLeft.setTargetPosition(targetPositionLeft);
         motorRight.setTargetPosition(targetPositionRight);
 
-        this.waitForNextHardwareCycle();
+        this.waitOneFullHardwareCycle();
 
         motorLeft.setPower(leftPowerAdjust(power));
         motorRight.setPower(rightPowerAdjust(power));
 
-        this.waitForNextHardwareCycle();
+        this.waitOneFullHardwareCycle();
 
         /*
         DescriptiveStatistics statisticalSummary = new DescriptiveStatistics();
@@ -139,7 +146,7 @@ public class Drive {
 
         Log.e(TAG, "Started encoder move...");
         while (this.linearOpMode.opModeIsActive() && Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
-            this.waitForNextHardwareCycle();
+            this.waitOneFullHardwareCycle();
             /*
 
             //noinspection ConstantConditions
@@ -182,21 +189,17 @@ public class Drive {
         }
         Log.e(TAG, "Finished encoder move...");
 
-        this.waitForNextHardwareCycle();
+        this.waitOneFullHardwareCycle();
 
         this.stopDriveMotors();
     }
 
-    public void waitForNextHardwareCycle() {
+    public void waitOneFullHardwareCycle() {
         try {
-            this.linearOpMode.waitForNextHardwareCycle();
+            this.linearOpMode.waitOneFullHardwareCycle();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
-    }
-
-    public static double inchesToTicks(double inches) {
-        return inches / INCHES_PER_TICK;
     }
 
     private double leftPowerAdjust(double power) {
@@ -204,21 +207,21 @@ public class Drive {
     }
 
     private double rightPowerAdjust(double power) {
-        return Range.clip(power * 1,0,1);
+        return Range.clip(power * 1, 0, 1);
     }
 
     public void stopDriveMotors() {
-        //this.waitForNextHardwareCycle();
+        //this.waitOneFullHardwareCycle();
         //motorLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         //motorRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
-        this.waitForNextHardwareCycle();
+        this.waitOneFullHardwareCycle();
         motorLeft.setPower(0);
         motorRight.setPower(0);
     }
 
-    public void waitOneFullHardwareCycle() {
+    public void waitForNextHardwareCycle() {
         try {
-            this.linearOpMode.waitOneFullHardwareCycle();
+            this.linearOpMode.waitForNextHardwareCycle();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
@@ -271,49 +274,45 @@ public class Drive {
                 throw new IllegalArgumentException("Direction must be LEFT or RIGHT!");
         }
 
-        this.waitForNextHardwareCycle();
+        this.waitOneFullHardwareCycle();
 
         motorLeft.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
         motorRight.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
 
-        this.waitForNextHardwareCycle();
+        this.waitOneFullHardwareCycle();
 
         motorLeft.setTargetPosition(targetPositionLeft);
         motorRight.setTargetPosition(targetPositionRight);
 
-        this.waitForNextHardwareCycle();
+        this.waitOneFullHardwareCycle();
 
         motorLeft.setPower(leftPowerAdjust(powerLeft));
         motorRight.setPower(rightPowerAdjust(powerRight));
 
-        this.waitForNextHardwareCycle();
+        this.waitOneFullHardwareCycle();
 
         Log.e(TAG, "Started encoder rotate...");
         int currentError = (direction == Direction.LEFT) ? Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) : Math.abs(motorRight.getCurrentPosition() - targetPositionRight);
         while (currentError > Config.ENCODER_MOVEMENT_TOLERANCE) {
-            this.waitForNextHardwareCycle();
+            this.waitOneFullHardwareCycle();
             Log.e("Encoder", "Current Error: " + currentError);
             currentError = direction == Direction.LEFT ? Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) : Math.abs(motorRight.getCurrentPosition() - targetPositionRight);
         }
         Log.e(TAG, "Finished encoder rotate...");
 
-        waitForNextHardwareCycle();
+        waitOneFullHardwareCycle();
 
         this.stopDriveMotors();
     }
 
-    public static double degreesToTicks(double degrees) {
-        return inchesToTicks(degrees * INCHES_PER_DEGREE);
-    }
-
     public void rotateDegreesGyro(Direction direction, double degrees, double power) {
 
-        this.waitForNextHardwareCycle();
+        this.waitOneFullHardwareCycle();
 
         motorLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         motorRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
-        this.waitForNextHardwareCycle();
+        this.waitOneFullHardwareCycle();
 
         int target = gyro.getIntegratedZValue();
 
@@ -338,7 +337,7 @@ public class Drive {
             }
         }
 
-        this.waitForNextHardwareCycle();
+        this.waitOneFullHardwareCycle();
 
         motorLeft.setPower(leftPowerAdjust(motorLeftPower));
         motorRight.setPower(rightPowerAdjust(motorRightPower));
@@ -352,13 +351,13 @@ public class Drive {
             motorRight.setPower(rightPowerAdjust(motorRightPower * errorFunction(currentError)));
 
             Log.e(TAG, "Current degree drift: " + gyro.getCurrentDrift());
-            this.waitForNextHardwareCycle();
+            this.waitOneFullHardwareCycle();
         }
         Log.e(TAG, "Last degree error readout: " + currentError);
 
         this.stopDriveMotors();
 
-        this.waitForNextHardwareCycle();
+        this.waitOneFullHardwareCycle();
     }
 
     private double errorFunction(double error) {
@@ -369,19 +368,19 @@ public class Drive {
         if (direction != Direction.LEFT && direction != Direction.RIGHT)
             throw new IllegalArgumentException("Direction must be LEFT or RIGHT!");
 
-        this.waitForNextHardwareCycle();
+        this.waitOneFullHardwareCycle();
 
         motorLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
         motorRight.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
 
-        this.waitForNextHardwareCycle();
+        this.waitOneFullHardwareCycle();
 
         int target = gyro.getIntegratedZValue() + (direction == Direction.LEFT ? degrees : -degrees);
         double proportionalPower = power;
 
         while (this.linearOpMode.opModeIsActive() && Math.abs(target - gyro.getIntegratedZValue()) > Config.GYRO_TURN_TOLERANCE) {
             //this.linearOpMode.telemetry.addData(TAG, "Current degree readout: " + gyro.getIntegratedZValue());
-            this.waitForNextHardwareCycle();
+            this.waitOneFullHardwareCycle();
 
             int error = target - gyro.getIntegratedZValue();
 
@@ -408,7 +407,7 @@ public class Drive {
 
         this.stopDriveMotors();
 
-        this.waitForNextHardwareCycle();
+        this.waitOneFullHardwareCycle();
     }
 
     public void moveFreely(double left, double right) {

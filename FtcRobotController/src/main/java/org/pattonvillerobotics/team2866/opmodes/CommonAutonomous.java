@@ -8,7 +8,7 @@ import org.pattonvillerobotics.team2866.robotclasses.controllables.SuperBlocker;
 public class CommonAutonomous {
 
     public static void dumpClimber(Drive drive, ClimberDumper climberDumper) {
-        drive.moveInches(Direction.BACKWARDS, 28, .75);
+        drive.moveInches(Direction.BACKWARDS, 26, .75);
         smoothClimberMovement(drive, climberDumper);
     }
 
@@ -28,7 +28,7 @@ public class CommonAutonomous {
         drive.moveInches(Direction.BACKWARDS, 80, .75);
         blocker.moveVertical(Direction.UP);
         drive.sleep(1000);
-        drive.moveInches(Direction.FORWARDS, 10, .75);
+        drive.moveInches(Direction.FORWARDS, 15, .75);
         blocker.moveVertical(Direction.DOWN);
     }
 
