@@ -29,11 +29,10 @@ public class Drive {
     public static final int DEGREES_PER_REVOLUTION = 360;
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
     public static final double POWER_SCALE = .005;
-
+    public static final int ERROR_SMOOTHING_FACTOR = 300; // What encoder value reaches 50% power. Normal behavior at 0
     private static final double GYRO_POWER_SCALE = 0.05;    // 2 percent power per degree of error
     private static final double GYRO_I = 0.00001;    // Integral factor
     private static final double GYRO_D = 0.0;    // Derivative factor
-
     private static final String TAG = "Drive";
     private static int numInstantiations = 0;
     public final DcMotor motorLeft;
@@ -132,18 +131,27 @@ public class Drive {
         int totalError = 0;
         */
 
-        //try {
-        //    gyro.calibrateAndWait();
-        //} catch (InterruptedException e) {
-        //    throw new RuntimeException(e);
-        //}
+        /*
+        try {
+            gyro.calibrateAndWait();
+        } catch (InterruptedException e) {
+            throw new RuntimeException(e);
+        }
+        */
+
+        int currentError = Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft);
 
         Log.i(TAG, "Started encoder move...");
-        while (this.linearOpMode.opModeIsActive() && Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) > Config.ENCODER_MOVEMENT_TOLERANCE) {
+        while (this.linearOpMode.opModeIsActive() && currentError > Config.ENCODER_MOVEMENT_TOLERANCE) {
             this.waitOneFullHardwareCycle();
             Log.i(TAG, "Current distance left: " + (motorLeft.getCurrentPosition() - targetPositionLeft));
-            /*
 
+            motorLeft.setPower(errorScale(leftPowerAdjust(power), currentError));
+            motorRight.setPower(errorScale(rightPowerAdjust(power), currentError));
+
+            currentError = Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft);
+
+            /*
             //noinspection ConstantConditions
             if (useGyro) {
                 angleDelta = gyro.getIntegratedZValue() - target_angle;
@@ -209,6 +217,10 @@ public class Drive {
         return Range.clip(power * 1, 0, 1);
     }
 
+    public static double errorScale(double power, int currentError) {
+        return power * (currentError / (double) (currentError + ERROR_SMOOTHING_FACTOR));
+    }
+
     public void stopDriveMotors() {
         //this.waitOneFullHardwareCycle();
         //motorLeft.setMode(DcMotorController.RunMode.RUN_USING_ENCODERS);
@@ -248,10 +260,13 @@ public class Drive {
 
         Log.i(TAG, "Rotation... Left motor start: " + startPositionLeft + " Right motor start: " + startPositionRight);
 
+        int deltaPositionLeft;
+        int deltaPositionRight;
+
         switch (direction) {
             case LEFT: {
-                int deltaPositionLeft = (int) Math.round(degreesToTicks(-degrees));
-                int deltaPositionRight = (int) Math.round(degreesToTicks(degrees));
+                deltaPositionLeft = (int) Math.round(degreesToTicks(-degrees));
+                deltaPositionRight = (int) Math.round(degreesToTicks(degrees));
 
                 targetPositionLeft = startPositionLeft + deltaPositionLeft;
                 targetPositionRight = startPositionRight + deltaPositionRight;
@@ -261,8 +276,8 @@ public class Drive {
                 break;
             }
             case RIGHT: {
-                int deltaPositionLeft = (int) Math.round(degreesToTicks(degrees));
-                int deltaPositionRight = (int) Math.round(degreesToTicks(-degrees));
+                deltaPositionLeft = (int) Math.round(degreesToTicks(degrees));
+                deltaPositionRight = (int) Math.round(degreesToTicks(-degrees));
 
                 targetPositionLeft = startPositionLeft + deltaPositionLeft;
                 targetPositionRight = startPositionRight + deltaPositionRight;
@@ -301,8 +316,10 @@ public class Drive {
             this.waitOneFullHardwareCycle();
             Log.i(TAG, "Current Error: " + currentError);
 
-            currentError = direction == Direction.LEFT ? Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) : Math.abs(motorRight.getCurrentPosition() - targetPositionRight);
+            motorLeft.setPower(errorScale(leftPowerAdjust(powerLeft), currentError));
+            motorRight.setPower(errorScale(rightPowerAdjust(powerRight), currentError));
 
+            currentError = direction == Direction.LEFT ? Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) : Math.abs(motorRight.getCurrentPosition() - targetPositionRight);
         }
         Log.i(TAG, "Finished encoder rotate...");
 
