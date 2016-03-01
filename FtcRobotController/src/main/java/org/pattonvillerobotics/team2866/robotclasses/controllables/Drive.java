@@ -24,7 +24,7 @@ public class Drive {
     public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     public static final double TICKS_PER_REVOLUTION = 1440;
     public static final double INCHES_PER_TICK = WHEEL_CIRCUMFERENCE / TICKS_PER_REVOLUTION;
-    public static final double WHEEL_BASE_DIAMETER = 21.6;
+    public static final double WHEEL_BASE_DIAMETER = 21.2;
     public static final double WHEEL_BASE_CIRCUMFERENCE = Math.PI * WHEEL_BASE_DIAMETER;
     public static final int DEGREES_PER_REVOLUTION = 360;
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
