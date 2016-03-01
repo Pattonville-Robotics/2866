@@ -11,15 +11,15 @@ import org.pattonvillerobotics.team2866.robotclasses.Direction;
  */
 public class SuperBlocker {
 
-    private static final double VERTICAL_UP = .9;
-    private static final double VERTICAL_MID = .325;
-    private static final double VERTICAL_DOWN = .2;
+    private static final double VERTICAL_UP = .8;
+    private static final double VERTICAL_MID = .4;
+    private static final double VERTICAL_DOWN = .3;
 
     private static final double LEFT_DOWN = .31;
     private static final double LEFT_MID = .38;
     private static final double LEFT_UP = .58;
 
-    private static final double RIGHT_DOWN = .65;
+    private static final double RIGHT_DOWN = .6;
     private static final double RIGHT_MID = .57;
     private static final double RIGHT_UP = .35;
 

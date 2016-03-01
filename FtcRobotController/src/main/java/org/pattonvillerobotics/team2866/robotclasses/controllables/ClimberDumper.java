@@ -14,7 +14,7 @@ public class ClimberDumper {
 
     public static final double UP = 0.4;
     public static final double MID = 0.75;
-    public static final double DOWN = 1;
+    public static final double DOWN = .94;
 
     public final Servo servoDumper;
     private final HardwareMap hardwareMap;
