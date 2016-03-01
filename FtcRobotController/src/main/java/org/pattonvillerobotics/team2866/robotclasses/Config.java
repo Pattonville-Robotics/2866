@@ -12,6 +12,9 @@ public final class Config {
     //public static final String MOTOR_ARM_LEFT = "motor_arm_left";
     //public static final String MOTOR_ARM_RIGHT = "motor_arm_right";
 
+    public static final String MOTOR_ARM_LIFT = "motor_arm_lift";
+    public static final String MOTOR_ARM_RETRACT = "motor_arm_retract";
+
     public static final String MOTOR_LIFT_LEFT = "motor_lift_left";
     public static final String MOTOR_LIFT_RIGHT = "motor_lift_right";
 
