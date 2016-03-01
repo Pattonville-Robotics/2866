@@ -17,6 +17,7 @@ import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.Drive;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.MRGyroHelper;
+import org.pattonvillerobotics.team2866.robotclasses.controllables.SuperArm;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.SuperBlocker;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ZipRelease;
 
@@ -34,6 +35,7 @@ public class OfficialTeleOp extends LinearOpMode {
     private ClimberDumper climberDumper;
     private MRGyroHelper mrGyroHelper;
     private SuperBlocker superBlocker;
+    private SuperArm superArm;
 
     private boolean leftTriggerActivated = false;
     private boolean rightTriggerActivated = false;
@@ -60,6 +62,7 @@ public class OfficialTeleOp extends LinearOpMode {
         ModernRoboticsI2cGyro mrGyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get(Config.SENSOR_GYRO);
         mrGyroHelper = new MRGyroHelper(mrGyro, this);
         superBlocker = new SuperBlocker(hardwareMap);
+        //superArm = new SuperArm(hardwareMap);
 
         mrGyroHelper.calibrateAndWait();
 
