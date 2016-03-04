@@ -15,16 +15,17 @@ import org.pattonvillerobotics.team2866.robotclasses.Direction;
 /**
  * Created by Nathan Skelton on 10/15/15.
  * Last edited by Mitchell Skaggs on 11/14/15
+ * Lol this is never updated
  * <p/>
  */
 public class Drive {
 
     @SuppressWarnings("MagicNumber")
-    public static final double WHEEL_DIAMETER = 220 / 100d; // New tread adjustment
+    public static final double WHEEL_DIAMETER = 215 / 100d; // New tread adjustment
     public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     public static final double TICKS_PER_REVOLUTION = 1440;
     public static final double INCHES_PER_TICK = WHEEL_CIRCUMFERENCE / TICKS_PER_REVOLUTION;
-    public static final double WHEEL_BASE_DIAMETER = 21.2;
+    public static final double WHEEL_BASE_DIAMETER = 20;
     public static final double WHEEL_BASE_CIRCUMFERENCE = Math.PI * WHEEL_BASE_DIAMETER;
     public static final int DEGREES_PER_REVOLUTION = 360;
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
@@ -35,8 +36,8 @@ public class Drive {
     private static final double GYRO_D = 0.0;    // Derivative factor
     private static final String TAG = "Drive";
     private static int numInstantiations = 0;
-    public final DcMotor motorLeft;
-    public final DcMotor motorRight;
+
+    public final DcMotor motorLeft, motorRight;
     public final MRGyroHelper gyro;
     private final LinearOpMode linearOpMode;
 

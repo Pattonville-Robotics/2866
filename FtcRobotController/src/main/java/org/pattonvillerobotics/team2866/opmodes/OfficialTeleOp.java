@@ -62,7 +62,7 @@ public class OfficialTeleOp extends LinearOpMode {
         ModernRoboticsI2cGyro mrGyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get(Config.SENSOR_GYRO);
         mrGyroHelper = new MRGyroHelper(mrGyro, this);
         superBlocker = new SuperBlocker(hardwareMap);
-        //superArm = new SuperArm(hardwareMap);
+        superArm = new SuperArm(hardwareMap);
 
         mrGyroHelper.calibrateAndWait();
 
@@ -87,7 +87,7 @@ public class OfficialTeleOp extends LinearOpMode {
             if (climbModeActivated) {
 
                 drive.moveFreely(-gamepad1DataCurrent.left_stick_y, -gamepad1DataCurrent.left_stick_y);
-                climbAssist.moveChain(scaleChainPower(-gamepad1DataCurrent.left_stick_y));
+                climbAssist.moveChain(scaleChainPower(gamepad1DataCurrent.left_stick_y));
             } else {
                 drive.moveFreely(gamepad1DataCurrent.right_stick_y, gamepad1DataCurrent.left_stick_y);
             }
@@ -165,6 +165,9 @@ public class OfficialTeleOp extends LinearOpMode {
                     rightTriggerActivated = true;
                 }
             }
+
+            superArm.setLiftPower(gamepad2DataCurrent.left_stick_y);
+            superArm.setRetractPower(gamepad2DataCurrent.right_stick_y);
 
             waitForNextHardwareCycle();
         }
