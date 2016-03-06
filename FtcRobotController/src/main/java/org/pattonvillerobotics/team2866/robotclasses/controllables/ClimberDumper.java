@@ -12,7 +12,7 @@ import org.pattonvillerobotics.team2866.robotclasses.Direction;
  */
 public class ClimberDumper {
 
-    public static final double UP = 0.4;
+    public static final double UP = 0.41;
     public static final double MID = 0.75;
     public static final double DOWN = .94;
 
