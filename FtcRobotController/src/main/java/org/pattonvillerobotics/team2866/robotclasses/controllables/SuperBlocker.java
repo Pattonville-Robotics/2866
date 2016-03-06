@@ -1,5 +1,7 @@
 package org.pattonvillerobotics.team2866.robotclasses.controllables;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -11,9 +13,9 @@ import org.pattonvillerobotics.team2866.robotclasses.Direction;
  */
 public class SuperBlocker {
 
-    private static final double VERTICAL_UP = 1;
-    private static final double VERTICAL_MID = .6;
-    private static final double VERTICAL_DOWN = .5;
+    private static final double VERTICAL_UP = .6;
+    private static final double VERTICAL_MID = .3;
+    private static final double VERTICAL_DOWN = .25;
 
     private static final double LEFT_DOWN = .31;
     private static final double LEFT_MID = .38;
@@ -22,11 +24,11 @@ public class SuperBlocker {
     private static final double RIGHT_DOWN = .6;
     private static final double RIGHT_MID = .57;
     private static final double RIGHT_UP = .35;
+    private static final String TAG = "SuperBlocker";
 
     public final Servo servoLeft;
     public final Servo servoRight;
     public final Servo servoVertical;
-    private final HardwareMap hardwareMap;
 
     private Direction verticalPostiiton;
     private Direction horizontalPosition;
@@ -34,7 +36,6 @@ public class SuperBlocker {
 
     public SuperBlocker(HardwareMap hardwareMap) {
 
-        this.hardwareMap = hardwareMap;
         this.servoLeft = hardwareMap.servo.get(Config.SERVO_SUPERBLOCKER_LEFT);
         this.servoRight = hardwareMap.servo.get(Config.SERVO_SUPERBLOCKER_RIGHT);
         this.servoVertical = hardwareMap.servo.get(Config.SERVO_SUPERBLOCKER_VERTICAL);
@@ -44,6 +45,7 @@ public class SuperBlocker {
 
 
     public void moveVertical(Direction direction) {
+        Log.i(TAG, "Moving vertical to " + direction);
         verticalPostiiton = direction;
         switch (direction) {
             case UP:

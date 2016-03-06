@@ -16,7 +16,6 @@ import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.Drive;
-import org.pattonvillerobotics.team2866.robotclasses.controllables.MRGyroHelper;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.SuperArm;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.SuperBlocker;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ZipRelease;
@@ -33,7 +32,7 @@ public class OfficialTeleOp extends LinearOpMode {
     private ClimbAssist climbAssist;
     private ZipRelease zipRelease;
     private ClimberDumper climberDumper;
-    private MRGyroHelper mrGyroHelper;
+    //private MRGyroHelper mrGyroHelper;
     private SuperBlocker superBlocker;
     private SuperArm superArm;
 
@@ -52,6 +51,7 @@ public class OfficialTeleOp extends LinearOpMode {
 
     private int logLoopCount = 0;
 
+    @SuppressWarnings("ConstantConditions")
     @Override
     public void runOpMode() throws InterruptedException {
 
@@ -59,12 +59,12 @@ public class OfficialTeleOp extends LinearOpMode {
         climbAssist = new ClimbAssist(hardwareMap);
         zipRelease = new ZipRelease(hardwareMap);
         climberDumper = new ClimberDumper(hardwareMap);
-        ModernRoboticsI2cGyro mrGyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get(Config.SENSOR_GYRO);
-        mrGyroHelper = new MRGyroHelper(mrGyro, this);
+        //ModernRoboticsI2cGyro mrGyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get(Config.SENSOR_GYRO);
+        //mrGyroHelper = new MRGyroHelper(mrGyro, this);
         superBlocker = new SuperBlocker(hardwareMap);
         superArm = new SuperArm(hardwareMap);
 
-        mrGyroHelper.calibrateAndWait();
+        //mrGyroHelper.calibrateAndWait();
 
         gamepad1.setJoystickDeadzone(Config.JOYSTICK_DEAD_ZONE);
         gamepad2.setJoystickDeadzone(Config.JOYSTICK_DEAD_ZONE);
@@ -210,7 +210,7 @@ public class OfficialTeleOp extends LinearOpMode {
     }
 
     private void logSensors() {
-        logSensor(mrGyroHelper.gyro, "MR Gyro");
+        //logSensor(mrGyroHelper.gyro, "MR Gyro");
     }
 
     private void logMotor(DcMotor motor, String name) {
@@ -221,19 +221,19 @@ public class OfficialTeleOp extends LinearOpMode {
         logServoData(String.format("%-20s Pos (% 04f)", name + ":", servo.getPosition()));
     }
 
-    private void logSensor(HardwareDevice sensor, String name) {
-        if (sensor instanceof ModernRoboticsI2cGyro)
-            logSensorData(String.format("%-20s Rotation (% 07d)", name + ":", ((ModernRoboticsI2cGyro) sensor).getIntegratedZValue()));
-        else
-            Log.e("SENSORERROR", "Sensor not supported: " + sensor.getClass().getSimpleName());
-    }
-
     private void logMotorData(Object msg) {
         Log.d("MOTORDATA", msg.toString());
     }
 
     private void logServoData(Object msg) {
         Log.d("SERVODATA", msg.toString());
+    }
+
+    private void logSensor(HardwareDevice sensor, String name) {
+        if (sensor instanceof ModernRoboticsI2cGyro)
+            logSensorData(String.format("%-20s Rotation (% 07d)", name + ":", ((ModernRoboticsI2cGyro) sensor).getIntegratedZValue()));
+        else
+            Log.e("SENSORERROR", "Sensor not supported: " + sensor.getClass().getSimpleName());
     }
 
     private void logSensorData(Object msg) {

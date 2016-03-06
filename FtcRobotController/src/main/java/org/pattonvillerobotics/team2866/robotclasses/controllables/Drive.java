@@ -2,7 +2,6 @@ package org.pattonvillerobotics.team2866.robotclasses.controllables;
 
 import android.util.Log;
 
-import com.qualcomm.hardware.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
@@ -47,13 +46,15 @@ public class Drive {
         this.motorLeft = hardwareMap.dcMotor.get(Config.MOTOR_DRIVE_LEFT);
         this.motorRight = hardwareMap.dcMotor.get(Config.MOTOR_DRIVE_RIGHT);
 
-        this.gyro = new MRGyroHelper((ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get(Config.SENSOR_GYRO), this.linearOpMode);
+        this.gyro = null;//new MRGyroHelper((ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get(Config.SENSOR_GYRO), this.linearOpMode);
 
+        /*
         try {
             this.gyro.calibrateAndWait();
         } catch (InterruptedException e) {
             throw new RuntimeException(e);
         }
+        */
 
         motorLeft.setDirection(DcMotor.Direction.REVERSE);
         motorRight.setDirection(DcMotor.Direction.FORWARD);
