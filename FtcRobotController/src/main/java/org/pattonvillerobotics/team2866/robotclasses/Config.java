@@ -9,9 +9,6 @@ public final class Config {
     public static final String MOTOR_DRIVE_LEFT = "motor_drive_left";
     public static final String MOTOR_DRIVE_RIGHT = "motor_drive_right";
 
-    //public static final String MOTOR_ARM_LEFT = "motor_arm_left";
-    //public static final String MOTOR_ARM_RIGHT = "motor_arm_right";
-
     public static final String MOTOR_ARM_LIFT = "motor_arm_lift";
     public static final String MOTOR_ARM_RETRACT = "motor_arm_retract";
 
@@ -25,7 +22,8 @@ public final class Config {
     public static final String SERVO_RELEASE_LEFT = "servo_release_left";
     public static final String SERVO_RELEASE_RIGHT = "servo_release_right";
 
-    public static final String SENSOR_GYRO = "sensor_gyro";
+    public static final String SENSOR_GYRO_1 = "sensor_gyro_1";
+    public static final String SENSOR_GYRO_2 = "sensor_gyro_2";
 
     public static final String SERVO_SUPERBLOCKER_LEFT = "servo_superblocker_left";
     public static final String SERVO_SUPERBLOCKER_RIGHT = "servo_superblocker_right";
@@ -37,4 +35,5 @@ public final class Config {
     public static final int ENCODER_MOVEMENT_TOLERANCE = 32;
     public static final int GYRO_TURN_TOLERANCE = 6;
     public static final float JOYSTICK_DEAD_ZONE = .025f;
+    public static final String MOTOR_SUPERBLOCKER_VERTICAL = "motor_superblocker_vertical";
 }
