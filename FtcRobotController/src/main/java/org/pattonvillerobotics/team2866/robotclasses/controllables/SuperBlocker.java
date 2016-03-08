@@ -2,6 +2,9 @@ package org.pattonvillerobotics.team2866.robotclasses.controllables;
 
 import android.util.Log;
 
+import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorController;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -26,23 +29,27 @@ public class SuperBlocker {
     private static final double RIGHT_UP = .35;
     private static final String TAG = "SuperBlocker";
 
-    public final Servo servoLeft;
-    public final Servo servoRight;
-    public final Servo servoVertical;
+    public final Servo servoLeft, servoRight, servoVertical;
+
+    public final DcMotor motorVertical;
+    private int encoderPosition;
 
     private Direction verticalPostiiton;
     private Direction horizontalPosition;
 
 
-    public SuperBlocker(HardwareMap hardwareMap) {
-
+    public SuperBlocker(HardwareMap hardwareMap, LinearOpMode linearOpMode) throws InterruptedException {
         this.servoLeft = hardwareMap.servo.get(Config.SERVO_SUPERBLOCKER_LEFT);
         this.servoRight = hardwareMap.servo.get(Config.SERVO_SUPERBLOCKER_RIGHT);
-        this.servoVertical = hardwareMap.servo.get(Config.SERVO_SUPERBLOCKER_VERTICAL);
+        //noinspection AssignmentToNull
+        this.servoVertical = null;//hardwareMap.servo.get(Config.SERVO_SUPERBLOCKER_VERTICAL);
+        motorVertical = hardwareMap.dcMotor.get(Config.MOTOR_SUPERBLOCKER_VERTICAL);
+        motorVertical.setMode(DcMotorController.RunMode.RUN_TO_POSITION);
+        encoderPosition = motorVertical.getCurrentPosition();
+        motorVertical.setTargetPosition(encoderPosition);
 
         moveVertical(Direction.DOWN);
     }
-
 
     public void moveVertical(Direction direction) {
         Log.i(TAG, "Moving vertical to " + direction);
@@ -91,6 +98,17 @@ public class SuperBlocker {
             servoLeft.setPosition(LEFT_MID);
             servoRight.setPosition(RIGHT_MID);
             horizontalPosition = Direction.MID;
+        }
+    }
+
+    public void moveMotorVertical(Direction direction) {
+        switch (direction) {
+            case UP:
+                break;
+            case DOWN:
+                break;
+            default:
+                throw new IllegalArgumentException("Direction must be UP or DOWN!");
         }
     }
 }
