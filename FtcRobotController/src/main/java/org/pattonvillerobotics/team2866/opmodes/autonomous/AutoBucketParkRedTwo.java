@@ -1,6 +1,5 @@
 package org.pattonvillerobotics.team2866.opmodes.autonomous;
 
-
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.pattonvillerobotics.team2866.opmodes.CommonAutonomous;
@@ -16,6 +15,10 @@ import org.pattonvillerobotics.team2866.robotclasses.controllables.ZipRelease;
  * Created by skeltonn on 11/20/15.
  * <p/>
  * TODO: Measure and write OpMode
+ *
+ *
+ *
+ *
  */
 @OpMode("Red Park 2")
 public class AutoBucketParkRedTwo extends LinearOpMode {
@@ -26,7 +29,7 @@ public class AutoBucketParkRedTwo extends LinearOpMode {
         ClimberDumper climberDumper = new ClimberDumper(hardwareMap);
         ClimbAssist climbAssist = new ClimbAssist(hardwareMap);
         ZipRelease zipRelease = new ZipRelease(hardwareMap);
-        SuperBlocker blocker = new SuperBlocker(hardwareMap);
+        SuperBlocker blocker = new SuperBlocker(hardwareMap, this);
 
         waitForStart();
 
@@ -34,9 +37,13 @@ public class AutoBucketParkRedTwo extends LinearOpMode {
         blocker.setPosition(Direction.UP);
 
         CommonAutonomous.leavePositionTwo(drive);
-        drive.rotateDegrees(Direction.LEFT, 45, 0.75); //Make sure this goes at a 45˚ angle!
+        drive.sleep(1000);
+        drive.rotateDegrees(Direction.LEFT, 51, 0.5); //Make sure this goes at a 45˚ angle!
+        drive.sleep(1000);
         CommonAutonomous.secondPositionTravel(drive, blocker);
-        drive.rotateDegrees(Direction.LEFT, 45, 0.75);
+        drive.sleep(1000);
+        drive.rotateDegrees(Direction.LEFT, 51, 0.5);
+        drive.sleep(1000);
         CommonAutonomous.dumpClimber(drive, climberDumper);
         drive.stopDriveMotors();
     }
