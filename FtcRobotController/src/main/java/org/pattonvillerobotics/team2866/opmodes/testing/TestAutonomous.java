@@ -26,7 +26,7 @@ public class TestAutonomous extends LinearOpMode {
         ClimberDumper climberDumper = new ClimberDumper(hardwareMap);
         ClimbAssist climbAssist = new ClimbAssist(hardwareMap);
         ZipRelease zipRelease = new ZipRelease(hardwareMap);
-        SuperBlocker superBlocker = new SuperBlocker(hardwareMap);
+        SuperBlocker superBlocker = new SuperBlocker(hardwareMap, this);
 
         waitForStart();
 

@@ -24,7 +24,7 @@ public class AutoBucketMountainRedOne extends LinearOpMode {
         ClimberDumper climberDumper = new ClimberDumper(hardwareMap);
         ClimbAssist climbAssist = new ClimbAssist(hardwareMap);
         ZipRelease zipRelease = new ZipRelease(hardwareMap);
-        SuperBlocker blocker = new SuperBlocker(hardwareMap);
+        SuperBlocker blocker = new SuperBlocker(hardwareMap, this);
 
         waitForStart();
 

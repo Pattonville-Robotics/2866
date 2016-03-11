@@ -1,7 +1,10 @@
 package org.pattonvillerobotics.team2866.robotclasses.controllables;
 
+import android.media.MediaPlayer;
 import android.util.Log;
 
+import com.qualcomm.ftcrobotcontroller.MyApplication;
+import com.qualcomm.ftcrobotcontroller.R;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
@@ -20,11 +23,11 @@ import org.pattonvillerobotics.team2866.robotclasses.Direction;
 public class Drive {
 
     @SuppressWarnings("MagicNumber")
-    public static final double WHEEL_DIAMETER = 215 / 100d; // New tread adjustment
+    public static final double WHEEL_DIAMETER = 220 / 100d; // New tread adjustment
     public static final double WHEEL_CIRCUMFERENCE = Math.PI * WHEEL_DIAMETER;
     public static final double TICKS_PER_REVOLUTION = 1440;
     public static final double INCHES_PER_TICK = WHEEL_CIRCUMFERENCE / TICKS_PER_REVOLUTION;
-    public static final double WHEEL_BASE_DIAMETER = 20;
+    public static final double WHEEL_BASE_DIAMETER = 18.3;
     public static final double WHEEL_BASE_CIRCUMFERENCE = Math.PI * WHEEL_BASE_DIAMETER;
     public static final int DEGREES_PER_REVOLUTION = 360;
     public static final double INCHES_PER_DEGREE = WHEEL_BASE_CIRCUMFERENCE / DEGREES_PER_REVOLUTION;
@@ -39,6 +42,7 @@ public class Drive {
     public final DcMotor motorLeft, motorRight;
     public final MRGyroHelper gyro;
     private final LinearOpMode linearOpMode;
+    private final MediaPlayer player;
 
     public Drive(HardwareMap hardwareMap, LinearOpMode linearOpMode) {
         this.linearOpMode = linearOpMode;
@@ -62,6 +66,10 @@ public class Drive {
         this.linearOpMode.telemetry.addData(TAG, "Drive class instantiated " + numInstantiations + " times so far!");
         //noinspection AssignmentToStaticFieldFromInstanceMethod
         numInstantiations++;
+
+        player = MediaPlayer.create(MyApplication.getAppContext(), R.raw.tiger);
+        player.seekTo(0);
+        player.start();
     }
 
     public void sleep(long milliseconds) {
@@ -85,7 +93,7 @@ public class Drive {
         int startPositionLeft = motorLeft.getCurrentPosition();
         int startPositionRight = motorRight.getCurrentPosition();
 
-        Log.i(TAG, "Straight Move... Left motor start: " + startPositionLeft + " Right motor start: " + startPositionRight);
+        Log.d(TAG, "Straight Move... Left motor start: " + startPositionLeft + " Right motor start: " + startPositionRight);
 
         this.waitOneFullHardwareCycle();
 
@@ -143,10 +151,10 @@ public class Drive {
 
         int currentError = Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft);
 
-        Log.i(TAG, "Started encoder move...");
+        Log.d(TAG, "Started encoder move...");
         while (this.linearOpMode.opModeIsActive() && currentError > Config.ENCODER_MOVEMENT_TOLERANCE) {
             this.waitOneFullHardwareCycle();
-            Log.i(TAG, "Current distance left: " + (motorLeft.getCurrentPosition() - targetPositionLeft));
+            Log.d(TAG, "Current distance left: " + (motorLeft.getCurrentPosition() - targetPositionLeft));
 
             motorLeft.setPower(errorScale(leftPowerAdjust(power), currentError));
             motorRight.setPower(errorScale(rightPowerAdjust(power), currentError));
@@ -178,7 +186,7 @@ public class Drive {
 
                 previous_error = angleDelta;
 
-                Log.i(TAG, "Int. Z Value: " + gyro.getIntegratedZValue() + " Total Error: " + totalError + " Derivative Error: " + (angleDelta - previous_error));
+                Log.d(TAG, "Int. Z Value: " + gyro.getIntegratedZValue() + " Total Error: " + totalError + " Derivative Error: " + (angleDelta - previous_error));
             } else {
                 //int distanceLeft = targetPositionLeft - motorLeft.getCurrentPosition();
                 //int distanceRight = targetPositionRight - motorRight.getCurrentPosition();
@@ -192,7 +200,7 @@ public class Drive {
             }
             */
         }
-        Log.i(TAG, "Finished encoder move...");
+        Log.d(TAG, "Finished encoder move...");
 
         this.waitOneFullHardwareCycle();
 
@@ -260,7 +268,7 @@ public class Drive {
         int startPositionLeft = motorLeft.getCurrentPosition();
         int startPositionRight = motorRight.getCurrentPosition();
 
-        Log.i(TAG, "Rotation... Left motor start: " + startPositionLeft + " Right motor start: " + startPositionRight);
+        Log.d(TAG, "Rotation... Left motor start: " + startPositionLeft + " Right motor start: " + startPositionRight);
 
         int deltaPositionLeft;
         int deltaPositionRight;
@@ -292,7 +300,7 @@ public class Drive {
                 throw new IllegalArgumentException("Direction must be LEFT or RIGHT!");
         }
 
-        Log.i(TAG, "Rotation target left: " + targetPositionLeft + " Rotation target right: " + targetPositionRight);
+        Log.d(TAG, "Rotation target left: " + targetPositionLeft + " Rotation target right: " + targetPositionRight);
 
         this.waitOneFullHardwareCycle();
 
@@ -311,19 +319,19 @@ public class Drive {
 
         this.waitOneFullHardwareCycle();
 
-        Log.i(TAG, "Started encoder rotate...");
+        Log.d(TAG, "Started encoder rotate...");
         int currentError = (direction == Direction.LEFT) ? Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) : Math.abs(motorRight.getCurrentPosition() - targetPositionRight);
 
         while (currentError > Config.ENCODER_MOVEMENT_TOLERANCE) {
             this.waitOneFullHardwareCycle();
-            Log.i(TAG, "Current Error: " + currentError);
+            Log.d(TAG, "Current Error: " + currentError);
 
             motorLeft.setPower(errorScale(leftPowerAdjust(powerLeft), currentError));
             motorRight.setPower(errorScale(rightPowerAdjust(powerRight), currentError));
 
             currentError = direction == Direction.LEFT ? Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) : Math.abs(motorRight.getCurrentPosition() - targetPositionRight);
         }
-        Log.i(TAG, "Finished encoder rotate...");
+        Log.d(TAG, "Finished encoder rotate...");
 
         waitOneFullHardwareCycle();
 
