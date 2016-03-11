@@ -68,7 +68,7 @@ public class Drive {
         numInstantiations++;
 
         player = MediaPlayer.create(MyApplication.getAppContext(), R.raw.tiger);
-        player.seekTo(0);
+        player.seekTo(4000);
         player.start();
     }
 
@@ -320,7 +320,7 @@ public class Drive {
         this.waitOneFullHardwareCycle();
 
         Log.d(TAG, "Started encoder rotate...");
-        int currentError = (direction == Direction.LEFT) ? Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) : Math.abs(motorRight.getCurrentPosition() - targetPositionRight);
+        int currentError = Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft);//(direction == Direction.LEFT) ? Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) : Math.abs(motorRight.getCurrentPosition() - targetPositionRight);
 
         while (currentError > Config.ENCODER_MOVEMENT_TOLERANCE) {
             this.waitOneFullHardwareCycle();
@@ -329,7 +329,7 @@ public class Drive {
             motorLeft.setPower(errorScale(leftPowerAdjust(powerLeft), currentError));
             motorRight.setPower(errorScale(rightPowerAdjust(powerRight), currentError));
 
-            currentError = direction == Direction.LEFT ? Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) : Math.abs(motorRight.getCurrentPosition() - targetPositionRight);
+            currentError = Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft);//direction == Direction.LEFT ? Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft) : Math.abs(motorRight.getCurrentPosition() - targetPositionRight);
         }
         Log.d(TAG, "Finished encoder rotate...");
 

@@ -38,11 +38,11 @@ public class AutoBucketParkRedTwo extends LinearOpMode {
 
         CommonAutonomous.leavePositionTwo(drive);
         drive.sleep(1000);
-        drive.rotateDegrees(Direction.LEFT, 51, 0.5); //Make sure this goes at a 45˚ angle!
+        drive.rotateDegrees(Direction.LEFT, 45, 0.5); //Make sure this goes at a 45˚ angle!
         drive.sleep(1000);
         CommonAutonomous.secondPositionTravel(drive, blocker);
         drive.sleep(1000);
-        drive.rotateDegrees(Direction.LEFT, 51, 0.5);
+        drive.rotateDegrees(Direction.LEFT, 45, 0.5);
         drive.sleep(1000);
         CommonAutonomous.dumpClimber(drive, climberDumper);
         drive.stopDriveMotors();
