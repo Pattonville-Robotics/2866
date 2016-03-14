@@ -1,7 +1,8 @@
 <?xml version='1.0' encoding='UTF-8' standalone='yes' ?>
 <Robot>
-    <DeviceInterfaceModule name="Device Interface Module 1" serialNumber="AL00VE5Y">
-        <Gyro name="sensor_gyro" port="0"/>
+    <DeviceInterfaceModule name="Device Interface Module" serialNumber="AL00VDT3">
+        <Gyro name="gyro_1" port="0"/>
+        <Gyro name="gyro_2" port="1"/>
     </DeviceInterfaceModule>
     <MotorController name="Motor Controller Chain" serialNumber="AL00VTFM">
         <Motor name="motor_chain" port="1"/>
@@ -10,18 +11,19 @@
         <Motor name="motor_drive_left" port="1"/>
         <Motor name="motor_lift_left" port="2"/>
     </MotorController>
-    <MotorController name="Motor Controller 3" serialNumber="AL00UWHE">
-        <Motor name="motor_arm_left" port="1"/>
-        <Motor name="motor_arm_right" port="2"/>
+    <MotorController name="Motor Controller Arm" serialNumber="AL00UWHE">
+        <Motor name="motor_arm_lift" port="1"/>
+        <Motor name="motor_arm_retract" port="2"/>
     </MotorController>
-    <ServoController name="Servo Controller 4" serialNumber="AI02QTME">
-        <Servo name="servo_dumper" port="1"/>
-        <Servo name="servo_release_left" port="2"/>
-        <Servo name="servo_release_right" port="3"/>
-        <Servo name="servo_blocker_left" port="4"/>
-        <Servo name="servo_blocker_right" port="5"/>
+    <ServoController name="Servo Controller" serialNumber="AI02QTME">
+        <Servo name="release_left" port="1"/>
+        <Servo name="superblocker_vertical" port="2"/>
+        <Servo name="superblocker_left" port="3"/>
+        <Servo name="dumper" port="4"/>
+        <Servo name="superblocker_right" port="5"/>
+        <Servo name="release_right" port="6"/>
     </ServoController>
-    <MotorController name="Motor Controller 5" serialNumber="AH00QIKP">
+    <MotorController name="Motor Controller Drive Right" serialNumber="AH00QIKP">
         <Motor name="motor_drive_right" port="1"/>
         <Motor name="motor_lift_right" port="2"/>
     </MotorController>
