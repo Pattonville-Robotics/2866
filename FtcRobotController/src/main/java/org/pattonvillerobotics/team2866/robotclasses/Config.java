@@ -17,17 +17,17 @@ public final class Config {
 
     public static final String MOTOR_CHAIN = "motor_chain";
 
-    public static final String SERVO_DUMPER = "servo_dumper";
+    public static final String SERVO_DUMPER = "dumper";
 
-    public static final String SERVO_RELEASE_LEFT = "servo_release_left";
-    public static final String SERVO_RELEASE_RIGHT = "servo_release_right";
+    public static final String SERVO_RELEASE_LEFT = "release_left";
+    public static final String SERVO_RELEASE_RIGHT = "release_right";
 
-    public static final String SENSOR_GYRO_1 = "sensor_gyro_1";
-    public static final String SENSOR_GYRO_2 = "sensor_gyro_2";
+    public static final String SENSOR_GYRO_1 = "gyro_1";
+    public static final String SENSOR_GYRO_2 = "gyro_2";
 
-    public static final String SERVO_SUPERBLOCKER_LEFT = "servo_superblocker_left";
-    public static final String SERVO_SUPERBLOCKER_RIGHT = "servo_superblocker_right";
-    public static final String SERVO_SUPERBLOCKER_VERTICAL = "servo_superblocker_vertical";
+    public static final String SERVO_SUPERBLOCKER_LEFT = "superblocker_left";
+    public static final String SERVO_SUPERBLOCKER_RIGHT = "superblocker_right";
+    public static final String SERVO_SUPERBLOCKER_VERTICAL = "superblocker_vertical";
 
     public static final String MOTOR_SUPERBLOCKER_VERTICAL = "motor_superblocker_vertical";
 
