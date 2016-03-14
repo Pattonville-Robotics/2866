@@ -39,7 +39,7 @@ public class Drive {
 	public final DcMotor motorLeft, motorRight;
 	public final MRGyroHelper gyro;
 	public final DoubleGyroHelper doubleGyroHelper;
-	private final LinearOpMode linearOpMode;
+	public final LinearOpMode linearOpMode;
 
 	public Drive(HardwareMap hardwareMap, LinearOpMode linearOpMode) {
 		this.linearOpMode = linearOpMode;
@@ -209,11 +209,11 @@ public class Drive {
 		return inches / INCHES_PER_TICK;
 	}
 
-	private double leftPowerAdjust(double power) {
+	public double leftPowerAdjust(double power) {
 		return Range.clip(power * 1, 0, 1);
 	}
 
-	private double rightPowerAdjust(double power) {
+	public double rightPowerAdjust(double power) {
 		return Range.clip(power * 1, 0, 1);
 	}
 
