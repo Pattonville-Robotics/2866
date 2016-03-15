@@ -89,20 +89,18 @@ public class TestDrive extends Drive {
 
             double currentHeading = doubleGyroHelper.getHeading();
 
-            if((targetHeading + currentHeading)/2 < 10) {
+            if ((targetHeading + currentHeading) / 2 < 10) {
 
-                if(currentHeading > targetHeading) {
+                if (currentHeading > targetHeading) {
                     currentHeading -= 360;
-                }
-                else if(currentHeading < targetHeading) {
+                } else if (currentHeading < targetHeading) {
                     currentHeading += 360;
                 }
             }
 
-            if(currentHeading > targetHeading) {
+            if (currentHeading > targetHeading) {
                 adjustmentScaler--;
-            }
-            else if(currentHeading < targetHeading) {
+            } else if (currentHeading < targetHeading) {
                 adjustmentScaler++;
             }
 
@@ -145,11 +143,11 @@ public class TestDrive extends Drive {
         motorLeft.setPower(motorLeftPower);
         motorRight.setPower(motorRightPower);
 
-        switch(direction) {
+        switch (direction) {
 
             case LEFT:
 
-                if(degrees < doubleGyroHelper.getHeading()) {
+                if (degrees < doubleGyroHelper.getHeading()) {
 
                     while (doubleGyroHelper.getHeading() < 359) {
                         linearOpMode.telemetry.addData(TAG, "Current Heading: " + doubleGyroHelper.getHeading());
@@ -157,14 +155,14 @@ public class TestDrive extends Drive {
                     }
                 }
 
-                while(doubleGyroHelper.getHeading() > degrees) {
+                while (doubleGyroHelper.getHeading() > degrees) {
                     linearOpMode.telemetry.addData(TAG, "Current Heading: " + doubleGyroHelper.getHeading());
                     sleep(100);
                 }
                 break;
             case RIGHT:
 
-                if(degrees > doubleGyroHelper.getHeading()) {
+                if (degrees > doubleGyroHelper.getHeading()) {
 
                     while (doubleGyroHelper.getHeading() > 1) {
                         linearOpMode.telemetry.addData(TAG, "Current Heading: " + doubleGyroHelper.getHeading());
@@ -172,7 +170,7 @@ public class TestDrive extends Drive {
                     }
                 }
 
-                while(doubleGyroHelper.getHeading() < degrees) {
+                while (doubleGyroHelper.getHeading() < degrees) {
                     linearOpMode.telemetry.addData(TAG, "Current Heading: " + doubleGyroHelper.getHeading());
                     sleep(100);
                 }
