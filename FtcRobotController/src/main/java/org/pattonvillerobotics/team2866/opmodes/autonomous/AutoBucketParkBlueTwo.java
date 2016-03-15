@@ -1,9 +1,5 @@
 package org.pattonvillerobotics.team2866.opmodes.autonomous;
 
-import android.media.MediaPlayer;
-
-import com.qualcomm.ftcrobotcontroller.MyApplication;
-import com.qualcomm.ftcrobotcontroller.R;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.pattonvillerobotics.team2866.opmodes.CommonAutonomous;
@@ -35,9 +31,9 @@ public class AutoBucketParkBlueTwo extends LinearOpMode {
         ZipRelease zipRelease = new ZipRelease(hardwareMap);
         SuperBlocker blocker = new SuperBlocker(hardwareMap, this);
 
-	    MediaPlayer player = MediaPlayer.create(MyApplication.getAppContext(), R.raw.tiger);
-	    player.seekTo(7500);
-	    player.start();
+        //MediaPlayer player = MediaPlayer.create(MyApplication.getAppContext(), R.raw.tiger);
+        //player.seekTo(7500);
+        //player.start();
 
         waitForStart();
 
