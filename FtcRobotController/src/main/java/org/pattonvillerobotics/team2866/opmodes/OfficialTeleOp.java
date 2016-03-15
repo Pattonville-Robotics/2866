@@ -65,12 +65,12 @@ public class OfficialTeleOp extends LinearOpMode {
         climberDumper = new ClimberDumper(hardwareMap);
         //ModernRoboticsI2cGyro mrGyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get(Config.SENSOR_GYRO);
         //mrGyroHelper = new MRGyroHelper(mrGyro, this);
-        //doubleGyroHelper = new DoubleGyroHelper(hardwareMap);
+        doubleGyroHelper = new DoubleGyroHelper(hardwareMap);
         superBlocker = new SuperBlocker(hardwareMap, this);
         superArm = new SuperArm(hardwareMap);
 
         //mrGyroHelper.calibrateAndWait();
-        //doubleGyroHelper.calibrate();
+        doubleGyroHelper.calibrate();
 
         gamepad1.setJoystickDeadzone(Config.JOYSTICK_DEAD_ZONE);
         gamepad2.setJoystickDeadzone(Config.JOYSTICK_DEAD_ZONE);
@@ -118,7 +118,7 @@ public class OfficialTeleOp extends LinearOpMode {
                 superBlockerCurrentVerticalPosition--;
                 superBlockerCurrentVerticalPosition = (superBlockerCurrentVerticalPosition
                         + SUPERBLOCKER_POSITION_ORDER.length) % SUPERBLOCKER_POSITION_ORDER.length;
-                        // To make sure no negative numbers
+                // To make sure no negative numbers
 
                 superBlocker.moveVertical(SUPERBLOCKER_POSITION_ORDER[superBlockerCurrentVerticalPosition]);
             }
@@ -144,13 +144,15 @@ public class OfficialTeleOp extends LinearOpMode {
             // Gamepad 2
 
             if (gamepad2DataCurrent.b && !gamepad2DataHistory.b) {
+                CommonAutonomous.smoothClimberMovement(drive, climberDumper);
+                /*
                 if (climberDumperActivated) {
                     this.climberDumper.move(Direction.DOWN);
                     climberDumperActivated = false;
                 } else {
                     this.climberDumper.move(Direction.UP);
                     climberDumperActivated = true;
-                }
+                }*/
             }
 
             if (gamepad2DataCurrent.dpad_left && !gamepad2DataHistory.dpad_left) {
@@ -218,8 +220,8 @@ public class OfficialTeleOp extends LinearOpMode {
 
     private void logSensors() {
         //logSensor(mrGyroHelper.gyro, "MR Gyro");
-        //logSensor(doubleGyroHelper.gyro1, "Gyro 1");
-        //logSensor(doubleGyroHelper.gyro2, "Gyro 2");
+        logSensor(doubleGyroHelper.gyro1, "Gyro 1");
+        logSensor(doubleGyroHelper.gyro2, "Gyro 2");
     }
 
     private void logMotor(DcMotor motor, String name) {
