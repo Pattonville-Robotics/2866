@@ -78,7 +78,7 @@ public class TestDrive extends Drive {
         double targetHeading = doubleGyroHelper.getHeading();
 
         int adjustmentScaler = 0;
-        double adjustment = .05;
+        double adjustment = .01;
 
         Log.d(TAG, "Started encoder move...");
         while (this.linearOpMode.opModeIsActive() && currentError > Config.ENCODER_MOVEMENT_TOLERANCE) {
@@ -87,18 +87,23 @@ public class TestDrive extends Drive {
 
             Log.d(TAG, "Current distance remaining: \t" + (motorLeft.getCurrentPosition() - targetPositionLeft));
 
-            if(doubleGyroHelper.getHeading() > targetHeading && (targetHeading + doubleGyroHelper.getHeading())/2 < 5) {
+            double currentHeading = doubleGyroHelper.getHeading();
+
+            if((targetHeading + currentHeading)/2 < 10) {
+
+                if(currentHeading > targetHeading) {
+                    currentHeading -= 360;
+                }
+                else if(currentHeading < targetHeading) {
+                    currentHeading += 360;
+                }
+            }
+
+            if(currentHeading > targetHeading) {
                 adjustmentScaler--;
             }
-            else if(doubleGyroHelper.getHeading() < targetHeading && (targetHeading + doubleGyroHelper.getHeading())/2 < 5) {
+            else if(currentHeading < targetHeading) {
                 adjustmentScaler++;
-            }
-            else {
-                if (doubleGyroHelper.getHeading() > 359) {
-                    adjustmentScaler++;
-                } else {
-                    adjustmentScaler--;
-                }
             }
 
             motorLeft.setPower(Range.clip(leftPowerAdjust(power) + (adjustment * adjustmentScaler), -1, 1));
@@ -137,14 +142,14 @@ public class TestDrive extends Drive {
             }
         }
 
+        motorLeft.setPower(motorLeftPower);
+        motorRight.setPower(motorRightPower);
+
         switch(direction) {
 
             case LEFT:
 
                 if(degrees < doubleGyroHelper.getHeading()) {
-
-                    motorLeft.setPower(motorLeftPower);
-                    motorRight.setPower(motorRightPower);
 
                     while (doubleGyroHelper.getHeading() < 359) {
                         linearOpMode.telemetry.addData(TAG, "Current Heading: " + doubleGyroHelper.getHeading());
@@ -160,9 +165,6 @@ public class TestDrive extends Drive {
             case RIGHT:
 
                 if(degrees > doubleGyroHelper.getHeading()) {
-
-                    motorLeft.setPower(motorLeftPower);
-                    motorRight.setPower(motorRightPower);
 
                     while (doubleGyroHelper.getHeading() > 1) {
                         linearOpMode.telemetry.addData(TAG, "Current Heading: " + doubleGyroHelper.getHeading());
