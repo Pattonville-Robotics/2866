@@ -13,9 +13,6 @@ import org.pattonvillerobotics.team2866.robotclasses.controllables.ZipRelease;
 
 /**
  * Created by Kevin Stewart & James McMahon on 10/15/15.
- * <p/>
- * TODO: Walk through values
- * TODO: Initialize servo values
  */
 @OpMode("Blue Park 2")
 public class AutoBucketParkBlueTwo extends LinearOpMode {
@@ -48,7 +45,16 @@ public class AutoBucketParkBlueTwo extends LinearOpMode {
         drive.sleep(1000);
         drive.rotateDegrees(Direction.RIGHT, 45, 0.5);
         drive.sleep(1000);
+
         CommonAutonomous.dumpClimber(drive, climberDumper);
+/*
+        drive.moveInches(Direction.FORWARDS, 36, .75);
+        drive.sleep(1000);
+        drive.rotateDegrees(Direction.LEFT, 90, 0.5);
+        drive.sleep(1000);
+        drive.moveInches(Direction.FORWARDS, 24, .75);
+        drive.sleep(1000);
+        */
         drive.stopDriveMotors();
     }
 }

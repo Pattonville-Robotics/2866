@@ -33,6 +33,8 @@ public class AutoBucketParkRedThree extends LinearOpMode {
         blocker.moveVertical(Direction.MID);
         blocker.setPosition(Direction.UP);
 
+        drive.sleep(10 * 1000);
+
         CommonAutonomous.leavePositionThree(drive);
         drive.rotateDegrees(Direction.LEFT, 45, 0.5); //Make sure this goes at a 45˚ angle!
         CommonAutonomous.secondPositionTravel(drive, blocker);

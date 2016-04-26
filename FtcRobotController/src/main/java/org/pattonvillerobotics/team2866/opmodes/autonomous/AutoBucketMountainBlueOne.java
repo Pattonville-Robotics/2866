@@ -32,14 +32,21 @@ public class AutoBucketMountainBlueOne extends LinearOpMode {
         blocker.moveVertical(Direction.MID);
         blocker.setPosition(Direction.UP);
 
+        drive.sleep(10000);
+
         CommonAutonomous.leavePositionOne(drive);
+        drive.moveInches(Direction.BACKWARDS, 18, .75);
+
         drive.rotateDegrees(Direction.RIGHT, 45, 0.5);
-        CommonAutonomous.dumpClimber(drive, climberDumper);
+        drive.moveInches(Direction.BACKWARDS, 18, .75);
+        //CommonAutonomous.dumpClimber(drive, climberDumper);
+        /*
         CommonAutonomous.dumperReturn(drive);
         drive.rotateDegrees(Direction.LEFT, 45, 0.4);
         CommonAutonomous.mountainTravel(drive);
         drive.rotateDegrees(Direction.LEFT, 90, 0.4);
         CommonAutonomous.mountainAscend(drive);
+        */
         //climbAssist.moveChain(1);
         //climbAssist.moveChain(0);
         drive.stopDriveMotors();

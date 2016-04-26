@@ -39,8 +39,6 @@ public class SuperBlocker {
 
 
     public SuperBlocker(HardwareMap hardwareMap, LinearOpMode linearOpMode) throws InterruptedException {
-        this.servoLeft = hardwareMap.servo.get(Config.SERVO_SUPERBLOCKER_LEFT);
-        this.servoRight = hardwareMap.servo.get(Config.SERVO_SUPERBLOCKER_RIGHT);
         //noinspection AssignmentToNull
         this.servoVertical = null;//hardwareMap.servo.get(Config.SERVO_SUPERBLOCKER_VERTICAL);
 
@@ -54,34 +52,13 @@ public class SuperBlocker {
         motorVertical.setPower(1);
         linearOpMode.waitOneFullHardwareCycle();
 
+        this.servoLeft = hardwareMap.servo.get(Config.SERVO_SUPERBLOCKER_LEFT);
+        this.servoRight = hardwareMap.servo.get(Config.SERVO_SUPERBLOCKER_RIGHT);
+
+        setPosition(Direction.MID);
+        linearOpMode.waitOneFullHardwareCycle();
         moveVertical(Direction.DOWN);
         linearOpMode.waitOneFullHardwareCycle();
-    }
-
-    public void moveVertical(Direction direction) {
-        Log.d(TAG, "Moving vertical to " + direction);
-        verticalPostiiton = direction;
-        switch (direction) {
-            case UP:
-                motorVertical.setTargetPosition(encoderStartPosition + encoderHighDelta);
-                //servoVertical.setPosition(VERTICAL_UP);
-
-                setPosition(Direction.MID);
-                break;
-            case MID:
-                motorVertical.setTargetPosition(encoderStartPosition + encoderMidDelta);
-                //servoVertical.setPosition(VERTICAL_MID);
-                break;
-            case DOWN:
-                motorVertical.setTargetPosition(encoderStartPosition);
-                //servoVertical.setPosition(VERTICAL_DOWN);
-
-                setPosition(Direction.MID);
-                break;
-            default:
-                throw new IllegalArgumentException("Direction must be UP, DOWN, MID!");
-
-        }
     }
 
     public void setPosition(Direction direction) {
@@ -108,6 +85,32 @@ public class SuperBlocker {
             servoLeft.setPosition(LEFT_MID);
             servoRight.setPosition(RIGHT_MID);
             horizontalPosition = Direction.MID;
+        }
+    }
+
+    public void moveVertical(Direction direction) {
+        Log.d(TAG, "Moving vertical to " + direction);
+        verticalPostiiton = direction;
+        switch (direction) {
+            case UP:
+                motorVertical.setTargetPosition(encoderStartPosition + encoderHighDelta);
+                //servoVertical.setPosition(VERTICAL_UP);
+
+                setPosition(Direction.MID);
+                break;
+            case MID:
+                motorVertical.setTargetPosition(encoderStartPosition + encoderMidDelta);
+                //servoVertical.setPosition(VERTICAL_MID);
+                break;
+            case DOWN:
+                motorVertical.setTargetPosition(encoderStartPosition);
+                //servoVertical.setPosition(VERTICAL_DOWN);
+
+                setPosition(Direction.MID);
+                break;
+            default:
+                throw new IllegalArgumentException("Direction must be UP, DOWN, MID!");
+
         }
     }
 }
