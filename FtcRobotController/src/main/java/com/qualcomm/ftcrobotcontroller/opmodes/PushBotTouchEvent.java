@@ -4,6 +4,7 @@ package com.qualcomm.ftcrobotcontroller.opmodes;
 //
 // PushBotTouchEvent
 //
+
 /**
  * Provide a basic autonomous operational mode that demonstrates the use of an
  * touch sensor to control the arm using a state machine for the Push Bot.
@@ -18,12 +19,13 @@ public class PushBotTouchEvent extends PushBotTelemetrySensors
     //
     // PushBotTouchEvent
     //
+
     /**
      * Construct the class.
-     *
+     * <p/>
      * The system calls this member when the class is instantiated.
      */
-    public PushBotTouchEvent ()
+    public PushBotTouchEvent()
 
     {
         //
@@ -42,12 +44,14 @@ public class PushBotTouchEvent extends PushBotTelemetrySensors
     //
     // loop
     //
+
     /**
      * Implement a state machine that controls the robot during auto-operation.
-     *
+     * <p/>
      * The system calls this member repeatedly while the OpMode is running.
      */
-    @Override public void loop ()
+    @Override
+    public void loop()
 
     {
         //
@@ -60,23 +64,21 @@ public class PushBotTouchEvent extends PushBotTelemetrySensors
         // If a touch sensor has been detected, then set the power level to
         // zero.
         //
-        if (is_touch_sensor_pressed ())
-        {
-            set_drive_power (0.0, 0.0);
+        if (is_touch_sensor_pressed()) {
+            set_drive_power(0.0, 0.0);
         }
         //
         // Else a white line has not been detected, so set the power level to
         // full forward.
         //
-        else
-        {
-            set_drive_power (1.0, 1.0);
+        else {
+            set_drive_power(1.0, 1.0);
         }
 
         //
         // Send telemetry data to the driver station.
         //
-        update_telemetry (); // Update common telemetry
+        update_telemetry(); // Update common telemetry
 
     } // loop
 
