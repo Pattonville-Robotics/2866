@@ -29,14 +29,21 @@ public class AutoBucketParkBlueThree extends LinearOpMode {
 
         waitForStart();
 
+        drive.sleep(8000);
+
         blocker.moveVertical(Direction.MID);
         blocker.setPosition(Direction.UP);
 
         CommonAutonomous.leavePositionThree(drive);
         drive.rotateDegrees(Direction.RIGHT, 45, 0.5); //Make sure this goes at a 45˚ angle!
+
+        drive.moveInches(Direction.BACKWARDS, 50, .75);
+
+        /*
         CommonAutonomous.secondPositionTravel(drive, blocker);
         drive.rotateDegrees(Direction.RIGHT, 45, 0.5);
         CommonAutonomous.dumpClimber(drive, climberDumper);
         drive.stopDriveMotors();
+        */
     }
 }

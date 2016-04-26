@@ -156,7 +156,7 @@ public class Drive {
             Log.d(TAG, "Current gyro heading: \t" + doubleGyroHelper.getHeading());
             Log.d(TAG, "Current gyro Z value: \t" + doubleGyroHelper.getIntegratedZValue());
 
-            currentTargetDistance = Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft);
+            //currentTargetDistance = Math.abs(motorLeft.getCurrentPosition() - targetPositionLeft);
 
             switch (sensorMode) {
                 case ENCODERS:

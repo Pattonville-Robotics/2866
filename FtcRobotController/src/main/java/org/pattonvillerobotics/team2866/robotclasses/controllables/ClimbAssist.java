@@ -23,6 +23,7 @@ public class ClimbAssist {
         this.motorChain = hardwareMap.dcMotor.get(Config.MOTOR_CHAIN);
 
         motorLiftRight.setDirection(DcMotor.Direction.REVERSE);
+        motorChain.setDirection(DcMotor.Direction.REVERSE);
     }
 
     @Override

@@ -5,7 +5,6 @@ import android.util.Log;
 import com.qualcomm.hardware.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
-import com.qualcomm.robotcore.hardware.HardwareDevice;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
@@ -60,13 +59,13 @@ public class OfficialTeleOp extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
 
         drive = new Drive(hardwareMap, this);
+        superBlocker = new SuperBlocker(hardwareMap, this);
         climbAssist = new ClimbAssist(hardwareMap);
         zipRelease = new ZipRelease(hardwareMap);
         climberDumper = new ClimberDumper(hardwareMap);
         //ModernRoboticsI2cGyro mrGyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get(Config.SENSOR_GYRO);
         //mrGyroHelper = new MRGyroHelper(mrGyro, this);
         doubleGyroHelper = new DoubleGyroHelper(hardwareMap);
-        superBlocker = new SuperBlocker(hardwareMap, this);
         superArm = new SuperArm(hardwareMap);
 
         //mrGyroHelper.calibrateAndWait();
@@ -92,9 +91,8 @@ public class OfficialTeleOp extends LinearOpMode {
             }
 
             if (climbModeActivated) {
-
-                drive.moveFreely(-gamepad1DataCurrent.left_stick_y, -gamepad1DataCurrent.left_stick_y);
-                climbAssist.moveChain(scaleChainPower(gamepad1DataCurrent.left_stick_y));
+                drive.moveFreely(gamepad1DataCurrent.left_stick_y, gamepad1DataCurrent.left_stick_y);
+                climbAssist.moveChain(scaleChainPower(gamepad1DataCurrent.right_stick_y));
             } else {
                 drive.moveFreely(gamepad1DataCurrent.right_stick_y, gamepad1DataCurrent.left_stick_y);
             }
@@ -144,6 +142,7 @@ public class OfficialTeleOp extends LinearOpMode {
             // Gamepad 2
 
             if (gamepad2DataCurrent.b && !gamepad2DataHistory.b) {
+                drive.stopDriveMotors();
                 CommonAutonomous.smoothClimberMovement(drive, climberDumper);
                 /*
                 if (climberDumperActivated) {
@@ -201,7 +200,7 @@ public class OfficialTeleOp extends LinearOpMode {
     }
 
     private double scaleChainPower(double power) {
-        return Range.clip(power * .75, -1, 1);
+        return Range.clip(power, -1, 1);
     }
 
     private void logMotors() {
@@ -222,6 +221,7 @@ public class OfficialTeleOp extends LinearOpMode {
         //logSensor(mrGyroHelper.gyro, "MR Gyro");
         logSensor(doubleGyroHelper.gyro1, "Gyro 1");
         logSensor(doubleGyroHelper.gyro2, "Gyro 2");
+        logSensor(doubleGyroHelper, "Double Gyro");
     }
 
     private void logMotor(DcMotor motor, String name) {
@@ -232,19 +232,21 @@ public class OfficialTeleOp extends LinearOpMode {
         logServoData(String.format("%-20s Pos (% 04f)", name + ":", servo.getPosition()));
     }
 
+    private void logSensor(Object sensor, String name) {
+        if (sensor instanceof ModernRoboticsI2cGyro)
+            logSensorData(String.format("%-20s Rotation (% 07d)", name + ":", ((ModernRoboticsI2cGyro) sensor).getIntegratedZValue()));
+        else if (sensor instanceof DoubleGyroHelper)
+            logSensorData(String.format("%-20s Rotation (% 07.20f)", name + ":", ((DoubleGyroHelper) sensor).getIntegratedZValue()));
+        else
+            Log.e("SENSORERROR", "Sensor not supported: " + sensor.getClass().getSimpleName());
+    }
+
     private void logMotorData(Object msg) {
         Log.d("MOTORDATA", msg.toString());
     }
 
     private void logServoData(Object msg) {
         Log.d("SERVODATA", msg.toString());
-    }
-
-    private void logSensor(HardwareDevice sensor, String name) {
-        if (sensor instanceof ModernRoboticsI2cGyro)
-            logSensorData(String.format("%-20s Rotation (% 07d)", name + ":", ((ModernRoboticsI2cGyro) sensor).getIntegratedZValue()));
-        else
-            Log.e("SENSORERROR", "Sensor not supported: " + sensor.getClass().getSimpleName());
     }
 
     private void logSensorData(Object msg) {

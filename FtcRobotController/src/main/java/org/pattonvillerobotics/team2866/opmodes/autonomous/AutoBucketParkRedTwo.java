@@ -15,10 +15,6 @@ import org.pattonvillerobotics.team2866.robotclasses.controllables.ZipRelease;
  * Created by skeltonn on 11/20/15.
  * <p/>
  * TODO: Measure and write OpMode
- *
- *
- *
- *
  */
 @OpMode("Red Park 2")
 public class AutoBucketParkRedTwo extends LinearOpMode {
@@ -45,6 +41,11 @@ public class AutoBucketParkRedTwo extends LinearOpMode {
         drive.rotateDegrees(Direction.LEFT, 45, 0.5);
         drive.sleep(1000);
         CommonAutonomous.dumpClimber(drive, climberDumper);
+
+        drive.moveInches(Direction.FORWARDS, 12, .75);
+        drive.rotateDegrees(Direction.RIGHT, 90, .5);
+        drive.moveInches(Direction.BACKWARDS, 24, .75);
+
         drive.stopDriveMotors();
     }
 }
