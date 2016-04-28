@@ -1,4 +1,3 @@
 // FTC Apps
-include(':FtcRobotController')
-include(':FtcRobotLibrary')
-project(':FtcRobotLibrary').projectDir = new File('~/AndroidStudioProjects/Common-Code/FtcRobotController')
+include ':FtcRobotController'//, ':FtcRobotLibrary'
+//project(':FtcRobotLibrary').projectDir = new File('~/AndroidStudioProjects/Common-Code/FtcRobotController')
