@@ -35,7 +35,7 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeManager;
 import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 
 import org.atteo.classindex.ClassIndex;
-import org.pattonvillerobotics.team2866.robotclasses.OpMode;
+import org.pattonvillerobotics.commoncode.OpMode;
 
 import java.util.ArrayList;
 import java.util.Collections;

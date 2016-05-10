@@ -1,7 +1,9 @@
 package org.pattonvillerobotics.team2866.opmodes.testing;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
+
+import org.pattonvillerobotics.commoncode.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
-import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.SuperBlocker;
@@ -12,7 +14,7 @@ import org.pattonvillerobotics.team2866.robotclasses.controllables.ZipRelease;
  * Created by skeltonn on 3/13/16.
  */
 @OpMode("GetHeading Autonomous")
-public class GetHeadingAutonomous extends LinearOpMode{
+public class GetHeadingAutonomous extends LinearOpMode {
 
     public static final String TAG = "TestAutonomous";
 
