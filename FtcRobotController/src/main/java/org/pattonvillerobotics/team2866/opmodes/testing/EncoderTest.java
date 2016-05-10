@@ -6,7 +6,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorController;
 
-import org.pattonvillerobotics.team2866.robotclasses.OpMode;
+import org.pattonvillerobotics.commoncode.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.Drive;
 
 /**

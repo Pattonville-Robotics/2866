@@ -8,10 +8,10 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 import com.qualcomm.robotcore.util.Range;
 
+import org.pattonvillerobotics.commoncode.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.Config;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
 import org.pattonvillerobotics.team2866.robotclasses.GamepadData;
-import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.DoubleGyroHelper;

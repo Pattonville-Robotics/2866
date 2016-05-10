@@ -2,8 +2,8 @@ package org.pattonvillerobotics.team2866.opmodes.testing;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
+import org.pattonvillerobotics.commoncode.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.Direction;
-import org.pattonvillerobotics.team2866.robotclasses.OpMode;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimbAssist;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.ClimberDumper;
 import org.pattonvillerobotics.team2866.robotclasses.controllables.Drive;

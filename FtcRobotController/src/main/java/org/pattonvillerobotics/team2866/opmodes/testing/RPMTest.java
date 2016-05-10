@@ -6,7 +6,7 @@ import android.os.Environment;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
-import org.pattonvillerobotics.team2866.robotclasses.OpMode;
+import org.pattonvillerobotics.commoncode.OpMode;
 
 import java.io.BufferedOutputStream;
 import java.io.File;
