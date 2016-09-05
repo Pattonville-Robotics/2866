@@ -59,7 +59,7 @@ dependencies {
     compile 'com.android.support:support-fragment:24.2.0'
     compile 'com.android.support:appcompat-v7:24.2.0'
     compile 'org.atteo.classindex:classindex:3.4'
-    compile project(':CommonCode')
+    compile project(':Common-Code')
 
 }
 
