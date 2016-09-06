@@ -37,6 +37,8 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 
 import org.atteo.classindex.ClassFilter;
 import org.atteo.classindex.ClassIndex;
+import org.pattonvillerobotics.SimpleTeleop;
+import org.pattonvillerobotics.opmodes.AutoRegisteredOpMode;
 
 /**
  * Register Op Modes
@@ -76,6 +78,8 @@ public class FtcOpModeRegister implements OpModeRegister {
                 value = klass.getSimpleName();
             manager.register(value, klass);
         }
+
+        manager.register("T", SimpleTeleop.class);
 
 
 

@@ -16,7 +16,7 @@ android {
         targetSdkVersion 19
     }
     compileSdkVersion 24
-    buildToolsVersion '23.0.3'
+    buildToolsVersion '24.0.2'
 }
 
 buildscript {
