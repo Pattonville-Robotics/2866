@@ -37,8 +37,6 @@ import com.qualcomm.robotcore.eventloop.opmode.OpModeRegister;
 
 import org.atteo.classindex.ClassFilter;
 import org.atteo.classindex.ClassIndex;
-import org.pattonvillerobotics.SimpleTeleop;
-import org.pattonvillerobotics.TestAutonomous;
 import org.pattonvillerobotics.opmodes.AutoRegisteredOpMode;
 
 /**
