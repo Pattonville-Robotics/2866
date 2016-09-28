@@ -4,22 +4,19 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.pattonvillerobotics.commoncode.enums.Direction;
+import org.pattonvillerobotics.commoncode.robotclasses.AbstractComplexDrive;
 import org.pattonvillerobotics.commoncode.robotclasses.EncoderDrive;
-import org.pattonvillerobotics.commoncode.robotclasses.RobotParameters;
+import org.pattonvillerobotics.opmodes.CustomizedRobotParameters;
 
-@Autonomous(name = "Simple Autonomous", group = "Generic OpModes")
+@Autonomous(name = "Testing Autonomous", group = "Generic OpModes")
 public class TestAutonomous extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
+        AbstractComplexDrive drive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
 
-        EncoderDrive drive = new EncoderDrive(hardwareMap, this, new RobotParameters.Builder().build());
+        waitForStart();
 
-        for (int i = 0; i < 4; i++) {
-            drive.move(Direction.FORWARD, .5);
-            sleep(1000);
-            drive.turn(Direction.LEFT, .5);
-            sleep(1000);
-        }
+        drive.moveInches(Direction.FORWARD, 100, 1);
     }
 }
