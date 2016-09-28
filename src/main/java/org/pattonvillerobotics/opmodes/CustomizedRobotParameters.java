@@ -1,6 +1,6 @@
 package org.pattonvillerobotics.opmodes;
 
-import org.pattonvillerobotics.commoncode.robotclasses.RobotParameters;
+import org.pattonvillerobotics.commoncode.robotclasses.drive.RobotParameters;
 
 /**
  * Created by skaggsm on 9/27/16.

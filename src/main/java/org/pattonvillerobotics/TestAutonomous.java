@@ -4,8 +4,8 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.pattonvillerobotics.commoncode.enums.Direction;
-import org.pattonvillerobotics.commoncode.robotclasses.AbstractComplexDrive;
-import org.pattonvillerobotics.commoncode.robotclasses.EncoderDrive;
+import org.pattonvillerobotics.commoncode.robotclasses.drive.AbstractComplexDrive;
+import org.pattonvillerobotics.commoncode.robotclasses.drive.EncoderDrive;
 import org.pattonvillerobotics.opmodes.CustomizedRobotParameters;
 
 @Autonomous(name = "Testing Autonomous", group = "Generic OpModes")
