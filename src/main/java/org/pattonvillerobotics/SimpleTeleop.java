@@ -9,7 +9,7 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 /**
  * Created by skaggsm on 9/6/16.
  */
-@TeleOp(name = "Simple Teleop", group = "Generic OpModes")
+@TeleOp(name = "Simple Teleop", group = "Generic OpM=odes")
 public class SimpleTeleop extends LinearOpMode {
     private static final String TAG = "SimpleTeleop";
 
