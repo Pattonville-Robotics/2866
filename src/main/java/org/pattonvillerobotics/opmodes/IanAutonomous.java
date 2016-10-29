@@ -19,7 +19,6 @@ public class IanAutonomous extends LinearOpMode{
         waitForStart();
 
         drive.moveInches(Direction.FORWARD, 28, .2);
-        drive.wait(500);
         drive.rotateDegrees(Direction.LEFT, 120, .2);
     }
 
