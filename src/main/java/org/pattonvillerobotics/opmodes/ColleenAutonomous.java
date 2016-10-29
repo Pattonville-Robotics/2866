@@ -17,57 +17,28 @@ public class ColleenAutonomous extends LinearOpMode {
         AbstractComplexDrive drive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
         waitForStart();
         drive.moveInches(Direction.FORWARD, 5, .60);
-        drive.wait(5000);
         drive.rotateDegrees(Direction.RIGHT, 60, .80);
-        drive.wait(5000);
         drive.moveInches(Direction.FORWARD, 5, .60);
-        drive.wait(5000);
         drive.rotateDegrees(Direction.RIGHT, 60, .80);
-        drive.wait(5000);
         drive.moveInches(Direction.FORWARD, 5, .60);
-        drive.wait(5000);
         drive.rotateDegrees(Direction.RIGHT, 60, .80);
-        drive.wait(5000);
         drive.moveInches(Direction.FORWARD, 5, .60);
-        drive.wait(5000);
         drive.rotateDegrees(Direction.RIGHT, 60, .80);
-        drive.wait(5000);
         drive.moveInches(Direction.FORWARD, 10, .60);
-        drive.wait(5000);
         drive.rotateDegrees(Direction.RIGHT, 90, .80);
-        drive.wait(5000);
         drive.moveInches(Direction.FORWARD, 10, .60);
-        drive.wait(5000);
         drive.rotateDegrees(Direction.RIGHT, 90, .80);
-        drive.wait(5000);
         drive.moveInches(Direction.FORWARD, 10, .60);
-        drive.wait(5000);
         drive.rotateDegrees(Direction.RIGHT, 90, .80);
-        drive.wait(5000);
         drive.moveInches(Direction.FORWARD, 10, .60);
-        drive.wait(5000);
         drive.rotateDegrees(Direction.RIGHT, 90, .80);
-        drive.wait(5000);
         drive.moveInches(Direction.FORWARD, 15, .60);
-        drive.wait(5000);
         drive.rotateDegrees(Direction.RIGHT, 120, .80);
-        drive.wait(5000);
         drive.moveInches(Direction.FORWARD, 15, .60);
-        drive.wait(5000);
         drive.rotateDegrees(Direction.RIGHT, 120, .80);
-        drive.wait(5000);
         drive.moveInches(Direction.FORWARD, 15, .60);
-        drive.wait(5000);
         drive.rotateDegrees(Direction.RIGHT, 120, .80);
-        drive.wait(5000);
         drive.moveInches(Direction.FORWARD, 15, .60);
-        drive.wait(5000);
         drive.rotateDegrees(Direction.RIGHT, 120, .80);
-        drive.wait(5000);
-
-
-
-
-
     }
 }
