@@ -19,10 +19,15 @@ public class KevinAutonomous extends LinearOpMode {
 
         waitForStart();
 
-        drive.moveInches(Direction.FORWARD, 10, 1);
-        drive.rotateDegrees(Direction.LEFT, 360, 1);
-        drive.moveInches(Direction.FORWARD, 10, 1);
-        drive.rotateDegrees(Direction.RIGHT, 360, 1);
-        drive.moveInches(Direction.FORWARD, 10, 1);
+        drive.moveInches(Direction.FORWARD, 10, .2);
+        drive.rotateDegrees(Direction.LEFT, 90, .2);
+        drive.moveInches(Direction.FORWARD, 10, .2);
+        drive.rotateDegrees(Direction.RIGHT, 45, .2);
+        drive.moveInches(Direction.FORWARD, 10, .2);
+        drive.rotateDegrees(Direction.RIGHT, 135, .2);
+        drive.moveInches(Direction.FORWARD, 15, .2);
+        drive.rotateDegrees(Direction.RIGHT, 90, .2);
+        drive.moveInches(Direction.FORWARD, 25, .2);
+
     }
 }
