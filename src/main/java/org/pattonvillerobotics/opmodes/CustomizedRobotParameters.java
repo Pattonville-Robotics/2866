@@ -16,7 +16,7 @@ public class CustomizedRobotParameters {
                 .encodersEnabled(true)
                 .gyroEnabled(false)
                 .driveGearRatio(92 / 42d)
-                .wheelBaseRadius(8.2702702703)
+                .wheelBaseRadius(7.8306997409)
                 .wheelRadius(1.55719275)
                 .dcMotorMaxSpeed(RobotParameters.TICKS_PER_REVOLUTION * 2)
                 .rightDriveMotorDirection(DcMotorSimple.Direction.FORWARD)
