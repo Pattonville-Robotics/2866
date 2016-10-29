@@ -10,7 +10,7 @@ import org.pattonvillerobotics.commoncode.robotclasses.drive.EncoderDrive;
 /**
  * Created by tyarksc00 on 10/27/16.
  */
-@Autonomous(name = "ColleenAutonomous2", group = "Generic OpModes")
+@Autonomous(name = "Colleen's Blue Dumb Autonomous", group = "Generic OpModes")
 public class ColleenAutonomous2 extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
@@ -19,7 +19,6 @@ public class ColleenAutonomous2 extends LinearOpMode{
         waitForStart();
 
         drive.moveInches(Direction.FORWARD, 28, .2);
-        drive.wait(500);
         drive.rotateDegrees(Direction.RIGHT, 120, .2);
 
 
