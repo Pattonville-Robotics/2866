@@ -56,7 +56,7 @@ public class KalmanFilterTest extends LinearOpMode {
         encoderDrive.rotateDegrees(Direction.RIGHT, 90, .2);
         encoderDrive.moveInches(Direction.FORWARD, 24, .2);
 
-        kalmanFilterGuidance.stopThreads();
+        kalmanFilterGuidance.stop();
         printThread.interrupt();
     }
 }
