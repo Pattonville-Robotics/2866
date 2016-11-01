@@ -8,18 +8,21 @@ import org.pattonvillerobotics.commoncode.robotclasses.drive.AbstractComplexDriv
 import org.pattonvillerobotics.commoncode.robotclasses.drive.EncoderDrive;
 
 /**
- * Created by mckeowni on 10/29/16.
+ * Created by mckeowni on 11/1/16.
  */
-@Autonomous(name = "Ian's Red Dumb Autonomous", group = "Generic OpModes")
-public class IanAutonomous extends LinearOpMode {
+
+@Autonomous(name = "Ian's Red Dumb Autonomous 3", group = "Generic OpModes")
+public class IanAutonomous2 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
         AbstractComplexDrive drive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
 
         waitForStart();
 
-        drive.moveInches(Direction.FORWARD, 43, .2);
-        drive.rotateDegrees(Direction.LEFT, 120, .2);
+        drive.moveInches(Direction.FORWARD, 20, .2);
+        drive.rotateDegrees(Direction.LEFT, 45, .2);
+        drive.moveInches(Direction.FORWARD, 20, .2);
+        drive.rotateDegrees(Direction.LEFT, 90, .2);
+
     }
 }
-

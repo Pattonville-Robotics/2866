@@ -19,7 +19,10 @@ public class ColleenAutonomous2 extends LinearOpMode{
         waitForStart();
 
         drive.moveInches(Direction.FORWARD, 43, .2);
-        drive.rotateDegrees(Direction.RIGHT, 120, .2);
+        drive.rotateDegrees(Direction.RIGHT, 90, .2);
+        drive.moveInches(Direction.FORWARD, 10, .2);
+        drive.rotateDegrees(Direction.RIGHT, 45, .2);
+        drive.moveInches(Direction.FORWARD, 20, .2);
 
 
     }
