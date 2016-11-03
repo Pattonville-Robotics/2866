@@ -7,7 +7,6 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.apache.commons.math3.linear.RealVector;
-import org.pattonvillerobotics.commoncode.enums.Direction;
 import org.pattonvillerobotics.commoncode.opmodes.OpModeGroups;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.EncoderDrive;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.trailblazer.KalmanFilterGuidance;
@@ -52,9 +51,10 @@ public class KalmanFilterTest extends LinearOpMode {
         });
         printThread.start();
 
-        encoderDrive.moveInches(Direction.FORWARD, 24, .2);
-        encoderDrive.rotateDegrees(Direction.RIGHT, 90, .2);
-        encoderDrive.moveInches(Direction.FORWARD, 24, .2);
+        //encoderDrive.moveInches(Direction.FORWARD, 24, .2);
+        //encoderDrive.rotateDegrees(Direction.RIGHT, 90, .2);
+        //encoderDrive.moveInches(Direction.FORWARD, 24, .2);
+        Thread.sleep(30000);
 
         kalmanFilterGuidance.stop();
         printThread.interrupt();
