@@ -1,7 +1,5 @@
 package org.pattonvillerobotics.opmodes;
 
-import android.util.Log;
-
 import com.qualcomm.hardware.modernrobotics.ModernRoboticsI2cGyro;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -21,12 +19,18 @@ public class KalmanFilterTest extends LinearOpMode {
     public void runOpMode() throws InterruptedException {
         final EncoderDrive encoderDrive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
         final ModernRoboticsI2cGyro gyro = (ModernRoboticsI2cGyro) hardwareMap.gyroSensor.get("gyro");
-        gyro.calibrate();
-        while (gyro.isCalibrating())
-            idle();
-        final KalmanFilterGuidance kalmanFilterGuidance = new KalmanFilterGuidance(this, encoderDrive, gyro);
+        //gyro.calibrate();
+        //while (gyro.isCalibrating())
+        //    idle();
+        double sum = gyro.rawZ();
+        int count = 1;
+        long startTime = System.currentTimeMillis();
+        while (System.currentTimeMillis() - startTime < 4000) {
+            sum += gyro.rawZ();
+        }
+        final KalmanFilterGuidance kalmanFilterGuidance = new KalmanFilterGuidance(this, encoderDrive, gyro, CustomizedRobotParameters.VUFORIA_PARAMETERS, sum / count);
 
-        telemetry.addData("Lifecycle", "Initialization Complete");
+        telemetry.addData("Lifecycle", "Initialization Complete, calibrated gyro to " + (sum / count));
         telemetry.update();
 
         waitForStart();
@@ -39,7 +43,8 @@ public class KalmanFilterTest extends LinearOpMode {
                 while (!isStopRequested()) {
                     synchronized (kalmanFilterGuidance.kalmanFilter) {
                         RealVector currentState = kalmanFilterGuidance.getCurrentState();
-                        Log.e("Current Angle: ", currentState.getEntry(6) + " degrees\nCurrent X: " + currentState.getEntry(0) + " in\nCurrent Y: " + currentState.getEntry(1) + " in");
+                        telemetry.addData("Printout", "Current Angle: " + currentState.getEntry(6) + " degrees\nCurrent X: " + currentState.getEntry(0) + " in\nCurrent Y: " + currentState.getEntry(1) + " in");
+                        telemetry.update();
                     }
                     try {
                         Thread.sleep(5);
