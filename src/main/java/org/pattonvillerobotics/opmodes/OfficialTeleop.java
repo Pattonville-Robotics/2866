@@ -26,10 +26,11 @@ public class OfficialTeleop extends LinearOpMode {
         SimpleDrive drive = new SimpleDrive(this, hardwareMap);
         final BeaconPresser beaconPresser = new BeaconPresser(hardwareMap);
 
-        telemetry.setMsTransmissionInterval(16);
+        telemetry.setMsTransmissionInterval(33);
         final Telemetry.Item leftServo = telemetry.addData("Left Servo: ", "N/A").setRetained(true);
         final Telemetry.Item rightServo = telemetry.addData("Right Servo: ", "N/A").setRetained(true);
-        final Telemetry.Item motorPowers = telemetry.addData("Motor Powers: ", "N/A").setRetained(true);
+        final Telemetry.Item leftMotorPower = telemetry.addData("Left Motor Power: ", "N/A").setRetained(true);
+        final Telemetry.Item rightMotorPower = telemetry.addData("Right Motor Power: ", "N/A").setRetained(true);
 
         gamepad.getButton(GamepadData.Button.X)
                 .addListener(ListenableButton.ButtonState.JUST_PRESSED, new ListenableButton.ButtonListener() {
@@ -67,7 +68,8 @@ public class OfficialTeleop extends LinearOpMode {
         while (opModeIsActive()) {
             drive.moveFreely(-gamepad1.right_stick_y, -gamepad1.left_stick_y);
 
-            motorPowers.setValue("Left power: " + (-gamepad1.right_stick_y) + " Right power: " + (-gamepad1.left_stick_y));
+            leftMotorPower.setValue(-gamepad1.right_stick_y);
+            rightMotorPower.setValue(-gamepad1.left_stick_y);
 
             telemetry.update();
             gamepad.update(new GamepadData(gamepad1));
