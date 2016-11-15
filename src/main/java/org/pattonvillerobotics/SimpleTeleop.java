@@ -13,7 +13,7 @@ import org.pattonvillerobotics.commoncode.robotclasses.gamepad.ListenableGamepad
 /**
  * Created by skaggsm on 9/6/16.
  */
-@TeleOp(name = "Simple Teleop", group = OpModeGroups.MAIN)
+@TeleOp(name = "Simple Teleop", group = OpModeGroups.TESTING)
 public class SimpleTeleop extends LinearOpMode {
     private static final String TAG = "SimpleTeleop";
 

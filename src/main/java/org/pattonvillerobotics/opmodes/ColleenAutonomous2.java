@@ -4,13 +4,14 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.pattonvillerobotics.commoncode.enums.Direction;
+import org.pattonvillerobotics.commoncode.opmodes.OpModeGroups;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.AbstractComplexDrive;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.EncoderDrive;
 
 /**
  * Created by tyarksc00 on 10/27/16.
  */
-@Autonomous(name = "Colleen's Blue Dumb Autonomous", group = "Generic OpModes")
+@Autonomous(name = "Colleen's Blue Dumb Autonomous", group = OpModeGroups.TESTING)
 public class ColleenAutonomous2 extends LinearOpMode{
     @Override
     public void runOpMode() throws InterruptedException {
