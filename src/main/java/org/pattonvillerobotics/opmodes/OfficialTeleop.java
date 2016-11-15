@@ -66,10 +66,10 @@ public class OfficialTeleop extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            drive.moveFreely(-gamepad1.right_stick_y, -gamepad1.left_stick_y);
+            drive.moveFreely(gamepad1.left_stick_y, gamepad1.right_stick_y);
 
-            leftMotorPower.setValue(-gamepad1.right_stick_y);
-            rightMotorPower.setValue(-gamepad1.left_stick_y);
+            leftMotorPower.setValue(gamepad1.left_stick_y);
+            rightMotorPower.setValue(gamepad1.right_stick_y);
 
             telemetry.update();
             gamepad.update(new GamepadData(gamepad1));
