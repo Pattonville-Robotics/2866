@@ -8,8 +8,8 @@ import org.pattonvillerobotics.commoncode.robotclasses.drive.AbstractComplexDriv
 import org.pattonvillerobotics.commoncode.robotclasses.drive.GyroEncoderDrive;
 import org.pattonvillerobotics.opmodes.CustomizedRobotParameters;
 
-@Autonomous(name = "Testing Autonomous", group = "Generic OpModes")
-public class TestAutonomous extends LinearOpMode {
+@Autonomous(name = "100in Autonomous", group = "Generic OpModes")
+public class TestAutonomous100 extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -17,7 +17,7 @@ public class TestAutonomous extends LinearOpMode {
 
         waitForStart();
 
-        //drive.moveInches(Direction.FORWARD, 100, 0.5);
-        drive.rotateDegrees(Direction.RIGHT, 360, .5);
+        drive.moveInches(Direction.FORWARD, 100, 0.5);
+        //drive.rotateDegrees(Direction.RIGHT, 360, .5);
     }
 }

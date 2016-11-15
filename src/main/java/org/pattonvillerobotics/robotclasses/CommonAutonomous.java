@@ -11,12 +11,12 @@ import org.pattonvillerobotics.commoncode.robotclasses.drive.AbstractComplexDriv
  * Created by skaggsm on 11/15/16.
  */
 
-public final class CommonAutonomous {
+public final class CommonAutonomous { //TODO approach at angle
 
     public static final double
-            WALL_TO_BALL_DISTANCE = 60,
+            WALL_TO_BALL_DISTANCE = 50,
             TILE_SIZE = 22,
-            COS_45 = FastMath.cos(FastMath.toRadians(45));
+            COS_45_I = 1 / FastMath.cos(FastMath.toRadians(45));
 
     public static void tile1ToBall(AbstractComplexDrive drive, LinearOpMode linearOpMode, AllianceColor allianceColor) {
         tile1ToBall(drive, linearOpMode, allianceColor, 0L);
@@ -38,7 +38,7 @@ public final class CommonAutonomous {
             linearOpMode.sleep(delayMS);
 
         Direction direction1 = null, direction2 = null;
-        final double diagonalDistance = TILE_SIZE * COS_45, straightDistance = 5;
+        final double diagonalDistance = TILE_SIZE * COS_45_I, straightDistance = 5;
 
         switch (allianceColor) {
             case RED:
@@ -66,7 +66,7 @@ public final class CommonAutonomous {
             linearOpMode.sleep(delayMS);
 
         Direction direction1 = null, direction2 = null;
-        final double diagonalDistance = TILE_SIZE * 2 * COS_45, straightDistance = 5;
+        final double diagonalDistance = TILE_SIZE * 2 * COS_45_I, straightDistance = 5;
 
         switch (allianceColor) {
             case RED:

@@ -18,6 +18,7 @@ public final class WallToBallAutonomous {
         @Override
         public void runOpMode() throws InterruptedException {
             final EncoderDrive encoderDrive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
+            waitForStart();
             CommonAutonomous.tile1ToBall(encoderDrive, this, AllianceColor.RED);
         }
     }
@@ -27,7 +28,28 @@ public final class WallToBallAutonomous {
         @Override
         public void runOpMode() throws InterruptedException {
             final EncoderDrive encoderDrive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
+            waitForStart();
             CommonAutonomous.tile1ToBall(encoderDrive, this, AllianceColor.BLUE);
+        }
+    }
+
+    @Autonomous(name = "RED Tile 2 to Ball", group = OpModeGroups.MAIN)
+    public static final class RedTile2 extends LinearOpMode {
+        @Override
+        public void runOpMode() throws InterruptedException {
+            final EncoderDrive encoderDrive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
+            waitForStart();
+            CommonAutonomous.tile2ToBall(encoderDrive, this, AllianceColor.RED);
+        }
+    }
+
+    @Autonomous(name = "BLUE Tile 2 to Ball", group = OpModeGroups.MAIN)
+    public static final class BlueTile2 extends LinearOpMode {
+        @Override
+        public void runOpMode() throws InterruptedException {
+            final EncoderDrive encoderDrive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
+            waitForStart();
+            CommonAutonomous.tile2ToBall(encoderDrive, this, AllianceColor.BLUE);
         }
     }
 }
