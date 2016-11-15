@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.pattonvillerobotics.commoncode.enums.Direction;
+import org.pattonvillerobotics.commoncode.opmodes.OpModeGroups;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.AbstractComplexDrive;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.EncoderDrive;
 
@@ -11,7 +12,7 @@ import org.pattonvillerobotics.commoncode.robotclasses.drive.EncoderDrive;
  * Created by mckeowni on 11/1/16.
  */
 
-@Autonomous(name = "Ian's Red Dumb Autonomous 3", group = "Generic OpModes")
+@Autonomous(name = "Ian's Red Dumb Autonomous 3", group = OpModeGroups.TESTING)
 public class IanAutonomous3 extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
