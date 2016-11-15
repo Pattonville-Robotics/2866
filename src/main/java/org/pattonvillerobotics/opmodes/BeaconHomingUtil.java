@@ -10,7 +10,7 @@ import org.pattonvillerobotics.commoncode.robotclasses.drive.trailblazer.vuforia
  * Created by skaggsm on 11/12/16.
  */
 
-public class BeaconHomingUtil {
+public final class BeaconHomingUtil {
     public static void homeToBeacon(AllianceColor allianceColor, EncoderDrive encoderDrive, LinearOpMode linearOpMode, VuforiaNav vuforiaNav) {
     }
 }
