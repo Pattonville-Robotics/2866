@@ -1,8 +1,15 @@
 package org.pattonvillerobotics.robotclasses;
 
+import android.util.Log;
+
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.apache.commons.math3.util.FastMath;
+import org.firstinspires.ftc.robotcore.external.Telemetry;
+import org.firstinspires.ftc.robotcore.external.navigation.AngleUnit;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
+import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
+import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.pattonvillerobotics.commoncode.enums.AllianceColor;
 import org.pattonvillerobotics.commoncode.enums.Direction;
 import org.pattonvillerobotics.commoncode.robotclasses.colordetection.BeaconColorDetection;
@@ -10,6 +17,8 @@ import org.pattonvillerobotics.commoncode.robotclasses.drive.AbstractComplexDriv
 import org.pattonvillerobotics.commoncode.robotclasses.drive.trailblazer.vuforia.VuforiaNav;
 import org.pattonvillerobotics.commoncode.vision.ftc.resq.Beacon;
 import org.pattonvillerobotics.commoncode.vision.util.ScreenOrientation;
+
+import java.util.Arrays;
 
 /**
  * Created by skaggsm on 11/15/16.
@@ -45,44 +54,72 @@ public final class CommonAutonomous {
                 break;
         }
 
-        drive.moveInches(Direction.FORWARD, 6, .5);
+        drive.moveInches(Direction.FORWARD, 22, .5);
         drive.rotateDegrees(direction1, 45, 0.25);
-        drive.moveInches(Direction.FORWARD, 56, .5);
+        drive.moveInches(Direction.FORWARD, COS_45_I * 22, .5);
         drive.rotateDegrees(direction2, 45, 0.25);
-        drive.moveInches(Direction.FORWARD, 10, .5);
+        //drive.moveInches(Direction.FORWARD, 10, .5);
 
         beaconPresser.setLeftServoUp();
         beaconPresser.setRightServoUp();
+        vuforiaNav.activate();
+
         linearOpMode.sleep(1000);
 
         beaconColorDetection.setAnalysisMethod(Beacon.AnalysisMethod.COMPLEX);
         Beacon.BeaconAnalysis beaconAnalysis = beaconColorDetection.analyzeFrame(vuforiaNav.getImage(), ScreenOrientation.PORTRAIT_REVERSE);
+        linearOpMode.telemetry.addData("Analysis", beaconAnalysis.toString()).setRetained(true);
+        linearOpMode.telemetry.update();
+
+        linearOpMode.sleep(1000);
 
         if ((beaconAnalysis.isLeftRed() && allianceColor == AllianceColor.RED) ||
-                (beaconAnalysis.isLeftBlue() && allianceColor == AllianceColor.BLUE))
+                (beaconAnalysis.isLeftBlue() && allianceColor == AllianceColor.BLUE)) {
+            linearOpMode.telemetry.addData("CA", "Lowering left arm").setRetained(true);
             beaconPresser.setLeftServoDown();
+        }
 
         if ((beaconAnalysis.isRightRed() && allianceColor == AllianceColor.RED) ||
-                (beaconAnalysis.isRightBlue() && allianceColor == AllianceColor.BLUE))
+                (beaconAnalysis.isRightBlue() && allianceColor == AllianceColor.BLUE)) {
+            linearOpMode.telemetry.addData("CA", "Lowering right arm").setRetained(true);
             beaconPresser.setRightServoDown();
+        }
+
+        linearOpMode.sleep(1000);
 
         float[] location;
-        final double approachSpeed = .25;
+        Telemetry.Item locationTelemetry = linearOpMode.telemetry.addData("Location", "N/A").setRetained(true);
+        Telemetry.Item powerTelemetry = linearOpMode.telemetry.addData("Power", "N/A").setRetained(true);
+        linearOpMode.telemetry.update();
+        final double approachSpeed = .1;
 
         while (linearOpMode.opModeIsActive()) {
             vuforiaNav.getNearestBeaconLocation();
             location = vuforiaNav.getLocation();
+            locationTelemetry.setValue(Arrays.toString(location));
 
-            double distanceX = location[0] / VuforiaNav.MM_PER_INCH, distanceY = location[1] / VuforiaNav.MM_PER_INCH;
+            double distanceToBeacon = location[1] / VuforiaNav.MM_PER_INCH, distanceFromCenter = location[0] / VuforiaNav.MM_PER_INCH;
 
-            if (distanceX < 6)
+            if (FastMath.abs(distanceToBeacon) < 4.25)
                 break;
 
-            double multiplier = distanceX * (distanceY / 400);
+            Orientation orientation = Orientation.getOrientation(vuforiaNav.getLastLocation(), AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
 
-            drive.moveFreely(approachSpeed * (1 + multiplier), approachSpeed * (1 - multiplier));
+            double correction = (distanceFromCenter / 25) + (orientation.thirdAngle / 90);
+            Log.e("ANGLE", "Angle: " + orientation.thirdAngle);
+
+            double leftPower = approachSpeed + correction;
+            double rightPower = approachSpeed - correction;
+
+            powerTelemetry.setValue("Left: " + leftPower + " Right: " + rightPower);
+
+            drive.moveFreely(leftPower, rightPower);
+            linearOpMode.telemetry.update();
         }
         drive.stop();
+        vuforiaNav.deactivate();
+
+        linearOpMode.sleep(3000);
     }
 
     public static void tile1ToBall(AbstractComplexDrive drive, LinearOpMode linearOpMode, AllianceColor allianceColor) {
