@@ -50,8 +50,9 @@ public final class CommonAutonomous {
         drive.rotateDegrees(direction2, 45, 0.25);
         drive.moveInches(Direction.FORWARD, 10, .5);
 
-        float[] location;
-        final double approachSpeed = .25;
+        beaconPresser.setLeftServoUp();
+        beaconPresser.setRightServoUp();
+        linearOpMode.sleep(1000);
 
         beaconColorDetection.setAnalysisMethod(Beacon.AnalysisMethod.COMPLEX);
         Beacon.BeaconAnalysis beaconAnalysis = beaconColorDetection.analyzeFrame(vuforiaNav.getImage());
@@ -63,6 +64,9 @@ public final class CommonAutonomous {
         if ((beaconAnalysis.isRightRed() && allianceColor == AllianceColor.RED) ||
                 (beaconAnalysis.isRightBlue() && allianceColor == AllianceColor.BLUE))
             beaconPresser.setRightServoDown();
+
+        float[] location;
+        final double approachSpeed = .25;
 
         while (linearOpMode.opModeIsActive()) {
             vuforiaNav.getNearestBeaconLocation();
