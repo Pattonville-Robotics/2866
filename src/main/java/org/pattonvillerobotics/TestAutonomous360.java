@@ -9,8 +9,12 @@ import org.pattonvillerobotics.commoncode.robotclasses.drive.AbstractComplexDriv
 import org.pattonvillerobotics.commoncode.robotclasses.drive.EncoderDrive;
 import org.pattonvillerobotics.opmodes.CustomizedRobotParameters;
 
-@Autonomous(name = "100in Autonomous", group = OpModeGroups.TESTING)
-public class TestAutonomous100 extends LinearOpMode {
+/**
+ * Created by skaggsm on 11/17/16.
+ */
+
+@Autonomous(name = "360deg Autonomous", group = OpModeGroups.TESTING)
+public class TestAutonomous360 extends LinearOpMode {
 
     @Override
     public void runOpMode() throws InterruptedException {
@@ -18,6 +22,6 @@ public class TestAutonomous100 extends LinearOpMode {
 
         waitForStart();
 
-        drive.moveInches(Direction.FORWARD, 100, 0.5);
+        drive.rotateDegrees(Direction.RIGHT, 360, .25);
     }
 }
