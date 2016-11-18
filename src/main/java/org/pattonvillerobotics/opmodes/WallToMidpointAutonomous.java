@@ -21,4 +21,6 @@ public class WallToMidpointAutonomous {
             final EncoderDrive encoderDrive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
             waitForStart();
             CommonAutonomous.tile1ToMidpoint(encoderDrive, this, AllianceColor.RED);
+        }
+    }
 }
