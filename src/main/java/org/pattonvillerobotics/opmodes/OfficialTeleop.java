@@ -39,10 +39,10 @@ public class OfficialTeleop extends LinearOpMode {
                         buttonXToggleOn = !buttonXToggleOn;
 
                         if (buttonXToggleOn) {
-                            beaconPresser.setLeftServoPosition(0);
+                            beaconPresser.setLeftServoDown();
                             leftServo.setValue("DOWN");
                         } else {
-                            beaconPresser.setLeftServoPosition(1);
+                            beaconPresser.setLeftServoUp();
                             leftServo.setValue("UP");
                         }
                     }
@@ -54,10 +54,10 @@ public class OfficialTeleop extends LinearOpMode {
                         buttonBToggleOn = !buttonBToggleOn;
 
                         if (buttonBToggleOn) {
-                            beaconPresser.setRightServoPosition(1);
+                            beaconPresser.setRightServoDown();
                             rightServo.setValue("DOWN");
                         } else {
-                            beaconPresser.setRightServoPosition(0);
+                            beaconPresser.setRightServoUp();
                             rightServo.setValue("UP");
                         }
                     }

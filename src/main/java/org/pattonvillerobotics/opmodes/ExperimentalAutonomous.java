@@ -28,4 +28,17 @@ public final class ExperimentalAutonomous {
             CommonAutonomous.tile1ToBeacon1(vuforiaNav, beaconColorDetection, beaconPresser, encoderDrive, this, AllianceColor.BLUE);
         }
     }
+
+    @Autonomous(name = "RED Tile 1 to Beacon 1", group = OpModeGroups.TESTING)
+    public static final class RedTile1 extends LinearOpMode {
+        @Override
+        public void runOpMode() throws InterruptedException {
+            final EncoderDrive encoderDrive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
+            VuforiaNav vuforiaNav = new VuforiaNav(CustomizedRobotParameters.VUFORIA_PARAMETERS);
+            BeaconColorDetection beaconColorDetection = new BeaconColorDetection(hardwareMap);
+            BeaconPresser beaconPresser = new BeaconPresser(hardwareMap);
+            waitForStart();
+            CommonAutonomous.tile1ToBeacon1(vuforiaNav, beaconColorDetection, beaconPresser, encoderDrive, this, AllianceColor.RED);
+        }
+    }
 }

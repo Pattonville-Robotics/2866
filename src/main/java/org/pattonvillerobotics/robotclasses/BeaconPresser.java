@@ -39,12 +39,12 @@ public class BeaconPresser {
     }
 
     public BeaconPresser setRightServoUp() {
-        setLeftServoPosition(1);
+        setLeftServoPosition(0);
         return this;
     }
 
     public BeaconPresser setRightServoDown() {
-        setLeftServoPosition(0);
+        setLeftServoPosition(1);
         return this;
     }
 }
