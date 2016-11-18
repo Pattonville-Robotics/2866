@@ -84,4 +84,33 @@ public final class CommonAutonomous { //TODO approach at angle
         drive.rotateDegrees(direction2, 45, .5);
         drive.moveInches(Direction.FORWARD, WALL_TO_BALL_DISTANCE - straightDistance - diagonalDistance, .5);
     }
+
+    public static void tile1ToMidpoint(AbstractComplexDrive drive, LinearOpMode linearOpMode, AllianceColor allianceColor) {
+        tile1ToMidpoint(drive, linearOpMode, allianceColor, 0L);
+    }
+
+    public static void tile1ToMidpoint(AbstractComplexDrive drive, LinearOpMode linearOpMode, AllianceColor allianceColor, long delayMS) {
+        if (delayMS > 0)
+            linearOpMode.sleep(delayMS);
+
+        Direction direction1 = null, direction2 = null;
+        final double diagonalDistance = TILE_SIZE * 2 * COS_45_I, straightDistance = 5;
+
+        switch (allianceColor) {
+            case RED:
+                direction1 = Direction.LEFT;
+                direction2 = Direction.RIGHT;
+                break;
+            case BLUE:
+                direction1 = Direction.RIGHT;
+                direction2 = Direction.LEFT;
+                break;
+        }
+
+        drive.moveInches(Direction.FORWARD, 10, .5);
+        drive.rotateDegrees(direction1, 45, .5);
+        drive.moveInches(Direction.FORWARD, 50, .5);
+        drive.rotateDegrees(direction2, 45, .5);
+        drive.moveInches(Direction.FORWARD, 10, .5);
+    }
 }
