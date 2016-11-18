@@ -24,4 +24,24 @@ public class BeaconPresser {
         rightServo.setPosition(position);
         return this;
     }
+
+    public BeaconPresser setLeftServoUp() {
+        setLeftServoPosition(0);
+        return this;
+    }
+
+    public BeaconPresser setLeftServoDown() {
+        setLeftServoPosition(1);
+        return this;
+    }
+
+    public BeaconPresser setRightServoUp() {
+        setLeftServoPosition(1);
+        return this;
+    }
+
+    public BeaconPresser setRightServoDown() {
+        setLeftServoPosition(0);
+        return this;
+    }
 }
