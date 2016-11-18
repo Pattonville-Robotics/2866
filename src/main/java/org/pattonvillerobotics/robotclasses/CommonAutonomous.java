@@ -9,6 +9,7 @@ import org.pattonvillerobotics.commoncode.robotclasses.colordetection.BeaconColo
 import org.pattonvillerobotics.commoncode.robotclasses.drive.AbstractComplexDrive;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.trailblazer.vuforia.VuforiaNav;
 import org.pattonvillerobotics.commoncode.vision.ftc.resq.Beacon;
+import org.pattonvillerobotics.commoncode.vision.util.ScreenOrientation;
 
 /**
  * Created by skaggsm on 11/15/16.
@@ -55,7 +56,7 @@ public final class CommonAutonomous {
         linearOpMode.sleep(1000);
 
         beaconColorDetection.setAnalysisMethod(Beacon.AnalysisMethod.COMPLEX);
-        Beacon.BeaconAnalysis beaconAnalysis = beaconColorDetection.analyzeFrame(vuforiaNav.getImage());
+        Beacon.BeaconAnalysis beaconAnalysis = beaconColorDetection.analyzeFrame(vuforiaNav.getImage(), ScreenOrientation.PORTRAIT_REVERSE);
 
         if ((beaconAnalysis.isLeftRed() && allianceColor == AllianceColor.RED) ||
                 (beaconAnalysis.isLeftBlue() && allianceColor == AllianceColor.BLUE))
