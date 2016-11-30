@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 import org.firstinspires.ftc.robotcore.external.navigation.AxesOrder;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
+import org.firstinspires.ftc.teamcode.R;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.RobotParameters;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.trailblazer.vuforia.VuforiaParameters;
 
@@ -21,9 +22,9 @@ public class CustomizedRobotParameters {
         ROBOT_PARAMETERS = new RobotParameters.Builder()
                 .encodersEnabled(true)
                 .gyroEnabled(false)
-                .driveGearRatio(92 / 42d)
+                .driveGearRatio(92 / 42d)//32 / 16d)
                 .wheelBaseRadius(8.5425815355)
-                .wheelRadius(1.526048895)
+                .wheelRadius(1.526048895)//1.7549562293)
                 .dcMotorMaxSpeed(RobotParameters.TICKS_PER_REVOLUTION * 2)
                 .rightDriveMotorDirection(DcMotorSimple.Direction.FORWARD)
                 .leftDriveMotorDirection(DcMotorSimple.Direction.REVERSE)
@@ -43,8 +44,8 @@ public class CustomizedRobotParameters {
                 .addBeaconLocation(0 * MM_PER_INCH, 0 * MM_PER_INCH, 0 * MM_PER_INCH, AxesOrder.XYZ, 90, 0, 0) //Tools
                 .addBeaconLocation(0 * MM_PER_INCH, 0 * MM_PER_INCH, 0 * MM_PER_INCH, AxesOrder.XYZ, 90, 0, 0) //Legos
                 .addBeaconLocation(0 * MM_PER_INCH, 0 * MM_PER_INCH, 0 * MM_PER_INCH, AxesOrder.XYZ, 90, 0, 0) //Gears
-                //.cameraMonitorViewId(R.id.cameraMonitorViewId)
-                .cameraMonitorViewId(0)
+                .cameraMonitorViewId(R.id.cameraMonitorViewId)
+                //.cameraMonitorViewId(0)
                 .build();
     }
 }
