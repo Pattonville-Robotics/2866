@@ -66,4 +66,6 @@ public final class ExperimentalAutonomous {
             waitForStart();
             CommonAutonomous.tile1ToBeacon1TEST(vuforiaNav, beaconColorDetection, beaconPresser, encoderDrive, this, AllianceColor.BLUE, 0L);
 
+        }
+    }
 }
