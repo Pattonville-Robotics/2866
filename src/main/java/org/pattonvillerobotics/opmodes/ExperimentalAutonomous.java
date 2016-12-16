@@ -16,16 +16,21 @@ import org.pattonvillerobotics.robotclasses.CommonAutonomous;
  */
 
 public final class ExperimentalAutonomous {
-    @Autonomous(name = "BLUE Tile 1 to Beacon 1", group = OpModeGroups.TESTING)
+    @Autonomous(name = "BLUE Tile 1 to Both Beacons", group = OpModeGroups.TESTING)
     public static final class BlueTile1 extends LinearOpMode {
         @Override
         public void runOpMode() throws InterruptedException {
-            final EncoderDrive encoderDrive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
+            final EncoderDrive drive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
             VuforiaNav vuforiaNav = new VuforiaNav(CustomizedRobotParameters.VUFORIA_PARAMETERS);
             BeaconColorDetection beaconColorDetection = new BeaconColorDetection(hardwareMap);
             BeaconPresser beaconPresser = new BeaconPresser(hardwareMap);
+
             waitForStart();
-            CommonAutonomous.tile1ToBeacon1(vuforiaNav, beaconColorDetection, beaconPresser, encoderDrive, this, AllianceColor.BLUE);
+
+            CommonAutonomous.tile1ToMidpoint(drive, this, AllianceColor.BLUE);
+            CommonAutonomous.approachBeacon(vuforiaNav, beaconColorDetection, beaconPresser, drive, this, AllianceColor.BLUE);
+            CommonAutonomous.midpointToBeacon2(drive, this, AllianceColor.BLUE);
+            CommonAutonomous.approachBeacon(vuforiaNav, beaconColorDetection, beaconPresser, drive, this, AllianceColor.BLUE);
         }
     }
 
@@ -33,12 +38,12 @@ public final class ExperimentalAutonomous {
     public static final class BlueTile1TEST extends LinearOpMode {
         @Override
         public void runOpMode() throws InterruptedException {
-            final EncoderDrive encoderDrive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
+            final EncoderDrive drive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
             VuforiaNav vuforiaNav = new VuforiaNav(CustomizedRobotParameters.VUFORIA_PARAMETERS);
             BeaconColorDetection beaconColorDetection = new BeaconColorDetection(hardwareMap);
             BeaconPresser beaconPresser = new BeaconPresser(hardwareMap);
             waitForStart();
-            CommonAutonomous.tile1ToBeacon1TEST(vuforiaNav, beaconColorDetection, beaconPresser, encoderDrive, this, AllianceColor.BLUE, 0L);
+            //CommonAutonomous.tile1ToBeacon1TEST(vuforiaNav, beaconColorDetection, beaconPresser, drive, this, AllianceColor.BLUE, 0L);
         }
     }
 
@@ -46,26 +51,16 @@ public final class ExperimentalAutonomous {
     public static final class RedTile1 extends LinearOpMode {
         @Override
         public void runOpMode() throws InterruptedException {
-            final EncoderDrive encoderDrive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
+            final EncoderDrive drive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
             VuforiaNav vuforiaNav = new VuforiaNav(CustomizedRobotParameters.VUFORIA_PARAMETERS);
             BeaconColorDetection beaconColorDetection = new BeaconColorDetection(hardwareMap);
             BeaconPresser beaconPresser = new BeaconPresser(hardwareMap);
             waitForStart();
-            CommonAutonomous.tile1ToBeacon1(vuforiaNav, beaconColorDetection, beaconPresser, encoderDrive, this, AllianceColor.RED);
-        }
-    }
 
-    @Autonomous(name = "BLUE Tile 1 to Beacon 1 and 2", group = OpModeGroups.TESTING)
-    public static final class tile1ToBeacon1and2 extends LinearOpMode {
-        @Override
-        public void runOpMode() throws InterruptedException {
-            final EncoderDrive encoderDrive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
-            VuforiaNav vuforiaNav = new VuforiaNav(CustomizedRobotParameters.VUFORIA_PARAMETERS);
-            BeaconColorDetection beaconColorDetection = new BeaconColorDetection(hardwareMap);
-            BeaconPresser beaconPresser = new BeaconPresser(hardwareMap);
-            waitForStart();
-            CommonAutonomous.tile1ToBeacon1TEST(vuforiaNav, beaconColorDetection, beaconPresser, encoderDrive, this, AllianceColor.BLUE, 0L);
-
+            CommonAutonomous.tile1ToMidpoint(drive, this, AllianceColor.RED);
+            CommonAutonomous.approachBeacon(vuforiaNav, beaconColorDetection, beaconPresser, drive, this, AllianceColor.RED);
+            CommonAutonomous.midpointToBeacon2(drive, this, AllianceColor.RED);
+            CommonAutonomous.approachBeacon(vuforiaNav, beaconColorDetection, beaconPresser, drive, this, AllianceColor.RED);
         }
     }
 }
