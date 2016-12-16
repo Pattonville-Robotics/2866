@@ -418,6 +418,8 @@ public final class CommonAutonomous {
         }
 
         drive.stop();
+
+        drive.moveInches(Direction.BACKWARD, 37, MOVE_SPEED);
     }
 
     public static void midpointToBeacon2(AbstractComplexDrive drive, LinearOpMode linearOpMode, AllianceColor allianceColor, long delayMS) {
