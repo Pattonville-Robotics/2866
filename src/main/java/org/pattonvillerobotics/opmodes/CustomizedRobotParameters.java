@@ -22,10 +22,10 @@ public class CustomizedRobotParameters {
         ROBOT_PARAMETERS = new RobotParameters.Builder()
                 .encodersEnabled(true)
                 .gyroEnabled(false)
-                .driveGearRatio(92 / 42d)//32 / 16d)
-                .wheelBaseRadius(8.5425815355)
+                .driveGearRatio(120 / 40d)//32 / 16d)
+                .wheelBaseRadius(6.4069361517)
                 .wheelRadius(1.526048895)//1.7549562293)
-                .dcMotorMaxSpeed(RobotParameters.TICKS_PER_REVOLUTION * 2)
+                .dcMotorMaxSpeed(RobotParameters.TICKS_PER_REVOLUTION)
                 .rightDriveMotorDirection(DcMotorSimple.Direction.FORWARD)
                 .leftDriveMotorDirection(DcMotorSimple.Direction.REVERSE)
                 .build();

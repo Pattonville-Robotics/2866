@@ -32,7 +32,7 @@ public final class CommonAutonomous {
             TILE_SIZE = 22,
             COS_45_I = 1 / FastMath.cos(FastMath.toRadians(45)),
             BACKUP_DISTANCE = 12,
-            ROBOT_CENTER_OFFSET = 9.5,
+            ROBOT_CENTER_OFFSET = 6.5,
             ROTATE_SPEED = .5,
             MOVE_SPEED = .5;
 
