@@ -32,6 +32,7 @@ public class OfficialTeleop extends LinearOpMode {
         ListenableGamepad gamepad = new ListenableGamepad();
         EncoderDrive drive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
         final BeaconPresser beaconPresser = new BeaconPresser(hardwareMap);
+        //final LinearSlides linearSlides = new LinearSlides(hardwareMap);
 
         VuforiaNav vuforiaNav = null;
         BeaconColorDetection beaconColorDetection = null;
