@@ -8,7 +8,7 @@ import com.qualcomm.robotcore.hardware.Servo;
  */
 
 public class BeaconPresser {
-    private Servo leftServo, rightServo;
+    private final Servo leftServo, rightServo;
 
     public BeaconPresser(HardwareMap hardwareMap) {
         leftServo = hardwareMap.servo.get("left_servo");
