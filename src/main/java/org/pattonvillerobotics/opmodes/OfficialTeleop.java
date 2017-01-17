@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 
 import org.firstinspires.ftc.robotcore.external.Telemetry;
 import org.pattonvillerobotics.commoncode.opmodes.OpModeGroups;
+import org.pattonvillerobotics.commoncode.robotclasses.BeaconColorSensor;
 import org.pattonvillerobotics.commoncode.robotclasses.colordetection.BeaconColorDetection;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.EncoderDrive;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.trailblazer.vuforia.VuforiaNav;
@@ -33,6 +34,7 @@ public class OfficialTeleop extends LinearOpMode {
         EncoderDrive drive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
         final BeaconPresser beaconPresser = new BeaconPresser(hardwareMap);
         //final LinearSlides linearSlides = new LinearSlides(hardwareMap);
+        final BeaconColorSensor beaconColorSensor = new BeaconColorSensor(hardwareMap.colorSensor.get("color_sensor"));
 
         VuforiaNav vuforiaNav = null;
         BeaconColorDetection beaconColorDetection = null;
@@ -47,6 +49,7 @@ public class OfficialTeleop extends LinearOpMode {
         final Telemetry.Item rightServo = telemetry.addData("Right Servo: ", "N/A").setRetained(true);
         final Telemetry.Item leftMotorPower = telemetry.addData("Left Motor Power: ", "N/A").setRetained(true);
         final Telemetry.Item rightMotorPower = telemetry.addData("Right Motor Power: ", "N/A").setRetained(true);
+        final Telemetry.Item colorResult = telemetry.addData("Color seen: ", "N/A").setRetained(true);
         Telemetry.Item vuforiaLocation = null;
         Telemetry.Item beaconColors = null;
         if (vuforiaEnabled) {
@@ -100,6 +103,7 @@ public class OfficialTeleop extends LinearOpMode {
                 Beacon.BeaconAnalysis beaconAnalysis = beaconColorDetection.analyzeFrame(vuforiaNav.getImage(), ScreenOrientation.PORTRAIT_REVERSE);
                 beaconColors.setValue(beaconAnalysis.toString());
             }
+            colorResult.setValue(beaconColorSensor.dominantColor());
 
             telemetry.update();
             gamepad.update(new GamepadData(gamepad1));
