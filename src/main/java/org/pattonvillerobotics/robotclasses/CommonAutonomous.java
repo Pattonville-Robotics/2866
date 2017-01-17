@@ -13,6 +13,7 @@ import org.firstinspires.ftc.robotcore.external.navigation.AxesReference;
 import org.firstinspires.ftc.robotcore.external.navigation.Orientation;
 import org.pattonvillerobotics.commoncode.enums.AllianceColor;
 import org.pattonvillerobotics.commoncode.enums.Direction;
+import org.pattonvillerobotics.commoncode.robotclasses.BeaconColorSensor;
 import org.pattonvillerobotics.commoncode.robotclasses.colordetection.BeaconColorDetection;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.AbstractComplexDrive;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.trailblazer.vuforia.VuforiaNav;
@@ -33,8 +34,8 @@ public final class CommonAutonomous {
             COS_45_I = 1 / FastMath.cos(FastMath.toRadians(45)),
             BACKUP_DISTANCE = 12,
             ROBOT_CENTER_OFFSET = 6.5,
-            ROTATE_SPEED = .5,
-            MOVE_SPEED = .5;
+            ROTATE_SPEED = .2,
+            MOVE_SPEED = .2;
 
     @Deprecated
     public static void tile1ToBeacon1(VuforiaNav vuforiaNav, BeaconColorDetection beaconColorDetection, BeaconPresser beaconPresser, AbstractComplexDrive drive, LinearOpMode linearOpMode, AllianceColor allianceColor) {
@@ -332,11 +333,11 @@ public final class CommonAutonomous {
         midpointToBeacon2(drive, linearOpMode, allianceColor, 0L);
     }
 
-    public static void approachBeacon(VuforiaNav vuforiaNav, BeaconColorDetection beaconColorDetection, BeaconPresser beaconPresser, AbstractComplexDrive drive, LinearOpMode linearOpMode, AllianceColor allianceColor) {
-        approachBeacon(vuforiaNav, beaconColorDetection, beaconPresser, drive, linearOpMode, allianceColor, 0);
+    public static void approachBeacon(VuforiaNav vuforiaNav, BeaconColorSensor beaconColorSensor, BeaconPresser beaconPresser, AbstractComplexDrive drive, LinearOpMode linearOpMode, AllianceColor allianceColor) {
+        approachBeacon(vuforiaNav, beaconColorSensor, beaconPresser, drive, linearOpMode, allianceColor, 0);
     }
 
-    public static void approachBeacon(VuforiaNav vuforiaNav, BeaconColorDetection beaconColorDetection, BeaconPresser beaconPresser, AbstractComplexDrive drive, LinearOpMode linearOpMode, AllianceColor allianceColor, long delayMS) {
+    public static void approachBeacon(VuforiaNav vuforiaNav, BeaconColorSensor beaconColorSensor, BeaconPresser beaconPresser, AbstractComplexDrive drive, LinearOpMode linearOpMode, AllianceColor allianceColor, long delayMS) {
         if (delayMS > 0)
             linearOpMode.sleep(delayMS);
 
@@ -349,23 +350,9 @@ public final class CommonAutonomous {
 
         //linearOpMode.sleep(1000);
 
-        beaconColorDetection.setAnalysisMethod(Beacon.AnalysisMethod.COMPLEX);
-        Beacon.BeaconAnalysis beaconAnalysis = beaconColorDetection.analyzeFrame(vuforiaNav.getImage(), ScreenOrientation.PORTRAIT_REVERSE);
         linearOpMode.telemetry.update();
 
         //linearOpMode.sleep(1000);
-
-        if ((beaconAnalysis.isLeftRed() && allianceColor == AllianceColor.RED) ||
-                (beaconAnalysis.isLeftBlue() && allianceColor == AllianceColor.BLUE)) {
-            linearOpMode.telemetry.addData("CA", "Lowering left arm").setRetained(true);
-            beaconPresser.setLeftServoDown();
-        }
-
-        if ((beaconAnalysis.isRightRed() && allianceColor == AllianceColor.RED) ||
-                (beaconAnalysis.isRightBlue() && allianceColor == AllianceColor.BLUE)) {
-            linearOpMode.telemetry.addData("CA", "Lowering right arm").setRetained(true);
-            beaconPresser.setRightServoDown();
-        }
 
         //linearOpMode.sleep(1000);
 
