@@ -1,17 +1,15 @@
 package org.pattonvillerobotics.opmodes;
 
-import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 
 import org.pattonvillerobotics.commoncode.enums.Direction;
-import org.pattonvillerobotics.commoncode.opmodes.OpModeGroups;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.AbstractComplexDrive;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.EncoderDrive;
 
 /**
  * Created by mckeowni on 10/29/16.
  */
-@Autonomous(name = "Ian's Red Dumb Autonomous", group = OpModeGroups.TESTING)
+//@Autonomous(name = "Ian's Red Dumb Autonomous", group = OpModeGroups.TESTING)
 public class IanAutonomous extends LinearOpMode {
     @Override
     public void runOpMode() throws InterruptedException {
