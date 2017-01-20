@@ -15,8 +15,8 @@ public class BeaconPresser {
         leftServo = hardwareMap.servo.get("left_servo");
         rightServo = hardwareMap.servo.get("right_servo");
 
-        setLeftServoUp();
-        setRightServoUp();
+        setLeftServoDown();
+        setRightServoDown();
     }
 
     public BeaconPresser setLeftServoPosition(double position) {
