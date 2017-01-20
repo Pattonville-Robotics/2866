@@ -33,9 +33,10 @@ public final class CommonAutonomous {
             TILE_SIZE = 22,
             COS_45_I = 1 / FastMath.cos(FastMath.toRadians(45)),
             BACKUP_DISTANCE = 12,
-            ROBOT_CENTER_OFFSET = 6.5,
-            ROTATE_SPEED = .2,
-            MOVE_SPEED = .2;
+            ROBOT_CENTER_OFFSET = 7.6,
+            ROTATE_SPEED = .3,
+            MOVE_SPEED = .4;
+    private static final String TAG = "CommonAutonomous";
 
     @Deprecated
     public static void tile1ToBeacon1(VuforiaNav vuforiaNav, BeaconColorDetection beaconColorDetection, BeaconPresser beaconPresser, AbstractComplexDrive drive, LinearOpMode linearOpMode, AllianceColor allianceColor) {
@@ -333,18 +334,59 @@ public final class CommonAutonomous {
         midpointToBeacon2(drive, linearOpMode, allianceColor, 0L);
     }
 
-    public static void approachBeacon(VuforiaNav vuforiaNav, BeaconColorSensor beaconColorSensor, BeaconPresser beaconPresser, AbstractComplexDrive drive, LinearOpMode linearOpMode, AllianceColor allianceColor) {
-        approachBeacon(vuforiaNav, beaconColorSensor, beaconPresser, drive, linearOpMode, allianceColor, 0);
+    public static void approachBeaconVuforia(VuforiaNav vuforiaNav, BeaconColorSensor beaconColorSensor, BeaconPresser beaconPresser, AbstractComplexDrive drive, LinearOpMode linearOpMode, AllianceColor allianceColor) {
+        approachBeaconVuforia(vuforiaNav, beaconColorSensor, beaconPresser, drive, linearOpMode, allianceColor, 0);
     }
 
-    public static void approachBeacon(VuforiaNav vuforiaNav, BeaconColorSensor beaconColorSensor, BeaconPresser beaconPresser, AbstractComplexDrive drive, LinearOpMode linearOpMode, AllianceColor allianceColor, long delayMS) {
+    public static void approachBeacon(BeaconColorSensor beaconColorSensor, BeaconPresser beaconPresser, AbstractComplexDrive drive, LinearOpMode linearOpMode, AllianceColor allianceColor) {
+        approachBeacon(beaconColorSensor, beaconPresser, drive, linearOpMode, allianceColor, 0);
+    }
+
+    public static void approachBeacon(BeaconColorSensor beaconColorSensor, final BeaconPresser beaconPresser, AbstractComplexDrive drive, LinearOpMode linearOpMode, AllianceColor allianceColor, long delayMS) {
+        if (delayMS > 0)
+            linearOpMode.sleep(delayMS);
+
+        drive.moveInches(Direction.FORWARD, 16, MOVE_SPEED);
+
+        beaconPresser.setLeftServoDown();
+        beaconPresser.setRightServoDown();
+
+        beaconColorSensor.determineColor(AllianceColor.BLUE, new Runnable() {
+            @Override
+            public void run() { // Positive
+                beaconPresser.setLeftServoUp();
+                Log.i(TAG, "Beacon matched");
+            }
+        }, new Runnable() {
+            @Override
+            public void run() { // Negative
+                beaconPresser.setRightServoUp();
+                Log.i(TAG, "Beacon failed");
+            }
+        }, new Runnable() {
+            @Override
+            public void run() { // Neither
+                Log.i(TAG, "Beacon not found!");
+                //beaconPresser.setLeftServoUp();
+                //beaconPresser.setRightServoUp();
+            }
+        });
+
+        drive.moveInches(Direction.FORWARD, 4, MOVE_SPEED);
+        drive.moveInches(Direction.BACKWARD, 20, MOVE_SPEED);
+
+        beaconPresser.setLeftServoDown();
+        beaconPresser.setRightServoDown();
+    }
+
+    public static void approachBeaconVuforia(VuforiaNav vuforiaNav, BeaconColorSensor beaconColorSensor, BeaconPresser beaconPresser, AbstractComplexDrive drive, LinearOpMode linearOpMode, AllianceColor allianceColor, long delayMS) {
         if (delayMS > 0)
             linearOpMode.sleep(delayMS);
 
         drive.moveInches(Direction.FORWARD, 10, MOVE_SPEED);
 
-        beaconPresser.setLeftServoUp();
-        beaconPresser.setRightServoUp();
+        beaconPresser.setLeftServoDown();
+        beaconPresser.setRightServoDown();
         if (!vuforiaNav.isActivated())
             vuforiaNav.activate();
 
@@ -369,38 +411,40 @@ public final class CommonAutonomous {
             location = vuforiaNav.getLocation();
             locationTelemetry.setValue(Arrays.toString(location));
 
-            double distanceToBeacon = location[1] / VuforiaNav.MM_PER_INCH, distanceFromCenter = location[0] / VuforiaNav.MM_PER_INCH;
+            if (location != null) {
+                double distanceToBeacon = location[1] / VuforiaNav.MM_PER_INCH, distanceFromCenter = location[0] / VuforiaNav.MM_PER_INCH;
 
-            if (FastMath.abs(distanceToBeacon) < 4.75)
-                break;
+                if (FastMath.abs(distanceToBeacon) < 4.75)
+                    break;
 
-            Orientation orientation = Orientation.getOrientation(vuforiaNav.getLastLocation(), AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
+                Orientation orientation = Orientation.getOrientation(vuforiaNav.getLastLocation(), AxesReference.EXTRINSIC, AxesOrder.XYZ, AngleUnit.DEGREES);
 
-            double signedSqrt = FastMath.signum(distanceFromCenter) * FastMath.sqrt(FastMath.abs(distanceFromCenter));
-            //double targetAngle = Range.clip(distanceFromCenter / 2, -5, 5);
-            double currentAngle = orientation.thirdAngle;
-            double correction = -signedSqrt / 30 + FastMath.pow(currentAngle, 1 / 3d) / 40;//(currentAngle - targetAngle) / 50; //-(distanceFromCenter / 30) + (orientation.thirdAngle / 120);
-            if (iteration++ % 50 == 0) {
-                Log.e("EXP", "Distance: " + distanceFromCenter);
-                //Log.e("EXP", "Target: " + targetAngle);
-                Log.e("EXP", "Correction: " + correction);
-                Log.e("EXP", "Remaining: " + distanceToBeacon);
+                double signedSqrt = FastMath.signum(distanceFromCenter) * FastMath.sqrt(FastMath.abs(distanceFromCenter));
+                //double targetAngle = Range.clip(distanceFromCenter / 2, -5, 5);
+                double currentAngle = orientation.thirdAngle;
+                double correction = -signedSqrt / 30 + FastMath.pow(currentAngle, 1 / 3d) / 40;//(currentAngle - targetAngle) / 50; //-(distanceFromCenter / 30) + (orientation.thirdAngle / 120);
+                if (iteration++ % 50 == 0) {
+                    Log.e("EXP", "Distance: " + distanceFromCenter);
+                    //Log.e("EXP", "Target: " + targetAngle);
+                    Log.e("EXP", "Correction: " + correction);
+                    Log.e("EXP", "Remaining: " + distanceToBeacon);
+                }
+
+                correction *= 1 + FastMath.abs(distanceToBeacon) / 15;
+
+                double range = 2 / FastMath.abs(distanceToBeacon);
+                correction = Range.clip(correction, -range, range);
+
+                if (Double.isNaN(correction))
+                    correction = 0;
+
+                double leftPower = approachSpeed + correction;
+                double rightPower = approachSpeed - correction;
+
+                powerTelemetry.setValue("Left: " + leftPower + " Right: " + rightPower);
+
+                drive.moveFreely(leftPower, rightPower);
             }
-
-            correction *= 1 + FastMath.abs(distanceToBeacon) / 15;
-
-            double range = 2 / FastMath.abs(distanceToBeacon);
-            correction = Range.clip(correction, -range, range);
-
-            if (Double.isNaN(correction))
-                correction = 0;
-
-            double leftPower = approachSpeed + correction;
-            double rightPower = approachSpeed - correction;
-
-            powerTelemetry.setValue("Left: " + leftPower + " Right: " + rightPower);
-
-            drive.moveFreely(leftPower, rightPower);
             linearOpMode.telemetry.update();
         }
 
@@ -427,7 +471,7 @@ public final class CommonAutonomous {
         }
 
         drive.rotateDegrees(direction1, 90, ROTATE_SPEED);
-        drive.moveInches(Direction.FORWARD, 47, MOVE_SPEED);
+        drive.moveInches(Direction.FORWARD, 42, MOVE_SPEED);
         drive.rotateDegrees(direction2, 90, ROTATE_SPEED);
     }
 
@@ -448,7 +492,7 @@ public final class CommonAutonomous {
                 break;
         }
 
-        drive.moveInches(Direction.FORWARD, 36 - ROBOT_CENTER_OFFSET, MOVE_SPEED);
+        drive.moveInches(Direction.FORWARD, 30 - ROBOT_CENTER_OFFSET, MOVE_SPEED);
         drive.rotateDegrees(direction1, 45, ROTATE_SPEED);
         drive.moveInches(Direction.FORWARD, 32.53, MOVE_SPEED);
         drive.rotateDegrees(direction2, 45, ROTATE_SPEED);
