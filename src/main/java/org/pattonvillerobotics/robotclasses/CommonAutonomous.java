@@ -34,8 +34,8 @@ public final class CommonAutonomous {
             COS_45_I = 1 / FastMath.cos(FastMath.toRadians(45)),
             BACKUP_DISTANCE = 12,
             ROBOT_CENTER_OFFSET = 7.6,
-            ROTATE_SPEED = .3,
-            MOVE_SPEED = .4;
+            ROTATE_SPEED = .5,
+            MOVE_SPEED = .5;
     private static final String TAG = "CommonAutonomous";
 
     @Deprecated
