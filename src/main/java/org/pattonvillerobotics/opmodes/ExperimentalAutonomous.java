@@ -17,7 +17,7 @@ import org.pattonvillerobotics.robotclasses.CommonAutonomous;
  */
 
 public final class ExperimentalAutonomous {
-    @Autonomous(name = "BLUE Tile 1 to Both Beacons", group = OpModeGroups.TESTING)
+    @Autonomous(name = "BLUE Tile 1 to Both Beacons", group = OpModeGroups.MAIN)
     public static final class BlueTile1 extends LinearOpMode {
         @Override
         public void runOpMode() throws InterruptedException {
@@ -37,7 +37,7 @@ public final class ExperimentalAutonomous {
         }
     }
 
-    @Autonomous(name = "BLUE Tile 1 to Beacon 1 TEST Extra computations", group = OpModeGroups.TESTING)
+    //@Autonomous(name = "BLUE Tile 1 to Beacon 1 TEST Extra computations", group = OpModeGroups.TESTING)
     public static final class BlueTile1TEST extends LinearOpMode {
         @Override
         public void runOpMode() throws InterruptedException {
@@ -50,7 +50,7 @@ public final class ExperimentalAutonomous {
         }
     }
 
-    @Autonomous(name = "RED Tile 1 to Beacon 1", group = OpModeGroups.TESTING)
+    //@Autonomous(name = "RED Tile 1 to Beacon 1", group = OpModeGroups.TESTING)
     public static final class RedTile1 extends LinearOpMode {
         @Override
         public void runOpMode() throws InterruptedException {
