@@ -50,10 +50,25 @@ public final class ExperimentalAutonomous {
         }
     }
 
-    //@Autonomous(name = "RED Tile 1 to Beacon 1", group = OpModeGroups.TESTING)
+    @Autonomous(name = "RED Tile 1 to Both Beacon", group = OpModeGroups.MAIN)
     public static final class RedTile1 extends LinearOpMode {
         @Override
         public void runOpMode() throws InterruptedException {
+            final EncoderDrive drive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
+            //VuforiaNav vuforiaNav = new VuforiaNav(CustomizedRobotParameters.VUFORIA_PARAMETERS);
+            BeaconColorSensor beaconColorSensor = new BeaconColorSensor(hardwareMap);
+            BeaconPresser beaconPresser = new BeaconPresser(hardwareMap);
+
+            waitForStart();
+
+            CommonAutonomous.tile1ToMidpoint(drive, this, AllianceColor.RED);
+            CommonAutonomous.approachBeacon(beaconColorSensor, beaconPresser, drive, this, AllianceColor.RED);
+            //CommonAutonomous.approachBeaconVuforia(vuforiaNav, beaconColorSensor, beaconPresser, drive, this, AllianceColor.RED);
+            CommonAutonomous.midpointToBeacon2(drive, this, AllianceColor.RED);
+            CommonAutonomous.approachBeacon(beaconColorSensor, beaconPresser, drive, this, AllianceColor.RED);
+            //CommonAutonomous.approachBeaconVuforia(vuforiaNav, beaconColorSensor, beaconPresser, drive, this, AllianceColor.RED);
+
+            /*
             final EncoderDrive drive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
             VuforiaNav vuforiaNav = new VuforiaNav(CustomizedRobotParameters.VUFORIA_PARAMETERS);
             BeaconColorSensor beaconColorSensor = new BeaconColorSensor(hardwareMap);
@@ -64,6 +79,7 @@ public final class ExperimentalAutonomous {
             CommonAutonomous.approachBeaconVuforia(vuforiaNav, beaconColorSensor, beaconPresser, drive, this, AllianceColor.RED);
             CommonAutonomous.midpointToBeacon2(drive, this, AllianceColor.RED);
             CommonAutonomous.approachBeaconVuforia(vuforiaNav, beaconColorSensor, beaconPresser, drive, this, AllianceColor.RED);
+            */
         }
     }
 }
