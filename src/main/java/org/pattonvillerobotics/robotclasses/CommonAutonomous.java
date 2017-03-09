@@ -33,8 +33,8 @@ public final class CommonAutonomous {
             TILE_SIZE = 22,
             COS_45_I = 1 / FastMath.cos(FastMath.toRadians(45)),
             BACKUP_DISTANCE = 12,
-            ROBOT_CENTER_OFFSET = 7.6,
-            ROTATE_SPEED = .5,
+            ROBOT_CENTER_OFFSET = 6.5,//7.6,
+            ROTATE_SPEED = .2,
             MOVE_SPEED = .5;
     private static final String TAG = "CommonAutonomous";
 
@@ -346,12 +346,14 @@ public final class CommonAutonomous {
         if (delayMS > 0)
             linearOpMode.sleep(delayMS);
 
-        drive.moveInches(Direction.FORWARD, 16, MOVE_SPEED);
+        drive.moveInches(Direction.FORWARD, 15, MOVE_SPEED);
 
         beaconPresser.setLeftServoDown();
         beaconPresser.setRightServoDown();
 
-        beaconColorSensor.determineColor(AllianceColor.BLUE, new Runnable() {
+        drive.sleep(250);
+
+        beaconColorSensor.determineColor(allianceColor, new Runnable() {
             @Override
             public void run() { // Positive
                 beaconPresser.setLeftServoUp();
@@ -372,8 +374,12 @@ public final class CommonAutonomous {
             }
         });
 
-        drive.moveInches(Direction.FORWARD, 4, MOVE_SPEED);
-        drive.moveInches(Direction.BACKWARD, 20, MOVE_SPEED);
+        drive.sleep(250);
+
+        drive.moveInches(Direction.FORWARD, 5, MOVE_SPEED);
+        //drive.moveInches(Direction.BACKWARD, 1, MOVE_SPEED);
+        //drive.moveInches(Direction.FORWARD, 1, MOVE_SPEED);
+        drive.moveInches(Direction.BACKWARD, 19, MOVE_SPEED);
 
         beaconPresser.setLeftServoDown();
         beaconPresser.setRightServoDown();
@@ -471,7 +477,7 @@ public final class CommonAutonomous {
         }
 
         drive.rotateDegrees(direction1, 90, ROTATE_SPEED);
-        drive.moveInches(Direction.FORWARD, 42, MOVE_SPEED);
+        drive.moveInches(Direction.FORWARD, 41, MOVE_SPEED);
         drive.rotateDegrees(direction2, 90, ROTATE_SPEED);
     }
 
@@ -492,7 +498,7 @@ public final class CommonAutonomous {
                 break;
         }
 
-        drive.moveInches(Direction.FORWARD, 30 - ROBOT_CENTER_OFFSET, MOVE_SPEED);
+        drive.moveInches(Direction.FORWARD, 28 - ROBOT_CENTER_OFFSET, MOVE_SPEED);
         drive.rotateDegrees(direction1, 45, ROTATE_SPEED);
         drive.moveInches(Direction.FORWARD, 32.53, MOVE_SPEED);
         drive.rotateDegrees(direction2, 45, ROTATE_SPEED);

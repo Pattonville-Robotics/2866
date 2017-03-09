@@ -24,14 +24,18 @@ import java.util.Arrays;
 
 public class OfficialTeleop extends LinearOpMode {
 
+    private static final double SPEED_MULTIPLIER = 1;
     protected boolean vuforiaEnabled = false;
-    private boolean buttonXToggleOn = false, buttonBToggleOn = false;
+    private boolean buttonXToggleOn = true, buttonBToggleOn = true;
 
     @Override
-
     public void runOpMode() throws InterruptedException {
         ListenableGamepad gamepad = new ListenableGamepad();
         EncoderDrive drive = new EncoderDrive(hardwareMap, this, CustomizedRobotParameters.ROBOT_PARAMETERS);
+
+        drive.leftDriveMotor.setMaxSpeed(1440 * 2);
+        drive.rightDriveMotor.setMaxSpeed(1440 * 2);
+
         final BeaconPresser beaconPresser = new BeaconPresser(hardwareMap);
         //final LinearSlides linearSlides = new LinearSlides(hardwareMap);
         final BeaconColorSensor beaconColorSensor = new BeaconColorSensor(hardwareMap.colorSensor.get("color_sensor"));
@@ -47,8 +51,8 @@ public class OfficialTeleop extends LinearOpMode {
         telemetry.setMsTransmissionInterval(33);
         final Telemetry.Item leftServo = telemetry.addData("Left Servo: ", "N/A").setRetained(true);
         final Telemetry.Item rightServo = telemetry.addData("Right Servo: ", "N/A").setRetained(true);
-        final Telemetry.Item leftMotorPower = telemetry.addData("Left Motor Power: ", "N/A").setRetained(true);
-        final Telemetry.Item rightMotorPower = telemetry.addData("Right Motor Power: ", "N/A").setRetained(true);
+        final Telemetry.Item leftMotorPowerTelemetry = telemetry.addData("Left Motor Power: ", "N/A").setRetained(true);
+        final Telemetry.Item rightMotorPowerTelemetry = telemetry.addData("Right Motor Power: ", "N/A").setRetained(true);
         final Telemetry.Item colorResult = telemetry.addData("Color seen: ", "N/A").setRetained(true);
         Telemetry.Item vuforiaLocation = null;
         Telemetry.Item beaconColors = null;
@@ -91,10 +95,10 @@ public class OfficialTeleop extends LinearOpMode {
         waitForStart();
 
         while (opModeIsActive()) {
-            drive.moveFreely(-gamepad1.left_stick_y, -gamepad1.right_stick_y);
+            drive.moveFreely(-gamepad1.left_stick_y * SPEED_MULTIPLIER, -gamepad1.right_stick_y * SPEED_MULTIPLIER);
 
-            leftMotorPower.setValue(-gamepad1.left_stick_y);
-            rightMotorPower.setValue(-gamepad1.right_stick_y);
+            leftMotorPowerTelemetry.setValue(-gamepad1.left_stick_y * SPEED_MULTIPLIER);
+            rightMotorPowerTelemetry.setValue(-gamepad1.right_stick_y * SPEED_MULTIPLIER);
 
             if (vuforiaNav != null && vuforiaLocation != null) {
                 vuforiaNav.getNearestBeaconLocation();
