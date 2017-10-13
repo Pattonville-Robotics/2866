@@ -1,14 +1,20 @@
-//
-// build.gradle in TeamCode
-//
-// Most of the definitions for building your module reside in a common, shared
-// file 'build.common.gradle'. Being factored in this way makes it easier to
-// integrate updates to the FTC into your code. If you really need to customize
-// the build definitions, you can place those customizations in this file, but
-// please think carefully as to whether such customizations are really necessary
-// before doing so.
+/**
+ * Top-level build file for ftc_app project.
+ *
+ * It is extraordinarily rare that you will ever need to edit this file.
+ */
+buildscript {
+    ext.ftc_version = '3.4'
 
-// Custom definitions may go here
+    repositories {
+        jcenter()
+        google()
+    }
 
-// Include common definitions from above.
-apply from: '../build.common.gradle'
+    dependencies {
+        classpath 'com.android.tools.build:gradle:2.3.3'
+        //classpath 'com.android.tools.build:gradle:3.0.0-beta7' //Required for modification of Common-Code
+    }
+}
+
+

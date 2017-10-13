@@ -1,0 +1,11 @@
+include ':FtcRobotController'
+include ':TeamCode'
+
+//Requires com.android.tools.build:gradle:3.0.0-beta7 or newer to build
+/*
+includeBuild('../Common-Code') {
+    dependencySubstitution {
+        substitute module('com.github.Pattonville-Robotics:Common-Code') with project(':library')
+    }
+}
+*/

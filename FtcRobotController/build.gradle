@@ -1,0 +1,31 @@
+//
+// build.gradle in FtcRobotController
+//
+apply plugin: 'com.android.library'
+
+android {
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 26
+    }
+
+    compileSdkVersion 26
+    buildToolsVersion '26.0.2'
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+
+repositories {
+    flatDir {
+        dirs '../libs'
+    }
+    maven {
+        url "https://raw.githubusercontent.com/Pattonville-Robotics/ftc-lib-repo/mvn-repo/"
+    }
+}
+
+apply from: 'build.release.gradle'

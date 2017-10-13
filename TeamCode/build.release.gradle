@@ -1,0 +1,23 @@
+dependencies {
+    compile project(':FtcRobotController')
+
+    compile "org.first.ftc:robotcore:$ftc_version"
+    compile "org.first.ftc:hardware:$ftc_version"
+    compile "org.first.ftc:ftc-common:$ftc_version"
+    compile "org.first.ftc:analytics:$ftc_version"
+    compile "org.first.ftc:wireless-p2p:$ftc_version"
+
+    compile "com.github.Pattonville-Robotics:Common-Code:$ftc_version.0-alpha2"
+
+    //compile (name: 'RobotCore-release', ext: 'aar')
+    //compile (name: 'Hardware-release', ext: 'aar')
+    //compile (name: 'FtcCommon-release', ext: 'aar')
+    //compile (name:'Analytics-release', ext:'aar')
+    //compile (name:'WirelessP2p-release', ext:'aar')
+}
+
+android {
+    lintOptions {
+        ignore 'InvalidPackage'
+    }
+}
