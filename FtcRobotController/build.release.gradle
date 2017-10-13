@@ -1,0 +1,19 @@
+dependencies {
+    compile 'org.first.ftc:inspection:3.4'
+    compile 'org.first.ftc:blocks:3.4'
+    compile 'org.first.ftc:robotcore:3.4'
+    compile 'org.first.ftc:hardware:3.4'
+    compile 'org.first.ftc:ftc-common:3.4'
+    compile 'org.first.ftc:analytics:3.4'
+    compile 'org.first.ftc:wireless-p2p:3.4'
+
+    compile 'org.first.ftc:vuforia-incomplete:3.4'
+
+    //compile (name:'Inspection-release', ext: 'aar')
+    //compile (name:'Blocks-release', ext: 'aar')
+    //compile (name:'RobotCore-release', ext: 'aar')
+    //compile (name:'Hardware-release', ext: 'aar')
+    //compile (name:'FtcCommon-release', ext: 'aar')
+    //compile (name:'Analytics-release', ext:'aar')
+    //compile (name:'WirelessP2p-release', ext:'aar')
+}
