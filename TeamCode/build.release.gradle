@@ -1,0 +1,17 @@
+dependencies {
+    compile project(':FtcRobotController')
+
+    compile 'org.first.ftc:robotcore:3.4'
+    compile 'org.first.ftc:hardware:3.4'
+    compile 'org.first.ftc:ftc-common:3.4'
+    compile 'org.first.ftc:analytics:3.4'
+    compile 'org.first.ftc:wireless-p2p:3.4'
+
+    compile 'com.github.Pattonville-Robotics:Common-Code:jitpack-restructure-SNAPSHOT'
+
+    //compile (name: 'RobotCore-release', ext: 'aar')
+    //compile (name: 'Hardware-release', ext: 'aar')
+    //compile (name: 'FtcCommon-release', ext: 'aar')
+    //compile (name:'Analytics-release', ext:'aar')
+    //compile (name:'WirelessP2p-release', ext:'aar')
+}
