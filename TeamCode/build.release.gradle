@@ -7,7 +7,7 @@ dependencies {
     compile 'org.first.ftc:analytics:3.4'
     compile 'org.first.ftc:wireless-p2p:3.4'
 
-    compile 'com.github.Pattonville-Robotics:Common-Code:jitpack-restructure-SNAPSHOT'
+    compile 'com.github.Pattonville-Robotics:Common-Code:3.4.0-alpha1'
 
     //compile (name: 'RobotCore-release', ext: 'aar')
     //compile (name: 'Hardware-release', ext: 'aar')
