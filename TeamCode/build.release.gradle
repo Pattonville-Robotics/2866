@@ -1,13 +1,13 @@
 dependencies {
     compile project(':FtcRobotController')
 
-    compile 'org.first.ftc:robotcore:3.4'
-    compile 'org.first.ftc:hardware:3.4'
-    compile 'org.first.ftc:ftc-common:3.4'
-    compile 'org.first.ftc:analytics:3.4'
-    compile 'org.first.ftc:wireless-p2p:3.4'
+    compile "org.first.ftc:robotcore:$ftc_version"
+    compile "org.first.ftc:hardware:$ftc_version"
+    compile "org.first.ftc:ftc-common:$ftc_version"
+    compile "org.first.ftc:analytics:$ftc_version"
+    compile "org.first.ftc:wireless-p2p:$ftc_version"
 
-    compile 'com.github.Pattonville-Robotics:Common-Code:3.4.0-alpha1'
+    compile "com.github.Pattonville-Robotics:Common-Code:$ftc_version.0-alpha1"
 
     //compile (name: 'RobotCore-release', ext: 'aar')
     //compile (name: 'Hardware-release', ext: 'aar')

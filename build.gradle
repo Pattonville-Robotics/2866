@@ -4,9 +4,12 @@
  * It is extraordinarily rare that you will ever need to edit this file.
  */
 buildscript {
+    ext.ftc_version = '3.4'
+
     repositories {
         jcenter()
     }
+
     dependencies {
         classpath 'com.android.tools.build:gradle:2.3.3'
         //classpath 'com.android.tools.build:gradle:3.0.0-beta7'
