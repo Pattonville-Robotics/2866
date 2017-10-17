@@ -7,7 +7,7 @@ dependencies {
     compile "org.first.ftc:analytics:$ftc_version"
     compile "org.first.ftc:wireless-p2p:$ftc_version"
 
-    compile "com.github.Pattonville-Robotics:Common-Code:$ftc_version.0-alpha2"
+    compile "com.github.Pattonville-Robotics:Common-Code:$ftc_version.0"
 
     //compile (name: 'RobotCore-release', ext: 'aar')
     //compile (name: 'Hardware-release', ext: 'aar')
