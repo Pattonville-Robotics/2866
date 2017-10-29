@@ -8,6 +8,7 @@ import org.pattonvillerobotics.commoncode.robotclasses.gamepad.ListenableGamepad
 import static org.pattonvillerobotics.commoncode.opmodes.OpModeGroups.TESTING;
 import static org.pattonvillerobotics.commoncode.robotclasses.gamepad.GamepadData.Button.A;
 import static org.pattonvillerobotics.commoncode.robotclasses.gamepad.ListenableButton.ButtonState.JUST_PRESSED;
+import static org.pattonvillerobotics.commoncode.robotclasses.gamepad.ListenableButton.ButtonState.JUST_RELEASED;
 
 /**
  * Created by Mitchell Skaggs on 10/29/2017.
@@ -20,7 +21,8 @@ public class JavaTestOpMode extends LinearOpMode {
     public void runOpMode() {
         ListenableGamepad gamepad = new ListenableGamepad();
 
-        gamepad.getButton(A).addListener(JUST_PRESSED, () -> telemetry.addData("ButtonPress", "\"A\" Pressed!"));
+        gamepad.addButtonListener(A, JUST_PRESSED, () -> telemetry.addData("ButtonEvent", "\"A\" Pressed!"))
+                .addButtonListener(A, JUST_RELEASED, () -> telemetry.addData("ButtonEvent", "\"A\" Released!"));
 
         waitForStart();
 

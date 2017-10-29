@@ -5,6 +5,7 @@ import com.qualcomm.robotcore.eventloop.opmode.TeleOp
 import org.pattonvillerobotics.commoncode.opmodes.OpModeGroups.TESTING
 import org.pattonvillerobotics.commoncode.robotclasses.gamepad.GamepadData.Button.A
 import org.pattonvillerobotics.commoncode.robotclasses.gamepad.ListenableButton.ButtonState.JUST_PRESSED
+import org.pattonvillerobotics.commoncode.robotclasses.gamepad.ListenableButton.ButtonState.JUST_RELEASED
 import org.pattonvillerobotics.commoncode.robotclasses.gamepad.ListenableGamepad
 
 
@@ -18,8 +19,10 @@ class TestOpMode : LinearOpMode() {
     override fun runOpMode() {
         val gamepad = ListenableGamepad()
 
-        gamepad.getButton(A).addListener(JUST_PRESSED) {
-            telemetry.addData("ButtonPress", "\"A\" Pressed!")
+        gamepad.addButtonListener(A, JUST_PRESSED) {
+            telemetry.addData("ButtonEvent", "\"A\" Pressed!")
+        }.addButtonListener(A, JUST_RELEASED) {
+            telemetry.addData("ButtonEvent", "\"A\" Released!")
         }
 
         waitForStart()

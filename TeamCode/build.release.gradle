@@ -9,7 +9,7 @@ dependencies {
     implementation "org.first.ftc:analytics:$ftc_version"
     implementation "org.first.ftc:wireless-p2p:$ftc_version"
 
-    implementation "com.github.Pattonville-Robotics:Common-Code:476154cd84"//$ftc_version.2"
+    implementation "com.github.Pattonville-Robotics:Common-Code:d3509b08e4"//$ftc_version.2"
 
 }
 
