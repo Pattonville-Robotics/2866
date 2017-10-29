@@ -9,19 +9,20 @@ import org.pattonvillerobotics.commoncode.robotclasses.gamepad.ListenableGamepad
 
 
 /**
- * Created by Mitchell on 10/29/2017.
+ * Created by Mitchell Skaggs on 10/29/2017.
  */
 
-@TeleOp(name = "Test OpMode", group = TESTING)
+@TeleOp(name = "Test OpMode Kotlin", group = TESTING)
 class TestOpMode : LinearOpMode() {
-    private lateinit var gamepad: ListenableGamepad
 
     override fun runOpMode() {
-        gamepad = ListenableGamepad()
+        val gamepad = ListenableGamepad()
 
         gamepad.getButton(A).addListener(JUST_PRESSED) {
             telemetry.addData("ButtonPress", "\"A\" Pressed!")
         }
+
+        waitForStart()
 
         while (opModeIsActive()) {
             gamepad.update(gamepad1)
