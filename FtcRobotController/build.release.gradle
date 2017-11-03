@@ -1,9 +1,0 @@
-dependencies {
-    implementation "org.first.ftc:inspection:$ftc_version"
-    implementation "org.first.ftc:blocks:$ftc_version"
-    implementation "org.first.ftc:robotcore:$ftc_version"
-    implementation "org.first.ftc:hardware:$ftc_version"
-    implementation "org.first.ftc:ftc-common:$ftc_version"
-    implementation "org.first.ftc:analytics:$ftc_version"
-    implementation "org.first.ftc:wireless-p2p:$ftc_version"
-}

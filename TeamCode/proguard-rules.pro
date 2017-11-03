@@ -1,17 +1,16 @@
 #-verbose
 -dontobfuscate
 
+#Keep annotations
+-keepattributes *Annotation*
+
 #Team Code
 -keep,includedescriptorclasses class org.pattonvillerobotics.** {
     *;
 }
 
--dontwarn com.sun.tools.javac.model.**
--dontwarn org.pattonvillerobotics.commoncode.**
+-dontwarn com.sun.tools.**
+-dontwarn com.google.common.**
 -dontwarn com.google.gson.**
--dontwarn com.vuforia.ar.pl.**
--dontwarn org.firstinspires.ftc.robotcore.**
 -dontwarn com.qualcomm.analytics.**
--dontwarn sun.misc.Unsafe**
--dontwarn java.lang.ClassValue**
--dontwarn java.awt.geom.**
+-dontwarn org.apache.commons.math3.geometry.euclidean.twod.Line

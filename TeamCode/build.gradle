@@ -1,15 +1,75 @@
-//
-// build.gradle in TeamCode
-//
-// Most of the definitions for building your module reside in a common, shared
-// file 'build.common.gradle'. Being factored in this way makes it easier to
-// integrate updates to the FTC into your code. If you really need to customize
-// the build definitions, you can place those customizations in this file, but
-// please think carefully as to whether such customizations are really necessary
-// before doing so.
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
 
+android {
+    compileSdkVersion 26
 
-// Custom definitions may go here
+    signingConfigs {
+        debug {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storeFile file('ftc.debug.keystore')
+            storePassword 'android'
+        }
+    }
 
-// Include common definitions from above.
-apply from: '../build.common.gradle'
+    defaultConfig {
+        applicationId 'com.qualcomm.ftcrobotcontroller'
+        minSdkVersion 19
+        targetSdkVersion 19
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        versionCode 24
+        versionName "$ftc_version"
+    }
+
+    buildTypes {
+        release {
+            ndk {
+                abiFilters "armeabi-v7a"
+            }
+
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+            ndk {
+                abiFilters "armeabi-v7a"
+            }
+
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            useProguard false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        ignore 'InvalidPackage'
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    implementation "com.github.magneticflux-:robotcontroller-repackaged:$ftc_version.0"
+    implementation "com.github.magneticflux-:robotcore-repackaged:$ftc_version.4"
+    implementation "org.first.ftc:hardware:$ftc_version"
+    implementation "org.first.ftc:ftc-common:$ftc_version"
+    implementation "org.first.ftc:analytics:$ftc_version"
+    implementation "org.first.ftc:wireless-p2p:$ftc_version"
+
+    implementation "com.github.Pattonville-Robotics:Common-Code:9b091cac46"
+
+    implementation "com.github.magneticflux-:vuforia-repackaged:$ftc_version.0"
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test:rules:1.0.1'
+}
+
