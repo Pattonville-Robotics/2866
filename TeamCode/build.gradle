@@ -57,16 +57,16 @@ android {
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
 
-    implementation "com.github.magneticflux-:robotcontroller-repackaged:$ftc_version.0"
-    implementation "com.github.magneticflux-:robotcore-repackaged:$ftc_version.4"
+    implementation "com.github.modular-ftc:robotcontroller-repackaged:$ftc_version.0"
+    implementation "com.github.modular-ftc:robotcore-repackaged:$ftc_version.5"
     implementation "org.first.ftc:hardware:$ftc_version"
     implementation "org.first.ftc:ftc-common:$ftc_version"
     implementation "org.first.ftc:analytics:$ftc_version"
     implementation "org.first.ftc:wireless-p2p:$ftc_version"
 
-    implementation "com.github.Pattonville-Robotics:Common-Code:9b091cac46"
+    implementation "com.github.Pattonville-Robotics:Common-Code:d9d0d5e56f"
 
-    implementation "com.github.magneticflux-:vuforia-repackaged:$ftc_version.0"
+    implementation "com.github.modular-ftc:vuforia-repackaged:$ftc_version.0"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.1'
