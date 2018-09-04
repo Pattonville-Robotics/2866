@@ -4,9 +4,17 @@
      from the modules on which your app depends (such as FtcRobotController, etc).
      So it won't ultimately be as empty as it might here appear to be :-) -->
 
+<<<<<<< HEAD
 <!-- The package name here determines the package for your R class and your BuildConfig class -->
 <manifest
     package="org.firstinspires.ftc.teamcode"
     xmlns:android="http://schemas.android.com/apk/res/android">
     <application/>
+=======
+<!-- The package name here determines the package for your R class and your BuildConfig class --><!--suppress XmlUnusedNamespaceDeclaration -->
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="org.firstinspires.ftc.teamcode">
+
+    <application />
+>>>>>>> refs/remotes/origin/master
 </manifest>

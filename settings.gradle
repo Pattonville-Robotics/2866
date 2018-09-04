@@ -1,4 +1,7 @@
+<<<<<<< HEAD
 include ':FtcRobotController'
+=======
+>>>>>>> refs/remotes/origin/master
 include ':TeamCode'
 
 def toggleCommonCode = false
@@ -6,7 +9,11 @@ gradle.ext.include_common_code = toggleCommonCode && file('../Common-Code').exis
 if (gradle.ext.include_common_code) {
     includeBuild('../Common-Code') {
         dependencySubstitution {
+<<<<<<< HEAD
             subsitute module('com.github.Pattonville-Robotics:Common-Code') with project(':library')
+=======
+            substitute module('com.github.Pattonville-Robotics:Common-Code') with project(':library')
+>>>>>>> refs/remotes/origin/master
         }
     }
 }

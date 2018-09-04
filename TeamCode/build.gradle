@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 //
 // build.gradle in TeamCode
 //
@@ -17,3 +18,80 @@ apply from: '../build.common.gradle'
 android {
     buildToolsVersion '27.0.3'
 }
+=======
+apply plugin: 'com.android.application'
+apply plugin: 'kotlin-android'
+
+android {
+    compileSdkVersion 26
+
+    signingConfigs {
+        debug {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storeFile file('ftc.debug.keystore')
+            storePassword 'android'
+        }
+    }
+
+    defaultConfig {
+        applicationId 'com.qualcomm.ftcrobotcontroller'
+        minSdkVersion 19
+        targetSdkVersion 19
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+
+        versionCode 24
+        versionName "$ftc_version"
+    }
+
+    buildTypes {
+        release {
+            ndk {
+                abiFilters "armeabi-v7a"
+            }
+
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            debuggable true
+            ndk {
+                abiFilters "armeabi-v7a"
+            }
+
+            minifyEnabled true
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            useProguard false
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        ignore 'InvalidPackage'
+    }
+}
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    implementation "com.github.modular-ftc:robotcontroller-repackaged:$ftc_version.0"
+    implementation "com.github.modular-ftc:robotcore-repackaged:$ftc_version.5"
+    implementation "org.first.ftc:hardware:$ftc_version"
+    implementation "org.first.ftc:ftc-common:$ftc_version"
+    implementation "org.first.ftc:analytics:$ftc_version"
+    implementation "org.first.ftc:wireless-p2p:$ftc_version"
+
+    implementation "com.github.Pattonville-Robotics:Common-Code:d9d0d5e56f"
+
+    implementation "com.github.modular-ftc:vuforia-repackaged:$ftc_version.0"
+
+    testImplementation 'junit:junit:4.12'
+    androidTestImplementation 'com.android.support.test:runner:1.0.1'
+    androidTestImplementation 'com.android.support.test:rules:1.0.1'
+}
+
+>>>>>>> refs/remotes/origin/master
