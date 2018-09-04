@@ -1,0 +1,111 @@
+//
+// build.gradle in TeamCode
+//
+// Most of the definitions for building your module reside in a common, shared
+// file 'build.common.gradle'. Being factored in this way makes it easier to
+// integrate updates to the FTC into your code. If you really need to customize
+// the build definitions, you can place those customizations in this file, but
+// please think carefully as to whether such customizations are really necessary
+// before doing so.
+
+// Custom definitions may go here
+
+// Include common definitions from above.
+//apply from: '../build.common.gradle'
+
+apply plugin: 'com.android.library'
+apply plugin: 'kotlin-android'
+apply plugin: 'com.github.dcendents.android-maven'
+
+android {
+    compileSdkVersion 26
+
+    signingConfigs {
+        debug {
+            keyAlias 'androiddebugkey'
+            keyPassword 'android'
+            storeFile file('../libs/ftc.debug.keystore')
+            storePassword 'android'
+        }
+    }
+
+    defaultConfig {
+        minSdkVersion 19
+        targetSdkVersion 19
+
+        versionName "$ftc_version.2"
+        versionCode 8
+    }
+
+    buildTypes {
+        release {
+            debuggable true
+            ndk {
+                abiFilters "armeabi-v7a"
+            }
+        }
+        debug {
+            debuggable true
+            ndk {
+                abiFilters "armeabi-v7a"
+            }
+        }
+    }
+
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
+    lintOptions {
+        abortOnError false //TODO actually ignore the exact lint checks that error
+    }
+
+    sourceSets.main {
+        jni.srcDirs = []
+        jniLibs.srcDir "../libs"
+    }
+}
+
+group = 'com.github.Pattonville-Robotics'
+version = android.defaultConfig.versionName
+project.archivesBaseName = 'Common-Code'
+
+dependencies {
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    implementation "org.first.ftc:robotcore:$ftc_version"
+    implementation "org.first.ftc:hardware:$ftc_version"
+    implementation "org.first.ftc:ftc-common:$ftc_version"
+
+    implementation 'org.apache.commons:commons-math3:3.6.1'
+    implementation 'com.annimon:stream:1.1.8'
+    implementation 'com.google.code.findbugs:jsr305:3.0.2'
+    implementation 'com.google.guava:guava:23.2-android'
+}
+
+//For JitPack
+
+// build a jar with source files
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    failOnError false
+    source = android.sourceSets.main.java.sourceFiles
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+    classpath += configurations.compile
+}
+
+// build a jar with javadoc
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives sourcesJar
+    archives javadocJar
+}
