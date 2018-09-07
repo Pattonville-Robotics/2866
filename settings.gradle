@@ -1,3 +1,4 @@
+include ':FtcRobotController'
 include ':TeamCode'
 
 def toggleCommonCode = false
@@ -5,6 +6,7 @@ gradle.ext.include_common_code = toggleCommonCode && file('../Common-Code').exis
 if (gradle.ext.include_common_code) {
     includeBuild('../Common-Code') {
         dependencySubstitution {
+            subsitute module('com.github.Pattonville-Robotics:Common-Code') with project(':library')
             substitute module('com.github.Pattonville-Robotics:Common-Code') with project(':library')
         }
     }

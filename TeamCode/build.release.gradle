@@ -1,0 +1,22 @@
+dependencies {
+    implementation project(':FtcRobotController')
+
+    implementation "org.first.ftc:robotcore:$ftc_version"
+    implementation "org.first.ftc:hardware:$ftc_version"
+    implementation "org.first.ftc:ftc-common:$ftc_version"
+    implementation "org.first.ftc:analytics:$ftc_version"
+    implementation "org.first.ftc:wireless-p2p:$ftc_version"
+
+    implementation "com.github.Pattonville-Robotics:Common-Code:$ftc_version.2"
+
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+
+    // https://mvnrepository.com/artifact/org.apache.commons/commons-math3
+    implementation group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
+}
+
+android {
+    lintOptions {
+        ignore 'InvalidPackage'
+    }
+}
