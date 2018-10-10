@@ -55,21 +55,21 @@ android {
 }
 
 dependencies {
-    implementation "org.jetbrains.kotlin:kotlin-stdlib-jre7:$kotlin_version"
+    implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
 
-    implementation "com.github.modular-ftc:robotcontroller-repackaged:$ftc_version.0"
-    implementation "com.github.modular-ftc:robotcore-repackaged:$ftc_version.5"
+    implementation "com.github.modular-ftc:robotcontroller-repackaged:$ftc_version.0-lite"
+    implementation "com.github.modular-ftc:robotcore-repackaged:$ftc_version.0-lite"
     implementation "org.first.ftc:hardware:$ftc_version"
     implementation "org.first.ftc:ftc-common:$ftc_version"
     implementation "org.first.ftc:analytics:$ftc_version"
     implementation "org.first.ftc:wireless-p2p:$ftc_version"
 
-    implementation "com.github.Pattonville-Robotics:Common-Code:d9d0d5e56f"
+    implementation "com.github.Pattonville-Robotics:Common-Code:3992c9f"
 
     implementation "com.github.modular-ftc:vuforia-repackaged:$ftc_version.0"
 
     testImplementation 'junit:junit:4.12'
-    androidTestImplementation 'com.android.support.test:runner:1.0.1'
-    androidTestImplementation 'com.android.support.test:rules:1.0.1'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test:rules:1.0.2'
 }
 
