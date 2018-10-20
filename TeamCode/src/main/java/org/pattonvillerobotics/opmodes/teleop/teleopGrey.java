@@ -11,7 +11,7 @@ import org.pattonvillerobotics.commoncode.robotclasses.gamepad.ListenableGamepad
 @TeleOp (name = "teleopGrey", group = LinearOpMode)
 public class teleopGrey extends LinearOpMode {
 
-    `public SimpleDrive drive;
+    public SimpleDrive drive;
     public ListenableGamepad gamepad;
 
     public hookLiftingMechanism getHooklifter() {
