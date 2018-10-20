@@ -1,4 +1,4 @@
-package org.pattonvillerobotics
+package org.pattonvillerobotics.opmodes
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp
