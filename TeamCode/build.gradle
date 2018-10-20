@@ -60,10 +60,11 @@ dependencies {
     implementation "com.github.modular-ftc:robotcontroller-repackaged:$ftc_version.1-lite"
     implementation "com.github.modular-ftc:robotcore-repackaged:$ftc_version.1-lite"
     implementation "com.github.modular-ftc:ftc-common-repackaged:$ftc_version.0-lite"
+    implementation group: 'org.apache.commons', name: 'commons-math3', version: '3.6.1'
 
     implementation "org.first.ftc:hardware:$ftc_version"
 
-    implementation "com.github.Pattonville-Robotics:Common-Code:3992c9f"
+    implementation "com.github.Pattonville-Robotics:Common-Code"
 
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
