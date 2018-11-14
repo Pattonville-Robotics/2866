@@ -1,4 +1,4 @@
-package org.pattonvillerobotics;
+package org.pattonvillerobotics.opmodes.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
@@ -8,30 +8,43 @@ import org.pattonvillerobotics.commoncode.enums.Direction;
 import org.pattonvillerobotics.commoncode.opmodes.OpModeGroups;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.MecanumEncoderDrive;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.RobotParameters;
+import org.pattonvillerobotics.robotclasses.misc.RobotParams;
 
-@Autonomous(name="MecaAutonomous", group=OpModeGroups.MAIN)
+@Autonomous(name="MainAutonomous1", group=OpModeGroups.MAIN)
 public class MecaAutonomous extends LinearOpMode {
 
     private RobotParameters parameters = RobotParams.setParams();
     private MecanumEncoderDrive drive;
+    //private ScissorLift scissorLift;
+    //private LunEx lunex;
+    //private GenericFunctionality runner;
+
 
     @Override
     public void runOpMode() throws InterruptedException {
+        initialize();
+        waitForStart();
 
+        drive.rotateDegrees(Direction.LEFT, 180, .5);
+        drive.moveInches(Direction.FORWARD, 3, .5);
+
+    }
+
+    private void initialize() {
         drive = new MecanumEncoderDrive(hardwareMap, this, parameters);
         drive.leftRearMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         drive.rightRearMotor.setDirection(DcMotorSimple.Direction.REVERSE);
         drive.leftDriveMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         drive.rightDriveMotor.setDirection(DcMotorSimple.Direction.REVERSE);
 
-        waitForStart();
+        //scissorLift = new ScissorLift(this, hardwareMap);
 
-        drive.moveInches(Direction.FORWARD, 6, .5);
-        drive.moveInches(Direction.BACKWARD,6, .5);
-        drive.moveInches(Direction.LEFT, 6, .5);
-        drive.moveInches(Direction.RIGHT, 6, .5);
-        drive.rotateDegrees(Direction.RIGHT, 180, .5);
-        drive.rotateDegrees(Direction.LEFT, 180, .5);
+        //lunex = new LunEx(this, hardwareMap);
+
+        //runner = new GenericFunctionality(this, hardwareMap, drive, scissorLift);
+
     }
+
+
 
 }

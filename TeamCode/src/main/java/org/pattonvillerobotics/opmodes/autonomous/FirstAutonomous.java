@@ -1,4 +1,4 @@
-package org.pattonvillerobotics;
+package org.pattonvillerobotics.opmodes.autonomous;
 
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
@@ -7,7 +7,7 @@ import org.pattonvillerobotics.commoncode.enums.Direction;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.GyroEncoderDrive;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.RobotParameters;
 
-@Autonomous(name="Testing")
+@Autonomous(name="NotTesting")
 public class FirstAutonomous extends LinearOpMode {
 
     private RobotParameters parameters = new RobotParameters.Builder()

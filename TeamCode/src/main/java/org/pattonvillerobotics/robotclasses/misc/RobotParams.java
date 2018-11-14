@@ -1,4 +1,4 @@
-package org.pattonvillerobotics;
+package org.pattonvillerobotics.robotclasses.misc;
 
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
