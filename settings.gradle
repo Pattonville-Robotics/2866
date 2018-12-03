@@ -1,6 +1,6 @@
 include ':TeamCode'
 
-def toggleCommonCode = true
+def toggleCommonCode = false
 gradle.ext.include_common_code = toggleCommonCode && file('../Common-Code').exists()
 if (gradle.ext.include_common_code) {
     includeBuild('../Common-Code') {

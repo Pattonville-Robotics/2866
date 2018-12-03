@@ -5,7 +5,7 @@
  */
 buildscript {
     ext.kotlin_version = '1.2.71'
-    ext.ftc_version = '4.0'
+    ext.ftc_version = '4.3'
 
     repositories {
         google()

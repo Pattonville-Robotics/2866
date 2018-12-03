@@ -7,13 +7,14 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
 import org.apache.commons.lang3.Range;
+import org.pattonvillerobotics.commoncode.enums.Direction;
 import org.pattonvillerobotics.commoncode.opmodes.OpModeGroups;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.MecanumEncoderDrive;
+import org.pattonvillerobotics.commoncode.robotclasses.opencv.ImageProcessor;
 import org.pattonvillerobotics.commoncode.robotclasses.opencv.roverruckus.minerals.MineralDetector;
 import org.pattonvillerobotics.commoncode.robotclasses.vuforia.VuforiaNavigation;
 import org.pattonvillerobotics.enums.ArmState;
 import org.pattonvillerobotics.enums.JointType;
-import org.pattonvillerobotics.opmodes.teleop.MecaTeleOp;
 import org.pattonvillerobotics.robotclasses.mechanisms.ArmUtilities.Joint;
 import org.pattonvillerobotics.robotclasses.mechanisms.LunEx;
 import org.pattonvillerobotics.robotclasses.mechanisms.ScissorLift;
@@ -26,7 +27,7 @@ import java.util.ArrayList;
 @Autonomous(name="CraterAutonomous", group=OpModeGroups.MAIN)
 public class CraterAutonomous extends LinearOpMode {
 
-    public final String TAG = MecaTeleOp.class.getSimpleName();
+    public final String TAG = "CraterAutonomous";
     private MecanumEncoderDrive drive;
     private BNO055IMU imu;
     private ScissorLift scissorLift;
@@ -42,11 +43,17 @@ public class CraterAutonomous extends LinearOpMode {
         waitForStart();
 
         runner.dropBot();
+        sleep(1000);
+        drive.rotateDegrees(Direction.COUNTERCLOCKWISE, 30, .8);
+        drive.moveInches(Direction.LEFT, 8, .8);
+        drive.moveInches(Direction.FORWARD, 28, .8);
+        drive.moveInches(Direction.LEFT, 24, .8);
         runner.rocketeer(TAG, runner.scanMinerals());
         idle();
     }
 
     private void initialize() {
+        ImageProcessor.initOpenCV(hardwareMap, this);
         drive = new MecanumEncoderDrive(hardwareMap, this, RobotParams.setParams());
         imu = hardwareMap.get(BNO055IMU.class, "imu");
         scissorLift = new ScissorLift(this, hardwareMap);
@@ -57,6 +64,11 @@ public class CraterAutonomous extends LinearOpMode {
         runner.initializeAutonomous();
     }
 
+    /**
+     * Used to initialize the arm's joints.
+     *
+     * @return Array list of joints
+     */
     private ArrayList<Joint> initJoints() {
         ArrayList<Joint> joints = new ArrayList<>();
         Servo waist, elbow, wrist;

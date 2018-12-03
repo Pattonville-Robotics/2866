@@ -66,7 +66,7 @@ public class MecaTeleOp  extends LinearOpMode {
 
             drive.moveFreely(polarCoordinates.getY() - (fieldOrientedDriveMode ? angles.secondAngle + (Math.PI / 2.) : 0), polarCoordinates.getX() / (lowPowerMode ? 2 : 1), -gamepad1.right_stick_x);
             scissorLift.setPower(gamepad1.right_trigger - gamepad1.left_trigger);
-            lunex.rotateShoulder(gamepad2.right_trigger - gamepad2.left_trigger);
+            lunex.rotateShoulder((gamepad2.right_trigger - gamepad2.left_trigger) / 2);
         }
     }
 
@@ -90,13 +90,18 @@ public class MecaTeleOp  extends LinearOpMode {
         armGamepad.addButtonListener(GamepadData.Button.Y, ListenableButton.ButtonState.JUST_PRESSED, () -> lunex.rotateWaist(-90));
     }
 
+    /**
+     * Used to initialize the arm's joints.
+     *
+     * @return Array list of joints
+     */
     private ArrayList<Joint> initJoints() {
         ArrayList<Joint> joints = new ArrayList<>();
         Servo waist, elbow, wrist;
         DcMotor shoulder;
 
         waist = hardwareMap.servo.get("waist");
-        Joint waistJoint = new Joint(this, waist, JointType.SERVO, Range.between(0, 180), ArmState.FLEXED);
+        Joint waistJoint = new Joint(this, waist, JointType.SERVO, Range.between(-90, 90), ArmState.FLEXED);
         joints.add(waistJoint);
 
         elbow = hardwareMap.servo.get("elbow");

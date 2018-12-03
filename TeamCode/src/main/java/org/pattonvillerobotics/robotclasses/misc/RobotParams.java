@@ -10,13 +10,19 @@ import org.pattonvillerobotics.commoncode.robotclasses.opencv.util.PhoneOrientat
 import org.pattonvillerobotics.commoncode.robotclasses.vuforia.VuforiaParameters;
 import org.pattonvillerobotics.enums.ArmType;
 
+/**
+ * Parameters of the robot to be
+ * accessed from different parts
+ * of the package.
+ * @author Samuel Vaclavik
+ */
 public class RobotParams {
 
     public static RobotParameters setParams() {
         return new RobotParameters.Builder()
-                .wheelRadius(1.931)
-                .wheelBaseRadius(7)
-                .driveGearRatio(1)
+                .wheelRadius(2.136)
+                .wheelBaseRadius(10)
+                .driveGearRatio(2)
                 .encodersEnabled(true)
                 .rightDriveMotorDirection(DcMotorSimple.Direction.REVERSE)
                 .leftDriveMotorDirection(DcMotorSimple.Direction.FORWARD)

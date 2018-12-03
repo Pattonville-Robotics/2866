@@ -56,12 +56,12 @@ android {
 
 dependencies {
     implementation "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$kotlin_version"
-    implementation "com.github.modular-ftc:robotcontroller-repackaged:$ftc_version.1-lite"
-    implementation "com.github.modular-ftc:robotcore-repackaged:$ftc_version.1-lite"
+    implementation "com.github.modular-ftc:robotcontroller-repackaged:$ftc_version.0-lite"
+    implementation "com.github.modular-ftc:robotcore-repackaged:$ftc_version.0-lite"
     implementation "com.github.modular-ftc:ftc-common-repackaged:$ftc_version.0-lite"
     implementation 'org.apache.commons:commons-math3:3.6.1'
     implementation "org.first.ftc:hardware:$ftc_version"
-    implementation 'com.github.Pattonville-Robotics:Common-Code'
+    implementation 'com.github.Pattonville-Robotics:Common-Code:0285c7bd73'
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     androidTestImplementation 'com.android.support.test:rules:1.0.2'

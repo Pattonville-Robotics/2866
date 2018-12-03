@@ -3,6 +3,12 @@ package org.pattonvillerobotics.robotclasses.misc;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.RobotParameters;
 import org.pattonvillerobotics.enums.ArmType;
 
+/**
+ * Parameters for the AbstractArm class.
+ * To be implemented later in the season
+ * to improve functionality of the arm.
+ * @author Samuel Vaclavik
+ */
 public class ArmParameters {
 
 

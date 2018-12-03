@@ -10,13 +10,18 @@ import com.qualcomm.robotcore.hardware.HardwareMap;
 import org.pattonvillerobotics.commoncode.enums.ColorSensorColor;
 import org.pattonvillerobotics.commoncode.enums.Direction;
 import org.pattonvillerobotics.commoncode.robotclasses.drive.MecanumEncoderDrive;
-import org.pattonvillerobotics.commoncode.robotclasses.opencv.ImageProcessor;
 import org.pattonvillerobotics.commoncode.robotclasses.opencv.roverruckus.minerals.MineralDetector;
 import org.pattonvillerobotics.commoncode.robotclasses.vuforia.VuforiaNavigation;
 import org.pattonvillerobotics.enums.MineralScanPosition;
 import org.pattonvillerobotics.robotclasses.mechanisms.LunEx;
 import org.pattonvillerobotics.robotclasses.mechanisms.ScissorLift;
 
+/**
+ * Generic functionality of the autonomi
+ * and teleop that I thought should be
+ * implemented in one central file.
+ * @author Samuel Vaclavik
+ */
 public class GenericFunctionality {
 
     private final LinearOpMode linearOpMode;
@@ -29,6 +34,15 @@ public class GenericFunctionality {
     private int compensationDistance;
     private LunEx lunex;
 
+    /**
+     * Constructor for GenericFunctionality when in TeleOp.
+     * @param linearOpMode  The <code>LinearOpMode</code> of the calling process.
+     * @param hardwareMap   The <code>HardwareMap</code> of the calling process.
+     * @param drive         The drive of the calling OpMode.
+     * @param imu           The IMU sensor on the RevHub.
+     * @param scissorLift   The <code>ScissorLift</code> mechanism.
+     * @param lunex         The <code>LunEx</code> mechanism.
+     */
     public GenericFunctionality(LinearOpMode linearOpMode, HardwareMap hardwareMap, MecanumEncoderDrive drive, BNO055IMU imu, ScissorLift scissorLift, LunEx lunex) {
         this.linearOpMode = linearOpMode;
         this.hardwareMap = hardwareMap;
@@ -38,6 +52,17 @@ public class GenericFunctionality {
         this.lunex = lunex;
     }
 
+    /**
+     * Constructor for GenericFunctionality when in autonomous.
+     * @param linearOpMode      The <code>LinearOpMode</code> of the calling process.
+     * @param hardwareMap       The <code>HardwareMap</code> of the calling process.
+     * @param drive             The drive of the calling OpMode.
+     * @param imu               The IMU sensor on the RevHub.
+     * @param scissorLift       The <code>ScissorLift</code> mechanism.
+     * @param lunex             The <code>LunEx</code> mechanism.
+     * @param mineralDetector   The <code>MineralDetector</code> of the autonomous.
+     * @param vuforia           Vuforia object used to get an image from the phones.
+     */
     public GenericFunctionality(LinearOpMode linearOpMode, HardwareMap hardwareMap, MecanumEncoderDrive drive, BNO055IMU imu, ScissorLift scissorLift, LunEx lunex, MineralDetector mineralDetector, VuforiaNavigation vuforia) {
         this.linearOpMode = linearOpMode;
         this.hardwareMap = hardwareMap;
@@ -50,45 +75,62 @@ public class GenericFunctionality {
     }
 
     //Rain drop
+    /**
+     * A method to automatically make the
+     * robot land and set up for mineral
+     * detection.
+     */
     public void dropBot() {
-        scissorLift.setPower(-0.5);
-        sleep(5500);
-        drive.moveInches(Direction.LEFT, 2, .4);
-        sleep(100);
-        drive.moveInches(Direction.FORWARD, 5, .5);
-        sleep(100);
-        drive.moveInches(Direction.RIGHT, 2, .4);
+        scissorLift.setPower(-1);
+        sleep(9000);
+        scissorLift.setPower(0);
     }
 
+    /**
+     * A method to automatically scan for minerals
+     * utilizing the <code>check()</code> method.
+     * @return A MineralScanPosition that determines what should happen for the rest of autonomous.
+     */
     public MineralScanPosition scanMinerals() {
-        drive.rotateDegrees(Direction.CLOCKWISE, 45, 0.4);
-        if(check(12)) {
-            if(check(16)) {
-                check(12);
-                return MineralScanPosition.LEFT;
-            } else {
-                return MineralScanPosition.CENTER;
-            }
+        if(check()) {
+            return MineralScanPosition.LEFT;
+        } else if(check()) {
+            return MineralScanPosition.CENTER;
         } else {
+            drive.moveInches(Direction.FORWARD, 6, 0.7);
+            drive.moveInches(Direction.BACKWARD, 6, 0.7);
             return MineralScanPosition.RIGHT;
         }
     }
 
-    private boolean check(int inches) {
+    /**
+     * Utilized by the <code>scanMinerals()</code> method
+     * to determine if a mineral is gold or silver.
+     * @return A boolean: false if silver, true if gold.
+     */
+    private boolean check() {
         mineralDetector.process(vuforia.getImage());
         if(mineralDetector.getAnalysis() == ColorSensorColor.YELLOW) {
-            drive.moveInches(Direction.FORWARD, inches, 0.5);
-            sleep(250);
-            drive.moveInches(Direction.BACKWARD, 4, 0.5);
+            drive.moveInches(Direction.FORWARD, 12, 1);
+            drive.moveInches(Direction.BACKWARD, 12, 1);
             return true;
         } else {
-            drive.rotateDegrees(Direction.COUNTERCLOCKWISE, 45, 0.4);
+            drive.moveInches(Direction.RIGHT, 24, 0.8);
             return false;
         }
     }
 
     // Drops the marker
     // Up up here we go, where we stop nobody knows...
+    /**
+     * Used to finalize autonomous.
+     * This method determines what happens after mineral
+     * detection. Some placements are optimal for dropping
+     * the marker, and others are not.
+     * @param startSide             A string to understand whether the bot is on the crater side or depot side.
+     * @param mineralScanPosition   A <code>MineralScanPosition</code> from <code>scanMinerals</code>.
+     * @todo Perfect movement values on CraterAutonomous and DepotAutonomous.
+     */
     public void rocketeer(String startSide, MineralScanPosition mineralScanPosition) {
         // Nested switch statements :)
         switch(startSide) {
@@ -96,28 +138,16 @@ public class GenericFunctionality {
                 switch(mineralScanPosition) {
                     case LEFT:
                         drive.rotateDegrees(Direction.COUNTERCLOCKWISE, 90, 0.4);
-                        drive.moveInches(Direction.RIGHT, 14, 0.5);
-                        drive.moveInches(Direction.FORWARD, 40, 0.5);
-                        // Arm stuff to drop marker
-                        drive.moveInches(Direction.BACKWARD, 52, 0.5);
+                        drive.moveInches(Direction.LEFT, 48, 1);
+                        drive.moveInches(Direction.BACKWARD, 74, 1);
+                        dropMarker();
+                        drive.moveInches(Direction.FORWARD, 94, 1);
                         break;
                     case CENTER:
-                        drive.rotateDegrees(Direction.COUNTERCLOCKWISE, 90, 0.4);
-                        drive.moveInches(Direction.FORWARD, 14, 0.5);
-                        drive.rotateDegrees(Direction.COUNTERCLOCKWISE, 45, 0.4);
-                        drive.moveInches(Direction.RIGHT, 3, 0.5);
-                        drive.moveInches(Direction.FORWARD, 40, 0.5);
-                        // Arm stuff to drop marker
-                        drive.moveInches(Direction.BACKWARD, 52, 0.5);
+                        drive.moveInches(Direction.FORWARD, 20, 1);
                         break;
                     case RIGHT:
-                        drive.rotateDegrees(Direction.COUNTERCLOCKWISE, 135, 0.4);
-                        drive.moveInches(Direction.FORWARD, 28, 0.5);
-                        drive.rotateDegrees(Direction.COUNTERCLOCKWISE, 45, 0.4);
-                        drive.moveInches(Direction.RIGHT, 3, 0.5);
-                        drive.moveInches(Direction.FORWARD, 40, 0.5);
-                        // Arm stuff to drop marker
-                        drive.moveInches(Direction.BACKWARD, 52, 0.5);
+                        drive.moveInches(Direction.FORWARD, 20, 1);
                         break;
                 }
                 break;
@@ -154,14 +184,25 @@ public class GenericFunctionality {
         }
     }
 
+    /**
+     * Used to flex the 'Forearm' and drop the marker.
+     * Might need to be more complex in the future.
+     */
     public void dropMarker() {
         lunex.partialExtendForearm(0.5);
     }
 
+    /**
+     * Used for delays in actions of other methods.
+     * @param millis The amount of time needed to sleep in milliseconds.
+     */
     private void sleep(int millis) {
         linearOpMode.sleep(millis);
     }
 
+    /**
+     * Initializes all of the objects needed to operate TeleOp.
+     */
     public void initializeTeleOp() {
         drive.leftRearMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         drive.rightRearMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -183,6 +224,9 @@ public class GenericFunctionality {
         imu.initialize(params);
     }
 
+    /**
+     * Initializes all of the objects needed to operate Autonomous.
+     */
     public void initializeAutonomous() {
         drive.leftRearMotor.setDirection(DcMotorSimple.Direction.FORWARD);
         drive.rightRearMotor.setDirection(DcMotorSimple.Direction.REVERSE);
@@ -202,8 +246,6 @@ public class GenericFunctionality {
         params.loggingTag = "IMU";
         params.accelerationIntegrationAlgorithm = new JustLoggingAccelerationIntegrator();
         imu.initialize(params);
-
-        ImageProcessor.initOpenCV(hardwareMap, linearOpMode);
     }
 
 }
