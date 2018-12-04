@@ -39,12 +39,12 @@ public abstract class AbstractArm extends AbstractMechanism {
     /**
      * Flex the 'Bicep' of the arm.
      */
-    public abstract void flexBicep();
+    public abstract void flexBicep(int millis);
 
     /**
      * Extend the 'Bicep' of the arm.
      */
-    public abstract void extendBicep();
+    public abstract void extendBicep(int millis);
 
     /**
      * Flex the 'Forearm' of the arm.

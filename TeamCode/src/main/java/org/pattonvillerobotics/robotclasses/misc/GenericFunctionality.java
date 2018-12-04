@@ -155,26 +155,24 @@ public class GenericFunctionality {
             case "DepotAutonomous":
                 switch(mineralScanPosition) {
                     case LEFT:
-                        drive.rotateDegrees(Direction.CLOCKWISE, 30, 0.4);
-                        // Arm stuff to drop marker
-                        drive.rotateDegrees(Direction.CLOCKWISE, 30, 0.4);
-                        drive.moveInches(Direction.LEFT, 6, 0.5);
-                        drive.moveInches(Direction.BACKWARD, 48, 0.5);
+                        drive.rotateDegrees(Direction.COUNTERCLOCKWISE, 90, 0.4);
+                        drive.moveInches(Direction.LEFT, 20, 1);
+                        drive.moveInches(Direction.FORWARD, 14, 1);
+                        dropMarker();
+                        drive.moveInches(Direction.BACKWARD, 60, 1);
                         break;
                     case CENTER:
-                        // Arm stuff to drop marker
-                        drive.rotateDegrees(Direction.CLOCKWISE, 45, 0.4);
-                        drive.moveInches(Direction.LEFT, 8, 0.5);
-                        drive.moveInches(Direction.BACKWARD, 52, 0.5);
+                        drive.moveInches(Direction.FORWARD, 32, 1);
+                        drive.rotateDegrees(Direction.COUNTERCLOCKWISE, 90, 0.4);
+                        dropMarker();
+                        drive.moveInches(Direction.LEFT, 14, 1);
+                        drive.moveInches(Direction.BACKWARD, 52, 1);
                         break;
                     case RIGHT:
-                        drive.rotateDegrees(Direction.COUNTERCLOCKWISE, 30, 0.4);
-                        // Arm stuff to drop marker
-                        drive.rotateDegrees(Direction.CLOCKWISE, 30, 0.4);
-                        drive.moveInches(Direction.LEFT, 14, 0.5);
-                        drive.rotateDegrees(Direction.CLOCKWISE, 15, 0.4);
-                        drive.moveInches(Direction.LEFT, 3, 0.4);
-                        drive.moveInches(Direction.BACKWARD, 48, 0.5);
+                        drive.rotateDegrees(Direction.COUNTERCLOCKWISE, 90, 0.4);
+                        dropMarker();
+                        drive.moveInches(Direction.LEFT, 30, 1);
+                        drive.moveInches(Direction.BACKWARD, 60, 1);
                         break;
                 }
                 break;
@@ -189,7 +187,7 @@ public class GenericFunctionality {
      * Might need to be more complex in the future.
      */
     public void dropMarker() {
-        lunex.partialExtendForearm(0.5);
+        lunex.extendForearm();
     }
 
     /**

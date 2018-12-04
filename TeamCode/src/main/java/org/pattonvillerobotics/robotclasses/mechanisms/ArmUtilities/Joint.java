@@ -69,7 +69,7 @@ public class Joint {
      * @param rangeOfMotion     Range of motion the joint has.
      * @param currentState      Current state of the joint, i.e. Flexed or Extended.
      */
-    public Joint(CRServo crServo, JointType jointType, Range<Integer> rangeOfMotion, ArmState currentState, LinearOpMode linearOpMode) {
+    public Joint(LinearOpMode linearOpMode, CRServo crServo, JointType jointType, Range<Integer> rangeOfMotion, ArmState currentState) {
         this.crServo = crServo;
         this.jointType = jointType;
         this.rangeOfMotion = rangeOfMotion;
@@ -207,7 +207,7 @@ public class Joint {
     // Only for servos
     /**
      * Sets the servo
-     * @param position
+     * @param position Sets the position of the servo if the joint is one.
      */
     public void setServoJointPosition(double position) {
         servo.setPosition(position);

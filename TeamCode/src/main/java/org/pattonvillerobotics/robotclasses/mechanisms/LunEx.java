@@ -43,29 +43,21 @@ public class LunEx extends AbstractArm {
 
     /**
      * Rotates the waist of the mechanism.
-     * @param degrees   The amount of degrees to rotate.
+     * @param degrees   The degree to rotate too. NOT THE AMOUNT OF DEGREES TO ROTATE
      */
     public void rotateWaist(int degrees) {
         int max = waistJoint.getRangeOfMotion().getMaximum();
         int min = waistJoint.getRangeOfMotion().getMinimum();
         double current = waistJoint.getServoJointPosition();
         double adjustedPosition;
-
-        if(degrees > max || degrees < min) {
-            throw new IllegalArgumentException("Degrees of waist rotation out of range!");
-        }
         switch(waistJoint.getCurrentState()) {
             case FLEXED:
-                if(!(degrees > 0))
-                    throw new IllegalArgumentException("Arm is extended! Cannot extend any further.");
-                adjustedPosition = (degrees / max) + current;
-                waistJoint.flex(0, adjustedPosition);
+                adjustedPosition = (degrees / max);
+                waistJoint.extend(0, adjustedPosition);
                 break;
 
             case EXTENDED:
-                if(!(degrees < 0))
-                    throw new IllegalArgumentException("Arm is extended! Cannot extend any further.");
-                adjustedPosition = (degrees / max) + current;
+                adjustedPosition = (degrees / max);
                 waistJoint.flex(0, adjustedPosition);
                 break;
 
@@ -94,36 +86,27 @@ public class LunEx extends AbstractArm {
      * Flexes the 'Bicep' of the arm.
      */
     @Override
-    public void flexBicep() {
-        elbowJoint.flex(0, 0);
+    public void flexBicep(int millis) {
+        elbowJoint.move(-.5, millis);
         elbowJoint.setCurrentState(ArmState.FLEXED);
     }
 
     /**
-     * Only partially flexes the 'Bicep' of the arm.
-     * @param position  The position to set the 'Bicep' servo to.
-     */
-    public void partialFlexBicep(double position) {
-        elbowJoint.flex(0, position);
-        elbowJoint.setCurrentState(ArmState.MIDFLEXED);
-    }
-
-    /**
      * Extends the 'Bicep' of the arm.
+     * @param millis Amount of time to extend the bicep in milliseconds.
      */
     @Override
-    public void extendBicep() {
-        elbowJoint.extend(0, 1);
+    public void extendBicep(int millis) {
+        elbowJoint.move(.5, millis);
         elbowJoint.setCurrentState(ArmState.EXTENDED);
     }
 
     /**
-     * Only partially extends the 'Bicep' of the arm.
-     * @param position  The position to set the 'Bicep' servo to.
+     * Used for moving the bicep freely during TeleOp.
+     * @param power The power at which the elbow should move
      */
-    public void partialExtendBicep(double position) {
-        elbowJoint.extend(0, position);
-        elbowJoint.setCurrentState(ArmState.MIDFLEXED);
+    public void rotateBicep(double power) {
+        elbowJoint.moveFreely(power);
     }
 
     // Same here ;)
@@ -132,7 +115,7 @@ public class LunEx extends AbstractArm {
      */
     @Override
     public void flexForearm() {
-        wristJoint.flex(0, 0);
+        wristJoint.setServoJointPosition(0);
         wristJoint.setCurrentState(ArmState.FLEXED);
     }
 
@@ -141,7 +124,7 @@ public class LunEx extends AbstractArm {
      * @param position  The position to set the 'Forearm' servo to.
      */
     public void partialFlexForearm(double position) {
-        wristJoint.flex(0, position);
+        wristJoint.setServoJointPosition(position);
         wristJoint.setCurrentState(ArmState.MIDFLEXED);
     }
 
@@ -150,7 +133,7 @@ public class LunEx extends AbstractArm {
      */
     @Override
     public void extendForearm() {
-        wristJoint.extend(0, 1);
+        wristJoint.setServoJointPosition(1);
         wristJoint.setCurrentState(ArmState.EXTENDED);
     }
 
@@ -159,7 +142,7 @@ public class LunEx extends AbstractArm {
      * @param position The position to set the 'Forearm' servo to.
      */
     public void partialExtendForearm(double position) {
-        wristJoint.extend(0, position);
+        wristJoint.setServoJointPosition(position);
         wristJoint.setCurrentState(ArmState.MIDFLEXED);
     }
 
