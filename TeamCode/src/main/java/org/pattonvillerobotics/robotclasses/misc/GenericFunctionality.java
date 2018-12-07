@@ -87,6 +87,15 @@ public class GenericFunctionality {
     }
 
     /**
+     * Used to reset the scissor lift during testing.
+     */
+    public void resetScissorLift() {
+        scissorLift.setPower(1);
+        sleep(8500);
+        scissorLift.setPower(0);
+    }
+
+    /**
      * A method to automatically scan for minerals
      * utilizing the <code>check()</code> method.
      * @return A MineralScanPosition that determines what should happen for the rest of autonomous.
@@ -97,8 +106,8 @@ public class GenericFunctionality {
         } else if(check()) {
             return MineralScanPosition.CENTER;
         } else {
-            drive.moveInches(Direction.FORWARD, 6, 0.7);
-            drive.moveInches(Direction.BACKWARD, 6, 0.7);
+            drive.moveInches(Direction.FORWARD, 5, 0.9);
+            drive.moveInches(Direction.BACKWARD, 5, 0.9);
             return MineralScanPosition.RIGHT;
         }
     }
@@ -115,7 +124,7 @@ public class GenericFunctionality {
             drive.moveInches(Direction.BACKWARD, 12, 1);
             return true;
         } else {
-            drive.moveInches(Direction.RIGHT, 24, 0.8);
+            drive.moveInches(Direction.RIGHT, 26, 0.8);
             return false;
         }
     }
@@ -138,10 +147,11 @@ public class GenericFunctionality {
                 switch(mineralScanPosition) {
                     case LEFT:
                         drive.rotateDegrees(Direction.COUNTERCLOCKWISE, 90, 0.4);
-                        drive.moveInches(Direction.LEFT, 48, 1);
-                        drive.moveInches(Direction.BACKWARD, 74, 1);
-                        dropMarker();
-                        drive.moveInches(Direction.FORWARD, 94, 1);
+                        drive.moveInches(Direction.LEFT, 34, 1);
+                        drive.moveInches(Direction.BACKWARD, 78, 1);
+                        lunex.rotateShoulder(1);
+                        sleep(500);
+                        lunex.rotateShoulder(0);
                         break;
                     case CENTER:
                         drive.moveInches(Direction.FORWARD, 20, 1);
@@ -156,10 +166,10 @@ public class GenericFunctionality {
                 switch(mineralScanPosition) {
                     case LEFT:
                         drive.rotateDegrees(Direction.COUNTERCLOCKWISE, 90, 0.4);
-                        drive.moveInches(Direction.LEFT, 20, 1);
-                        drive.moveInches(Direction.FORWARD, 14, 1);
+                        drive.moveInches(Direction.LEFT, 24, 1);
+                        drive.moveInches(Direction.FORWARD, 44, 1);
                         dropMarker();
-                        drive.moveInches(Direction.BACKWARD, 60, 1);
+                        sleep(3000);
                         break;
                     case CENTER:
                         drive.moveInches(Direction.FORWARD, 32, 1);

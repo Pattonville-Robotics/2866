@@ -52,7 +52,7 @@ public class CraterAutonomous extends LinearOpMode {
         drive.rotateDegrees(Direction.COUNTERCLOCKWISE, 30, .8);
         drive.moveInches(Direction.LEFT, 8, .8);
         drive.moveInches(Direction.FORWARD, 28, .8);
-        drive.moveInches(Direction.LEFT, 24, .8);
+        drive.moveInches(Direction.LEFT, 22, .8);
         runner.rocketeer(TAG, runner.scanMinerals());
         idle();
     }

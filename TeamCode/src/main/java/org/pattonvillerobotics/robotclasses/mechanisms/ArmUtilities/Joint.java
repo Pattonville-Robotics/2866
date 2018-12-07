@@ -160,26 +160,45 @@ public class Joint {
     }
 
     /**
-     * Moves a motor powered joint (probably
+     * Moves a motor or crservo powered joint (probably
      * the shoulder) a set power for a set
      * amount of time in milliseconds.
      * @param power     The power at which the motor should operate.
      * @param millis    The amount of time the motor should move for.
      */
     public void move(double power, int millis) {
-        motor.setPower(power);
+        if(jointType == JointType.MOTOR) {
+            motor.setPower(power);
+        }
+
+        if(jointType == JointType.ACTUARY) {
+            crServo.setPower(power);
+        }
         linearOpMode.sleep(millis);
-        motor.setPower(0);
+        if(jointType == JointType.MOTOR) {
+            motor.setPower(0);
+        }
+
+        if(jointType == JointType.ACTUARY) {
+            crServo.setPower(0);
+        }
     }
 
 
     /**
-     * Sets a motor powered joint a certain
+     * Sets a motor or crservo powered joint a certain
      * <code>power</code>.
      * @param power The power at which the motor should operate.
      */
     public void moveFreely(double power) {
-        motor.setPower(power);
+
+        if(jointType == JointType.MOTOR) {
+            motor.setPower(power);
+        }
+
+        if(jointType == JointType.ACTUARY) {
+            crServo.setPower(power);
+        }
     }
 
     /**

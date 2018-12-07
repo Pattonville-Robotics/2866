@@ -110,15 +110,11 @@ public class MecaTeleOp  extends LinearOpMode {
             telemetry.addData("GamePad", "Bicep flexed");
         });
         armGamepad.addButtonListener(GamepadData.Button.A, ListenableButton.ButtonState.JUST_PRESSED, () -> {
-            lunex.rotateWaist(0);
+            lunex.rotateWaist(32);
             telemetry.addData("GamePad", "Waist reset");
         });
-        armGamepad.addButtonListener(GamepadData.Button.B, ListenableButton.ButtonState.JUST_PRESSED, () -> {
-            lunex.rotateWaist(90);
-            telemetry.addData("GamePad", "Waist midflexed");
-        });
         armGamepad.addButtonListener(GamepadData.Button.Y, ListenableButton.ButtonState.JUST_PRESSED, () -> {
-            lunex.rotateWaist(180);
+            lunex.rotateWaist(0);
             telemetry.addData("GamePad", "Full Waist extension");
         });
     }
