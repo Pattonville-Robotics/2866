@@ -82,8 +82,9 @@ public class GenericFunctionality {
      */
     public void dropBot() {
         scissorLift.setPower(-1);
-        sleep(9000);
+        sleep(11500);
         scissorLift.setPower(0);
+//        drive.moveInches(Direction.FORWARD, 3, 1);
     }
 
     /**
@@ -106,8 +107,8 @@ public class GenericFunctionality {
         } else if(check()) {
             return MineralScanPosition.CENTER;
         } else {
-            drive.moveInches(Direction.FORWARD, 5, 0.9);
-            drive.moveInches(Direction.BACKWARD, 5, 0.9);
+            drive.moveInches(Direction.FORWARD, 8, 1);
+
             return MineralScanPosition.RIGHT;
         }
     }
@@ -118,7 +119,11 @@ public class GenericFunctionality {
      * @return A boolean: false if silver, true if gold.
      */
     private boolean check() {
+
+
         mineralDetector.process(vuforia.getImage());
+
+
         if(mineralDetector.getAnalysis() == ColorSensorColor.YELLOW) {
             drive.moveInches(Direction.FORWARD, 12, 1);
             drive.moveInches(Direction.BACKWARD, 12, 1);
@@ -146,12 +151,7 @@ public class GenericFunctionality {
             case "CraterAutonomous":
                 switch(mineralScanPosition) {
                     case LEFT:
-                        drive.rotateDegrees(Direction.COUNTERCLOCKWISE, 90, 0.4);
-                        drive.moveInches(Direction.LEFT, 34, 1);
-                        drive.moveInches(Direction.BACKWARD, 78, 1);
-                        lunex.rotateShoulder(1);
-                        sleep(500);
-                        lunex.rotateShoulder(0);
+                        drive.moveInches(Direction.FORWARD, 24, 1);
                         break;
                     case CENTER:
                         drive.moveInches(Direction.FORWARD, 20, 1);
@@ -172,17 +172,17 @@ public class GenericFunctionality {
                         sleep(3000);
                         break;
                     case CENTER:
-                        drive.moveInches(Direction.FORWARD, 32, 1);
+                        drive.moveInches(Direction.FORWARD, 40, 1);
                         drive.rotateDegrees(Direction.COUNTERCLOCKWISE, 90, 0.4);
                         dropMarker();
-                        drive.moveInches(Direction.LEFT, 14, 1);
-                        drive.moveInches(Direction.BACKWARD, 52, 1);
+                        sleep(5000);
                         break;
                     case RIGHT:
                         drive.rotateDegrees(Direction.COUNTERCLOCKWISE, 90, 0.4);
+                        drive.moveInches(Direction.FORWARD, 24, 1);
+                        drive.moveInches(Direction.LEFT, 44, 1);
                         dropMarker();
-                        drive.moveInches(Direction.LEFT, 30, 1);
-                        drive.moveInches(Direction.BACKWARD, 60, 1);
+                        sleep(3000);
                         break;
                 }
                 break;

@@ -3,7 +3,6 @@ package org.pattonvillerobotics.opmodes.autonomous;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -37,8 +36,7 @@ public class CraterAutonomous extends LinearOpMode {
     private GenericFunctionality runner;
     private LunEx lunex;
     private ArrayList<Joint> joints = new ArrayList<>();
-    private Servo waist, wrist;
-    private CRServo elbow;
+    private Servo waist, wrist, elbow;
     private DcMotor shoulder;
     private ArmParameters parameters = RobotParams.setArmParameters();
 
@@ -49,10 +47,10 @@ public class CraterAutonomous extends LinearOpMode {
 
         runner.dropBot();
         sleep(500);
-        drive.rotateDegrees(Direction.COUNTERCLOCKWISE, 30, .8);
-        drive.moveInches(Direction.LEFT, 8, .8);
-        drive.moveInches(Direction.FORWARD, 28, .8);
-        drive.moveInches(Direction.LEFT, 22, .8);
+        drive.rotateDegrees(Direction.CLOCKWISE, 30, .8);
+        drive.moveInches(Direction.RIGHT, 8, 1);
+        drive.moveInches(Direction.FORWARD, 24, 1);
+        drive.moveInches(Direction.LEFT, 34, 1);
         runner.rocketeer(TAG, runner.scanMinerals());
         idle();
     }
@@ -81,7 +79,7 @@ public class CraterAutonomous extends LinearOpMode {
         Joint waistJoint = new Joint(this, waist, JointType.SERVO, Range.between(0, 180), ArmState.FLEXED);
         joints.add(waistJoint);
 
-        elbow = hardwareMap.crservo.get("elbow");
+        elbow = hardwareMap.servo.get("elbow");
         Joint elbowJoint = new Joint(this, elbow, JointType.ACTUARY, Range.between(0, 360), ArmState.FLEXED);
         joints.add(elbowJoint);
 

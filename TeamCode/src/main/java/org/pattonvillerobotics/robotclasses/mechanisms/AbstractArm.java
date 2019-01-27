@@ -34,7 +34,7 @@ public abstract class AbstractArm extends AbstractMechanism {
      * if there is no waist to the arm.
      * @param degrees   The amount of degrees to rotate.
      */
-    public abstract void rotateWaist(int degrees);
+    public abstract void rotateWaist(double degrees);
 
     /**
      * Flex the 'Bicep' of the arm.
@@ -44,7 +44,7 @@ public abstract class AbstractArm extends AbstractMechanism {
     /**
      * Extend the 'Bicep' of the arm.
      */
-    public abstract void extendBicep(int millis);
+    public abstract void extendBicep(double position);
 
     /**
      * Flex the 'Forearm' of the arm.

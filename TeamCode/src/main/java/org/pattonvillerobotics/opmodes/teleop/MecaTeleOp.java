@@ -3,7 +3,6 @@ package org.pattonvillerobotics.opmodes.teleop;
 import com.qualcomm.hardware.bosch.BNO055IMU;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
-import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.Servo;
 
@@ -46,8 +45,7 @@ public class MecaTeleOp  extends LinearOpMode {
     private GenericFunctionality runner;
     private LunEx lunex;
     private ArrayList<Joint> joints = new ArrayList<>();
-    private Servo waist, wrist;
-    private CRServo elbow;
+    private Servo waist, wrist, elbow;
     private DcMotor shoulder;
     private ArmParameters armParameters = RobotParams.setArmParameters();
 
@@ -70,9 +68,10 @@ public class MecaTeleOp  extends LinearOpMode {
             armGamepad.update(gamepad2);
 
             drive.moveFreely(polarCoordinates.getY() - (fieldOrientedDriveMode ? angles.secondAngle + (Math.PI / 2.) : 0), polarCoordinates.getX() / (lowPowerMode ? 2 : 1), -gamepad1.right_stick_x);
+
             scissorLift.setPower(gamepad1.right_trigger - gamepad1.left_trigger);
+
             lunex.rotateShoulder((gamepad2.right_trigger - gamepad2.left_trigger) / 3);
-            lunex.rotateBicep(gamepad2.left_stick_x);
             telemetry.update();
         }
     }
@@ -93,6 +92,7 @@ public class MecaTeleOp  extends LinearOpMode {
             lowPowerMode = !lowPowerMode;
             telemetry.addData("GamePad", "Low Power mode");
         });
+
         armGamepad.addButtonListener(GamepadData.Button.DPAD_UP, ListenableButton.ButtonState.JUST_PRESSED, () -> {
             lunex.extendForearm();
             telemetry.addData("GamePad", "Forearm extended");
@@ -102,19 +102,19 @@ public class MecaTeleOp  extends LinearOpMode {
             telemetry.addData("GamePad", "Forearm flexed");
         });
         armGamepad.addButtonListener(GamepadData.Button.DPAD_LEFT, ListenableButton.ButtonState.JUST_PRESSED, () -> {
-            lunex.extendBicep(3000);
+            lunex.extendBicep(.8);
             telemetry.addData("GamePad", "Bicep extended");
         });
         armGamepad.addButtonListener(GamepadData.Button.DPAD_RIGHT, ListenableButton.ButtonState.JUST_PRESSED, () -> {
-            lunex.flexBicep(3000);
+            lunex.flexBicep(0);
             telemetry.addData("GamePad", "Bicep flexed");
         });
         armGamepad.addButtonListener(GamepadData.Button.A, ListenableButton.ButtonState.JUST_PRESSED, () -> {
-            lunex.rotateWaist(32);
+            lunex.rotateWaist(.2);
             telemetry.addData("GamePad", "Waist reset");
         });
         armGamepad.addButtonListener(GamepadData.Button.Y, ListenableButton.ButtonState.JUST_PRESSED, () -> {
-            lunex.rotateWaist(0);
+            lunex.rotateWaist(1);
             telemetry.addData("GamePad", "Full Waist extension");
         });
     }
@@ -130,12 +130,12 @@ public class MecaTeleOp  extends LinearOpMode {
         Joint waistJoint = new Joint(this, waist, JointType.SERVO, Range.between(0, 180), ArmState.FLEXED);
         joints.add(waistJoint);
 
-        elbow = hardwareMap.crservo.get("elbow");
-        Joint elbowJoint = new Joint(this, elbow, JointType.ACTUARY, Range.between(0, 360), ArmState.FLEXED);
+        elbow = hardwareMap.servo.get("elbow");
+        Joint elbowJoint = new Joint(this, elbow, JointType.SERVO, Range.between(0, 180), ArmState.FLEXED);
         joints.add(elbowJoint);
 
         wrist = hardwareMap.servo.get("wrist");
-        Joint wristJoint = new Joint(this, wrist, JointType.SERVO, Range.between(0, 1), ArmState.FLEXED);
+        Joint wristJoint = new Joint(this, wrist, JointType.SERVO, Range.between(0, 180), ArmState.FLEXED);
         joints.add(wristJoint);
 
         shoulder = hardwareMap.dcMotor.get("shoulder");
