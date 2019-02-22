@@ -82,9 +82,9 @@ public class GenericFunctionality {
      */
     public void dropBot() {
         scissorLift.setPower(-1);
-        sleep(11500);
+        sleep(7500);
         scissorLift.setPower(0);
-//        drive.moveInches(Direction.FORWARD, 3, 1);
+        drive.moveInches(Direction.FORWARD, 3, 1);
     }
 
     /**
@@ -120,9 +120,7 @@ public class GenericFunctionality {
      */
     private boolean check() {
 
-
         mineralDetector.process(vuforia.getImage());
-
 
         if(mineralDetector.getAnalysis() == ColorSensorColor.YELLOW) {
             drive.moveInches(Direction.FORWARD, 12, 1);

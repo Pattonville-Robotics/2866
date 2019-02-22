@@ -4,6 +4,7 @@ import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.hardware.HardwareMap;
 
 import org.pattonvillerobotics.enums.ArmState;
+import org.pattonvillerobotics.enums.JointType;
 import org.pattonvillerobotics.robotclasses.mechanisms.ArmUtilities.Joint;
 import org.pattonvillerobotics.robotclasses.misc.ArmParameters;
 
@@ -109,7 +110,12 @@ public class LunEx extends AbstractArm {
      * @param position The position which the elbow should move to
      */
     public void rotateBicep(double position) {
-        elbowJoint.setServoJointPosition(position);
+        if(elbowJoint.getJointType() == JointType.MOTOR)
+            elbowJoint.moveFreely(position);
+        if(elbowJoint.getJointType() == JointType.SERVO)
+            elbowJoint.setServoJointPosition(position);
+        if(elbowJoint.getJointType() == JointType.ACTUARY)
+            elbowJoint.moveFreely(position);
     }
 
     // Same here ;)

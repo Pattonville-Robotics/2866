@@ -71,7 +71,7 @@ public class MecaTeleOp  extends LinearOpMode {
 
             scissorLift.setPower(gamepad1.right_trigger - gamepad1.left_trigger);
 
-            lunex.rotateShoulder((gamepad2.right_trigger - gamepad2.left_trigger) / 3);
+            lunex.rotateShoulder((gamepad2.right_trigger - gamepad2.left_trigger) / 2);
             telemetry.update();
         }
     }
@@ -131,7 +131,7 @@ public class MecaTeleOp  extends LinearOpMode {
         joints.add(waistJoint);
 
         elbow = hardwareMap.servo.get("elbow");
-        Joint elbowJoint = new Joint(this, elbow, JointType.SERVO, Range.between(0, 180), ArmState.FLEXED);
+        Joint elbowJoint = new Joint(this, elbow, JointType.ACTUARY, Range.between(0, 180), ArmState.FLEXED);
         joints.add(elbowJoint);
 
         wrist = hardwareMap.servo.get("wrist");
