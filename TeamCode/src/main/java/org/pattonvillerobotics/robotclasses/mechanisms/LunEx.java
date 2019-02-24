@@ -124,7 +124,7 @@ public class LunEx extends AbstractArm {
      */
     @Override
     public void flexForearm() {
-        wristJoint.setServoJointPosition(0);
+        wristJoint.setServoJointPosition(.7);
         wristJoint.setCurrentState(ArmState.FLEXED);
     }
 
@@ -142,7 +142,7 @@ public class LunEx extends AbstractArm {
      */
     @Override
     public void extendForearm() {
-        wristJoint.setServoJointPosition(1);
+        wristJoint.setServoJointPosition(.25);
         wristJoint.setCurrentState(ArmState.EXTENDED);
     }
 

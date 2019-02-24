@@ -71,7 +71,7 @@ public class MecaTeleOp  extends LinearOpMode {
 
             scissorLift.setPower(gamepad1.right_trigger - gamepad1.left_trigger);
 
-            lunex.rotateShoulder((gamepad2.right_trigger - gamepad2.left_trigger) / 2);
+            lunex.rotateShoulder((gamepad2.right_trigger - gamepad2.left_trigger) * 2 / 3);
             telemetry.update();
         }
     }
@@ -110,7 +110,7 @@ public class MecaTeleOp  extends LinearOpMode {
             telemetry.addData("GamePad", "Bicep flexed");
         });
         armGamepad.addButtonListener(GamepadData.Button.A, ListenableButton.ButtonState.JUST_PRESSED, () -> {
-            lunex.rotateWaist(.2);
+            lunex.rotateWaist(0);
             telemetry.addData("GamePad", "Waist reset");
         });
         armGamepad.addButtonListener(GamepadData.Button.Y, ListenableButton.ButtonState.JUST_PRESSED, () -> {
